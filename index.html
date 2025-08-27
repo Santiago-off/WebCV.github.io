@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tu Nombre - Portfolio</title>
+    <title>Santiago Reguero Fernández - Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -425,6 +425,27 @@
             color: var(--secondary);
         }
         
+        .language-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .language-table th, .language-table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        .language-table th {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .language-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
         @media (max-width: 768px) {
             .timeline::after {
                 left: 31px;
@@ -451,16 +472,20 @@
             .certificates-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .language-table {
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <img src="Foto.png" alt="Tu Foto" class="profile-img">
-            <h1>Tu Nombre Completo</h1>
-            <p class="tagline">Especialista en Programación, IA, Ciberseguridad y Pilotaje de UAS</p>
-            <p>¡Bienvenido/a a mi portfolio! Tengo 18 años y soy técnico en Microsistemas y Servidores.</p>
+            <img src="Foto.png" alt="Santiago Reguero Fernández" class="profile-img">
+            <h1>Santiago Reguero Fernández</h1>
+            <p class="tagline">Especialista en Programación, Cloud Computing y Ciberseguridad</p>
+            <p>Fecha de nacimiento: 27/04/2007 | Nacionalidad: Española</p>
         </div>
     </header>
 
@@ -468,31 +493,29 @@
         <div class="container">
             <h2>Sobre Mí</h2>
             <div class="about-content">
-                <p>Soy un joven profesional de 18 años con formación especializada en tecnologías avanzadas. He completado un Grado Medio en Microsistemas y Servidores y tuve la oportunidad de realizar una movilidad Erasmus en Italia, donde trabajé con una compañía especializada.</p>
-                <p>Mi pasión por la tecnología me ha llevado a formarme en diversas áreas como programación, inteligencia artificial, ciberseguridad y pilotaje de drones (UAS). Busco oportunidades para aplicar mis conocimientos y continuar desarrollándome profesionalmente.</p>
+                <p>Estudiante de informática con habilidades en programación y análisis de datos. Con experiencia en proyectos de desarrollo en Cloud y capacidad para trabajar en equipo de manera eficiente y colaborativa.</p>
+                <p>Mi pasión por la tecnología me ha llevado a formarme en diversas áreas como programación, inteligencia artificial, ciberseguridad y cloud computing. Busco oportunidades para aplicar mis conocimientos y continuar desarrollándome profesionalmente.</p>
             </div>
         </div>
     </section>
 
-    <section id="skills">
+    <section id="experience">
         <div class="container">
-            <h2>Habilidades</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3><i class="fas fa-code"></i> Programación</h3>
-                    <p>Desarrollo de software en múltiples lenguajes y entornos. Conocimientos sólidos en algoritmos y estructuras de datos.</p>
+            <h2>Experiencia Laboral</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>ARMONIA – SALERNO, ITALIA</h3>
+                        <p><strong>Programador</strong></p>
+                        <p>18/03/2025 – 16/06/2025</p>
+                    </div>
                 </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-brain"></i> Inteligencia Artificial</h3>
-                    <p>Experiencia en machine learning, redes neuronales y procesamiento de datos. Capacidad para desarrollar modelos predictivos.</p>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-shield-alt"></i> Ciberseguridad</h3>
-                    <p>Conocimientos en seguridad informática, ethical hacking y protección de sistemas. Análisis de vulnerabilidades.</p>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-drone"></i> Pilotaje de UAS</h3>
-                    <p>Certificación en pilotaje de drones. Experiencia en operaciones aéreas, mapeo y fotogrametría.</p>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>SOPORTE DE HOSTING (ONLINE)</h3>
+                        <p><strong>Madrid, España</strong></p>
+                        <p>05/2022 – 09/2023</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -500,41 +523,69 @@
 
     <section id="education">
         <div class="container">
-            <h2>Formación</h2>
+            <h2>Educación y Formación</h2>
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <h3>Grado Medio en Microsistemas y Servidores</h3>
-                        <p>Instituto de Formación Profesional</p>
-                        <p class="date">2020 - 2023</p>
+                        <h3>GRADO MEDIO SISTEMAS MICROINFORMÁTICOS Y REDES</h3>
+                        <p>Santa Gema FP, Galgani - Madrid, España</p>
+                        <p class="date">09/2023 – 06/2025</p>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <h3>Erasmus en Italia</h3>
-                        <p>Formación en empresa tecnológica</p>
-                        <p class="date">2022 - 6 meses</p>
+                        <h3>EXPERTO UNIVERSITARIO EN CLOUD COMPUTING</h3>
+                        <p>ARQUITECTURA Y SOLUCIONES (AWS Y AZURE) - UNIR</p>
+                        <p class="date">10/2023 – 01/2024</p>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <h3>Certificación en Inteligencia Artificial</h3>
-                        <p>Entidad certificadora</p>
-                        <p class="date">2023</p>
+                        <h3>INTRODUCCIÓN A CIBERSEGURIDAD</h3>
+                        <p>Cisco Networking Academy - Madrid, España</p>
+                        <p class="date">04/2024 – ACTUAL</p>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <h3>Certificación en Ciberseguridad</h3>
-                        <p>Entidad certificadora</p>
-                        <p class="date">2023</p>
+                        <h3>FUNDAMENTOS DE IA CON IBM SKILLSBUILD</h3>
+                        <p>Cisco Networking Academy - Madrid, España</p>
+                        <p class="date">11/2024 – ACTUAL</p>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <h3>Certificación de Pilotaje de Drones (UAS)</h3>
-                        <p>Entidad certificadora</p>
-                        <p class="date">2023</p>
+                        <h3>FUNDAMENTOS DE PYTHON 1</h3>
+                        <p>Cisco Networking Academy - Madrid, España</p>
+                        <p class="date">03/2024 – 11/2024</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>CIBERSEGURIDAD PERSONAL</h3>
+                        <p>BACKTRACK ACADEMY - Madrid, España</p>
+                        <p class="date">12/2020 – 01/2021</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>INTELIGENCIA ARTIFICIAL Y PRODUCTIVIDAD</h3>
+                        <p>Santander Academy - Madrid, España</p>
+                        <p class="date">04/05/2025</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>PILOTO DE DRONES A1/A3</h3>
+                        <p>AESA - Madrid, España</p>
+                        <p class="date">02/07/2025 – 31/07/2025</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>PILOTO DE DRONES A2/STS01-STS02</h3>
+                        <p>Bai Escuela de drones - Madrid, España</p>
+                        <p class="date">03/07/2025 – ACTUAL</p>
                     </div>
                 </div>
             </div>
@@ -548,29 +599,56 @@
             
             <div class="certificates-grid">
                 <div class="certificate-card" onclick="openModal('cert1')">
-                    <img src="https://placehold.co/600x400/2c3e50/ecf0f1?text=Certificado+Programación" alt="Certificado de Programación" class="certificate-img">
+                    <img src="https://placehold.co/600x400/2c3e50/ecf0f1?text=Certificado+Cloud+Computing" alt="Certificado de Cloud Computing" class="certificate-img">
                     <div class="certificate-content">
-                        <h3 class="certificate-title">Programación Avanzada</h3>
-                        <p class="certificate-org">Centro de Formación Tecnológica</p>
-                        <p class="certificate-date">Emitido: Junio 2023</p>
+                        <h3 class="certificate-title">Experto Universitario en Cloud Computing</h3>
+                        <p class="certificate-org">UNIR</p>
+                        <p class="certificate-date">Emitido: Enero 2024</p>
                     </div>
                 </div>
                 
                 <div class="certificate-card" onclick="openModal('cert2')">
-                    <img src="https://placehold.co/600x400/3498db/ffffff?text=Certificado+IA" alt="Certificado de IA" class="certificate-img">
+                    <img src="https://placehold.co/600x400/3498db/ffffff?text=Certificado+Ciberseguridad" alt="Certificado de Ciberseguridad" class="certificate-img">
                     <div class="certificate-content">
-                        <h3 class="certificate-title">Inteligencia Artificial</h3>
-                        <p class="certificate-org">Instituto de Tecnología Avanzada</p>
-                        <p class="certificate-date">Emitido: Mayo 2023</p>
+                        <h3 class="certificate-title">Introducción a Ciberseguridad</h3>
+                        <p class="certificate-org">Cisco Networking Academy</p>
+                        <p class="certificate-date">En curso</p>
                     </div>
                 </div>
                 
                 <div class="certificate-card" onclick="openModal('cert3')">
-                    <img src="https://placehold.co/600x400/e74c3c/ffffff?text=Certificado+Ciberseguridad" alt="Certificado de Ciberseguridad" class="certificate-img">
+                    <img src="https://placehold.co/600x400/e74c3c/ffffff?text=Certificado+IA" alt="Certificado de IA" class="certificate-img">
                     <div class="certificate-content">
-                        <h3 class="certificate-title">Especialista en Ciberseguridad</h3>
-                        <p class="certificate-org">Academia de Ciberseguridad</p>
-                        <p class="certificate-date">Emitido: Abril 2023</p>
+                        <h3 class="certificate-title">Fundamentos de IA con IBM SkillsBuild</h3>
+                        <p class="certificate-org">Cisco Networking Academy</p>
+                        <p class="certificate-date">En curso</p>
+                    </div>
+                </div>
+
+                <div class="certificate-card" onclick="openModal('cert4')">
+                    <img src="https://placehold.co/600x400/2ecc71/ffffff?text=Certificado+Python" alt="Certificado de Python" class="certificate-img">
+                    <div class="certificate-content">
+                        <h3 class="certificate-title">Fundamentos de Python 1</h3>
+                        <p class="certificate-org">Cisco Networking Academy</p>
+                        <p class="certificate-date">Emitido: Noviembre 2024</p>
+                    </div>
+                </div>
+
+                <div class="certificate-card" onclick="openModal('cert5')">
+                    <img src="https://placehold.co/600x400/2c3e50/ecf0f1?text=Certificado+Ciberseguridad+Personal" alt="Certificado de Ciberseguridad Personal" class="certificate-img">
+                    <div class="certificate-content">
+                        <h3 class="certificate-title">Ciberseguridad Personal</h3>
+                        <p class="certificate-org">Backtrack Academy</p>
+                        <p class="certificate-date">Emitido: Enero 2021</p>
+                    </div>
+                </div>
+
+                <div class="certificate-card" onclick="openModal('cert6')">
+                    <img src="https://placehold.co/600x400/3498db/ffffff?text=Certificado+IA+Google" alt="Certificado de IA Google" class="certificate-img">
+                    <div class="certificate-content">
+                        <h3 class="certificate-title">Inteligencia Artificial y Productividad</h3>
+                        <p class="certificate-org">Santander Academy</p>
+                        <p class="certificate-date">Emitido: Mayo 2025</p>
                     </div>
                 </div>
             </div>
@@ -581,12 +659,12 @@
     <div id="cert1" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('cert1')">&times;</span>
-            <img src="https://placehold.co/800x600/2c3e50/ecf0f1?text=Certificado+Programación+Completo" alt="Certificado de Programación" class="certificate-detail-img">
+            <img src="https://placehold.co/800x600/2c3e50/ecf0f1?text=Certificado+Cloud+Computing+Completo" alt="Certificado de Cloud Computing" class="certificate-detail-img">
             <div class="certificate-details">
-                <h3>Certificado de Programación Avanzada</h3>
-                <p><strong>Entidad emisora:</strong> Centro de Formación Tecnológica</p>
-                <p><strong>Fecha de emisión:</strong> Junio 2023</p>
-                <p><strong>Descripción:</strong> Este certificado acredita la finalización exitosa del curso avanzado de programación, con especialización en algoritmos y estructuras de datos.</p>
+                <h3>Experto Universitario en Cloud Computing</h3>
+                <p><strong>Entidad emisora:</strong> UNIR</p>
+                <p><strong>Fecha de emisión:</strong> Enero 2024</p>
+                <p><strong>Descripción:</strong> Certificación en arquitectura y soluciones de Cloud Computing con AWS y Azure.</p>
             </div>
         </div>
     </div>
@@ -594,12 +672,12 @@
     <div id="cert2" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('cert2')">&times;</span>
-            <img src="https://placehold.co/800x600/3498db/ffffff?text=Certificado+IA+Completo" alt="Certificado de IA" class="certificate-detail-img">
+            <img src="https://placehold.co/800x600/3498db/ffffff?text=Certificado+Ciberseguridad+Completo" alt="Certificado de Ciberseguridad" class="certificate-detail-img">
             <div class="certificate-details">
-                <h3>Certificado de Inteligencia Artificial</h3>
-                <p><strong>Entidad emisora:</strong> Instituto de Tecnología Avanzada</p>
-                <p><strong>Fecha de emisión:</strong> Mayo 2023</p>
-                <p><strong>Descripción:</strong> Certificación en fundamentos de inteligencia artificial, machine learning y redes neuronales.</p>
+                <h3>Introducción a Ciberseguridad</h3>
+                <p><strong>Entidad emisora:</strong> Cisco Networking Academy</p>
+                <p><strong>Estado:</strong> En curso</p>
+                <p><strong>Descripción:</strong> Formación en conceptos fundamentales de ciberseguridad y protección de sistemas.</p>
             </div>
         </div>
     </div>
@@ -607,15 +685,95 @@
     <div id="cert3" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('cert3')">&times;</span>
-            <img src="https://placehold.co/800x600/e74c3c/ffffff?text=Certificado+Ciberseguridad+Completo" alt="Certificado de Ciberseguridad" class="certificate-detail-img">
+            <img src="https://placehold.co/800x600/e74c3c/ffffff?text=Certificado+IA+Completo" alt="Certificado de IA" class="certificate-detail-img">
             <div class="certificate-details">
-                <h3>Certificado de Especialista en Ciberseguridad</h3>
-                <p><strong>Entidad emisora:</strong> Academia de Ciberseguridad</p>
-                <p><strong>Fecha de emisión:</strong> Abril 2023</p>
-                <p><strong>Descripción:</strong> Este certificado acredita los conocimientos en seguridad informática, ethical hacking y protección de sistemas.</p>
+                <h3>Fundamentos de IA con IBM SkillsBuild</h3>
+                <p><strong>Entidad emisora:</strong> Cisco Networking Academy</p>
+                <p><strong>Estado:</strong> En curso</p>
+                <p><strong>Descripción:</strong> Certificación en fundamentos de inteligencia artificial con IBM SkillsBuild.</p>
             </div>
         </div>
     </div>
+
+    <div id="cert4" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cert4')">&times;</span>
+            <img src="https://placehold.co/800x600/2ecc71/ffffff?text=Certificado+Python+Completo" alt="Certificado de Python" class="certificate-detail-img">
+            <div class="certificate-details">
+                <h3>Fundamentos de Python 1</h3>
+                <p><strong>Entidad emisora:</strong> Cisco Networking Academy</p>
+                <p><strong>Fecha de emisión:</strong> Noviembre 2024</p>
+                <p><strong>Descripción:</strong> Certificación en fundamentos de programación con Python.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="cert5" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cert5')">&times;</span>
+            <img src="https://placehold.co/800x600/2c3e50/ecf0f1?text=Certificado+Ciberseguridad+Personal+Completo" alt="Certificado de Ciberseguridad Personal" class="certificate-detail-img">
+            <div class="certificate-details">
+                <h3>Ciberseguridad Personal</h3>
+                <p><strong>Entidad emisora:</strong> Backtrack Academy</p>
+                <p><strong>Fecha de emisión:</strong> Enero 2021</p>
+                <p><strong>Descripción:</strong> Certificación en ciberseguridad personal y protección de datos.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="cert6" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cert6')">&times;</span>
+            <img src="https://placehold.co/800x600/3498db/ffffff?text=Certificado+IA+Google+Completo" alt="Certificado de IA Google" class="certificate-detail-img">
+            <div class="certificate-details">
+                <h3>Inteligencia Artificial y Productividad</h3>
+                <p><strong>Entidad emisora:</strong> Santander Academy</p>
+                <p><strong>Fecha de emisión:</strong> Mayo 2025</p>
+                <p><strong>Descripción:</strong> Certificación en inteligencia artificial y productividad con herramientas de Google.</p>
+            </div>
+        </div>
+    </div>
+
+    <section id="languages">
+        <div class="container">
+            <h2>Competencias Lingüísticas</h2>
+            <div class="about-content">
+                <p><strong>Lengua materna:</strong> Español</p>
+                
+                <h3 style="margin-top: 2rem; text-align: center;">Idiomas Extranjeros</h3>
+                <table class="language-table">
+                    <thead>
+                        <tr>
+                            <th>Idioma</th>
+                            <th>Comprensión auditiva</th>
+                            <th>Comprensión lectora</th>
+                            <th>Producción oral</th>
+                            <th>Interacción oral</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Inglés</strong></td>
+                            <td>A2</td>
+                            <td>A2</td>
+                            <td>A2</td>
+                            <td>A2</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Italiano</strong></td>
+                            <td>A2</td>
+                            <td>A2</td>
+                            <td>A2</td>
+                            <td>A2</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="text-align: center; margin-top: 1rem; font-style: italic;">
+                    Niveles: A1 y A2 (usuario básico), B1 y B2 (usuario independiente), C1 y C2 (usuario competente)
+                </p>
+            </div>
+        </div>
+    </section>
 
     <section id="projects">
         <div class="container">
@@ -623,29 +781,26 @@
             <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-content">
-                        <h3 class="project-title">Proyecto de Ciberseguridad</h3>
-                        <p class="project-desc">Análisis de vulnerabilidades en sistemas y desarrollo de medidas de protección.</p>
-                        <a href="#" class="project-link">Ver en GitHub</a>
+                        <h3 class="project-title">Proyecto de Cloud Computing</h3>
+                        <p class="project-desc">Desarrollo de soluciones en la nube con AWS y Azure para optimización de recursos.</p>
+                        <a href="#" class="project-link">Ver detalles</a>
                     </div>
                 </div>
                 <div class="project-card">
                     <div class="project-content">
-                        <h3 class="project-title">Modelo de IA Predictivo</h3>
-                        <p class="project-desc">Desarrollo de un sistema de machine learning para predicción de datos.</p>
-                        <a href="#" class="project-link">Ver en GitHub</a>
+                        <h3 class="project-title">Análisis de Datos con Python</h3>
+                        <p class="project-desc">Implementación de scripts en Python para análisis y visualización de datos.</p>
+                        <a href="#" class="project-link">Ver detalles</a>
                     </div>
                 </div>
                 <div class="project-card">
                     <div class="project-content">
-                        <h3 class="project-title">Aplicación Web</h3>
-                        <p class="project-desc">Desarrollo full-stack de una aplicación web responsive con funcionalidades avanzadas.</p>
-                        <a href="#" class="project-link">Ver en GitHub</a>
+                        <h3 class="project-title">Sistema de Seguridad</h3>
+                        <p class="project-desc">Desarrollo de protocolos de seguridad para protección de sistemas y datos.</p>
+                        <a href="#" class="project-link">Ver detalles</a>
                     </div>
                 </div>
             </div>
-            <p style="text-align: center; margin-top: 2rem;">
-                <i>Estoy trabajando en publicar mis proyectos en GitHub pronto.</i>
-            </p>
         </div>
     </section>
 
@@ -656,15 +811,15 @@
                 <div class="contact-info">
                     <div class="contact-item">
                         <i class="fas fa-envelope"></i>
-                        <span>tuemail@ejemplo.com</span>
+                        <span>santiagorfernandezcv@gmail.com</span>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-phone"></i>
-                        <span>+34 612 345 678</span>
+                        <span>+34 640365047</span>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>Ciudad, España</span>
+                        <span>28939, Arroyomolinos, España</span>
                     </div>
                     <div class="contact-item">
                         <i class="fab fa-linkedin"></i>
@@ -701,7 +856,7 @@
                 <a href="#"><i class="fab fa-github"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
             </div>
-            <p>&copy; 2023 Tu Nombre. Todos los derechos reservados.</p>
+            <p>&copy; 2023 Santiago Reguero Fernández. Todos los derechos reservados.</p>
             <p>Visitas: <span id="visitCount">0</span></p>
         </div>
     </footer>
