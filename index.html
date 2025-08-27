@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Nombre - Portfolio</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Sections */
+        section {
+            padding: 4rem 0;
+        }
+        
+        section:nth-child(even) {
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+        
+        /* About */
+        .about-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .skill-category {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .skill-category:hover {
+            transform: translateY(-5px);
+        }
+        
+        .skill-category h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .skill-category h3 i {
+            margin-right: 10px;
+        }
+        
+        /* Education */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--secondary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: white;
+            border: 4px solid var(--secondary);
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(odd)::after {
+            right: -13px;
+        }
+        
+        .timeline-item:nth-child(even)::after {
+            left: -13px;
+        }
+        
+        /* Certificates Section */
+        .certificates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .certificate-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .certificate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .certificate-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .certificate-content {
+            padding: 1.5rem;
+        }
+        
+        .certificate-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .certificate-org {
+            color: var(--secondary);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .certificate-date {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        
+        .modal-content {
+            position: relative;
+            margin: 5% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .close {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .close:hover {
+            color: var(--accent);
+        }
+        
+        .certificate-detail-img {
+            width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        
+        .certificate-details {
+            padding: 1.5rem;
+        }
+        
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .project-content {
+            padding: 1.5rem;
+        }
+        
+        .project-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .project-desc {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .project-link {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .project-link:hover {
+            background-color: var(--primary);
+        }
+        
+        /* Contact */
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-item i {
+            margin-right: 15px;
+            font-size: 1.2rem;
+            color: var(--secondary);
+            width: 30px;
+        }
+        
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--primary);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item::after {
+                left: 18px;
+            }
+            
+            .timeline-item:nth-child(odd)::after {
+                right: auto;
+            }
+            
+            .certificates-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <!-- Reemplaza con tu propia imagen -->
+            <img src="https://placehold.co/150x150/2c3e50/ecf0f1?text=TF" alt="Tu Foto" class="profile-img">
+            <h1>Tu Nombre Completo</h1>
+            <p class="tagline">Especialista en Programación, IA, Ciberseguridad y Pilotaje de UAS</p>
+            <p>¡Bienvenido/a a mi portfolio! Tengo 18 años y soy técnico en Microsistemas y Servidores.</p>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2>Sobre Mí</h2>
+            <div class="about-content">
+                <p>Soy un joven profesional de 18 años con formación especializada en tecnologías avanzadas. He completado un Grado Medio en Microsistemas y Servidores y tuve la oportunidad de realizar una movilidad Erasmus en Italia, donde trabajé con una compañía especializada.</p>
+                <p>Mi pasión por la tecnología me ha llevado a formarme en diversas áreas como programación, inteligencia artificial, ciberseguridad y pilotaje de drones (UAS). Busco oportunidades para aplicar mis conocimientos y continuar desarrollándome profesionalmente.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <h2>Habilidades</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3><i class="fas fa-code"></i> Programación</h3>
+                    <p>Desarrollo de software en múltiples lenguajes y entornos. Conocimientos sólidos en algoritmos y estructuras de datos.</p>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-brain"></i> Inteligencia Artificial</h3>
+                    <p>Experiencia en machine learning, redes neuronales y procesamiento de datos. Capacidad para desarrollar modelos predictivos.</p>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-shield-alt"></i> Ciberseguridad</h3>
+                    <p>Conocimientos en seguridad informática, ethical hacking y protección de sistemas. Análisis de vulnerabilidades.</p>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-drone"></i> Pilotaje de UAS</h3>
+                    <p>Certificación en pilotaje de drones. Experiencia en operaciones aéreas, mapeo y fotogrametría.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education">
+        <div class="container">
+            <h2>Formación</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Grado Medio en Microsistemas y Servidores</h3>
+                        <p>Instituto de Formación Profesional</p>
+                        <p class="date">2020 - 2023</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Erasmus en Italia</h3>
+                        <p>Formación en empresa tecnológica</p>
+                        <p class="date">2022 - 6 meses</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Certificación en Inteligencia Artificial</h3>
+                        <p>Entidad certificadora</p>
+                        <p class="date">2023</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Certificación en Ciberseguridad</h3>
+                        <p>Entidad certificadora</p>
+                        <p class="date">2023</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Certificación de Pilotaje de Drones (UAS)</h3>
+                        <p>Entidad certificadora</p>
+                        <p class="date">2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificates Section -->
+    <section id="certificates">
+        <div class="container">
+            <h2>Certificados</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">Haz clic en cualquier certificado para verlo en tamaño completo</p>
+            
+            <div class="certificates-grid">
+                <div class="certificate-card" onclick="openModal('cert1')">
+                    <img src="https://placehold.co/600x400/2c3e50/ecf0f1?text=Certificado+Programación" alt="Certificado de Programación" class="certificate-img">
+                    <div class="certificate-content">
+                        <h3 class="certificate-title">Programación Avanzada</h3>
+                        <p class="certificate-org">Centro de Formación Tecnológica</p>
+                        <p class="certificate-date">Emitido: Junio 2023</p>
+                    </div>
+                </div>
+                
+                <div class="certificate-card" onclick="openModal('cert2')">
+                    <img src="https://placehold.co/600x400/3498db/ffffff?text=Certificado+IA" alt="Certificado de IA" class="certificate-img">
+                    <div class="certificate-content">
+                        <h3 class="certificate-title">Inteligencia Artificial</h3>
+                        <p class="certificate-org">Instituto de Tecnología Avanzada</p>
+                        <p class="certificate-date">Emitido: Mayo 2023</p>
+                    </div>
+                </div>
+                
+                <div class="certificate-card" onclick="openModal('cert3')">
+                    <img src="https://placehold.co/600x400/e74c3c/ffffff?text=Certificado+Ciberseguridad" alt="Certificado de Ciberseguridad" class="certificate-img">
+                    <div class="certificate-content">
+                        <h3 class="certificate-title">Especialista en Ciberseguridad</h3>
+                        <p class="certificate-org">Academia de Ciberseguridad</p>
+                        <p class="certificate-date">Emitido: Abril 2023</p>
+                    </div>
+                </div>
+                
+                <div class="certificate-card" onclick="openModal('cert4')">
+                    <img src="https://placehold.co/600x400/2ecc71/ffffff?text=Certificado+UAS" alt="Certificado de Pilotaje UAS" class="certificate-img">
+                    <div class="certificate-content">
+                        <h3 class="certificate-title">Pilotaje de Drones (UAS)</h3>
+                        <p class="certificate-org">Escuela de Aviación No Tripulada</p>
+                        <p class="certificate-date">Emitido: Marzo 2023</p>
+                    </div>
+                </div>
+                
+                <div class="certificate-card" onclick="openModal('cert5')">
+                    <img src="https://placehold.co/600x400/2c3e50/ecf0f1?text=Certificado+Cloud" alt="Certificado de Cloud Computing" class="certificate-img">
+                    <div class="certificate-content">
+                        <h3 class="certificate-title">Cloud Computing</h3>
+                        <p class="certificate-org">Plataforma de Formación Digital</p>
+                        <p class="certificate-date">Emitido: Febrero 2023</p>
+                    </div>
+                </div>
+                
+                <div class="certificate-card" onclick="openModal('cert6')">
+                    <img src="https://placehold.co/600x400/3498db/ffffff?text=Certificado+Redes" alt="Certificado de Redes" class="certificate-img">
+                    <div class="certificate-content">
+                        <h3 class="certificate-title">Administración de Redes</h3>
+                        <p class="certificate-org">Centro de Formación IT</p>
+                        <p class="certificate-date">Emitido: Enero 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificate Modals -->
+    <div id="cert1" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cert1')">&times;</span>
+            <img src="https://placehold.co/800x600/2c3e50/ecf0f1?text=Certificado+Programación+Completo" alt="Certificado de Programación" class="certificate-detail-img">
+            <div class="certificate-details">
+                <h3>Certificado de Programación Avanzada</h3>
+                <p><strong>Entidad emisora:</strong> Centro de Formación Tecnológica</p>
+                <p><strong>Fecha de emisión:</strong> Junio 2023</p>
+                <p><strong>Descripción:</strong> Este certificado acredita la finalización exitosa del curso avanzado de programación, con especialización en algoritmos y estructuras de datos.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="cert2" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cert2')">&times;</span>
+            <img src="https://placehold.co/800x600/3498db/ffffff?text=Certificado+IA+Completo" alt="Certificado de IA" class="certificate-detail-img">
+            <div class="certificate-details">
+                <h3>Certificado de Inteligencia Artificial</h3>
+                <p><strong>Entidad emisora:</strong> Instituto de Tecnología Avanzada</p>
+                <p><strong>Fecha de emisión:</strong> Mayo 2023</p>
+                <p><strong>Descripción:</strong> Certificación en fundamentos de inteligencia artificial, machine learning y redes neuronales.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="cert3" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cert3')">&times;</span>
+            <img src="https://placehold.co/800x600/e74c3c/ffffff?text=Certificado+Ciberseguridad+Completo" alt="Certificado de Ciberseguridad" class="certificate-detail-img">
+            <div class="certificate-details">
+                <h3>Certificado de Especialista en Ciberseguridad</h3>
+                <p><strong>Entidad emisora:</strong> Academia de Ciberseguridad</p>
+                <p><strong>Fecha de emisión:</strong> Abril 2023</p>
+                <p><strong>Descripción:</strong> Este certificado acredita los conocimientos en seguridad informática, ethical hacking y protección de sistemas.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="cert4" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cert4')">&times;</span>
+            <img src="https://placehold.co/800x600/2ecc71/ffffff?text=Certificado+UAS+Completo" alt="Certificado de Pilotaje UAS" class="certificate-detail-img">
+            <div class="certificate-details">
+                <h3>Certificado de Pilotaje de Drones (UAS)</h3>
+                <p><strong>Entidad emisora:</strong> Escuela de Aviación No Tripulada</p>
+                <p><strong>Fecha de emisión:</strong> Marzo 2023</p>
+                <p><strong>Descripción:</strong> Certificación oficial de piloto de drones, incluyendo operaciones aéreas y normativa vigente.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="cert5" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cert5')">&times;</span>
+            <img src="https://placehold.co/800x600/2c3e50/ecf0f1?text=Certificado+Cloud+Completo" alt="Certificado de Cloud Computing" class="certificate-detail-img">
+            <div class="certificate-details">
+                <h3>Certificado de Cloud Computing</h3>
+                <p><strong>Entidad emisora:</strong> Plataforma de Formación Digital</p>
+                <p><strong>Fecha de emisión:</strong> Febrero 2023</p>
+                <p><strong>Descripción:</strong> Certificación en servicios cloud, virtualización y despliegue de aplicaciones en la nube.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="cert6" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cert6')">&times;</span>
+            <img src="https://placehold.co/800x600/3498db/ffffff?text=Certificado+Redes+Completo" alt="Certificado de Redes" class="certificate-detail-img">
+            <div class="certificate-details">
+                <h3>Certificado de Administración de Redes</h3>
+                <p><strong>Entidad emisora:</strong> Centro de Formación IT</p>
+                <p><strong>Fecha de emisión:</strong> Enero 2023</p>
+                <p><strong>Descripción:</strong> Certificación en administración, configuración y mantenimiento de redes informáticas.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2>Proyectos</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3 class="project-title">Proyecto de Ciberseguridad</h3>
+                        <p class="project-desc">Análisis de vulnerabilidades en sistemas y desarrollo de medidas de protección.</p>
+                        <a href="#" class="project-link">Ver en GitHub</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3 class="project-title">Modelo de IA Predictivo</h3>
+                        <p class="project-desc">Desarrollo de un sistema de machine learning para predicción de datos.</p>
+                        <a href="#" class="project-link">Ver en GitHub</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3 class="project-title">Aplicación Web</h3>
+                        <p class="project-desc">Desarrollo full-stack de una aplicación web responsive con funcionalidades avanzadas.</p>
+                        <a href="#" class="project-link">Ver en GitHub</a>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 2rem;">
+                <i>Estoy trabajando en publicar mis proyectos en GitHub pronto.</i>
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Contacto</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>tuemail@ejemplo.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+34 612 345 678</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Ciudad, España</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-linkedin"></i>
+                        <span>linkedin.com/in/tuperfil</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-github"></i>
+                        <span>github.com/tuusuario</span>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Nombre</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Mensaje</label>
+                        <textarea id="message" required></textarea>
+                    </div>
+                    <button type="submit">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p>&copy; 2023 Tu Nombre. Todos los derechos reservados.</p>
+            <p>Visitas: <span id="visitCount">0</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // Sistema de tracking de visitas
+        document.addEventListener('DOMContentLoaded', function() {
+            // Registrar visita
+            const visitData = {
+                timestamp: new Date().toISOString(),
+                page: window.location.href,
+                referrer: document.referrer,
+                userAgent: navigator.userAgent,
+                language: navigator.language,
+                platform: navigator.platform
+            };
+            
+            // Almacenar en localStorage (simulado)
+            let visits = JSON.parse(localStorage.getItem('pageVisits')) || [];
+            visits.push(visitData);
+            localStorage.setItem('pageVisits', JSON.stringify(visits));
+            
+            // Mostrar contador de visitas
+            document.getElementById('visitCount').textContent = visits.length;
+            
+            // Aquí normalmente enviarías estos datos a un servidor
+            console.log('Visita registrada:', visitData);
+            console.log('Total de visitas:', visits.length);
+            
+            // Manejar el formulario de contacto
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('¡Gracias por tu mensaje! Te responderé pronto.');
+                this.reset();
+            });
+        });
+
+        // Funciones para los modales de certificados
+        function openModal(id) {
+            document.getElementById(id).style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevenir scroll
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+            document.body.style.overflow = 'auto'; // Permitir scroll nuevamente
+        }
+
+        // Cerrar modal al hacer clic fuera del contenido
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target == modals[i]) {
+                    modals[i].style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        }
+
+        // Cerrar con tecla ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.getElementsByClassName('modal');
+                for (let i = 0; i < modals.length; i++) {
+                    if (modals[i].style.display === 'block') {
+                        modals[i].style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
