@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tu Nombre - Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #2c3e50;
@@ -34,7 +35,6 @@
             padding: 0 15px;
         }
         
-        /* Header & Navigation */
         header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: white;
@@ -62,7 +62,6 @@
             margin-bottom: 1.5rem;
         }
         
-        /* Sections */
         section {
             padding: 4rem 0;
         }
@@ -91,14 +90,12 @@
             background-color: var(--secondary);
         }
         
-        /* About */
         .about-content {
             text-align: center;
             max-width: 800px;
             margin: 0 auto;
         }
         
-        /* Skills */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -128,7 +125,6 @@
             margin-right: 10px;
         }
         
-        /* Education */
         .timeline {
             position: relative;
             max-width: 800px;
@@ -189,7 +185,6 @@
             left: -13px;
         }
         
-        /* Certificates Section */
         .certificates-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -239,7 +234,6 @@
             font-size: 0.9rem;
         }
         
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -289,7 +283,6 @@
             padding: 1.5rem;
         }
         
-        /* Projects */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -338,7 +331,6 @@
             background-color: var(--primary);
         }
         
-        /* Contact */
         .contact-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -409,7 +401,6 @@
             background-color: var(--primary);
         }
         
-        /* Footer */
         footer {
             background-color: var(--dark);
             color: white;
@@ -434,7 +425,6 @@
             color: var(--secondary);
         }
         
-        /* Responsive */
         @media (max-width: 768px) {
             .timeline::after {
                 left: 31px;
@@ -463,13 +453,10 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header Section -->
     <header>
         <div class="container">
-            <!-- Reemplaza con tu propia imagen -->
             <img src="https://placehold.co/150x150/2c3e50/ecf0f1?text=TF" alt="Tu Foto" class="profile-img">
             <h1>Tu Nombre Completo</h1>
             <p class="tagline">Especialista en Programación, IA, Ciberseguridad y Pilotaje de UAS</p>
@@ -477,7 +464,6 @@
         </div>
     </header>
 
-    <!-- About Section -->
     <section id="about">
         <div class="container">
             <h2>Sobre Mí</h2>
@@ -488,7 +474,6 @@
         </div>
     </section>
 
-    <!-- Skills Section -->
     <section id="skills">
         <div class="container">
             <h2>Habilidades</h2>
@@ -513,7 +498,6 @@
         </div>
     </section>
 
-    <!-- Education Section -->
     <section id="education">
         <div class="container">
             <h2>Formación</h2>
@@ -557,7 +541,6 @@
         </div>
     </section>
 
-    <!-- Certificates Section -->
     <section id="certificates">
         <div class="container">
             <h2>Certificados</h2>
@@ -590,38 +573,11 @@
                         <p class="certificate-date">Emitido: Abril 2023</p>
                     </div>
                 </div>
-                
-                <div class="certificate-card" onclick="openModal('cert4')">
-                    <img src="https://placehold.co/600x400/2ecc71/ffffff?text=Certificado+UAS" alt="Certificado de Pilotaje UAS" class="certificate-img">
-                    <div class="certificate-content">
-                        <h3 class="certificate-title">Pilotaje de Drones (UAS)</h3>
-                        <p class="certificate-org">Escuela de Aviación No Tripulada</p>
-                        <p class="certificate-date">Emitido: Marzo 2023</p>
-                    </div>
-                </div>
-                
-                <div class="certificate-card" onclick="openModal('cert5')">
-                    <img src="https://placehold.co/600x400/2c3e50/ecf0f1?text=Certificado+Cloud" alt="Certificado de Cloud Computing" class="certificate-img">
-                    <div class="certificate-content">
-                        <h3 class="certificate-title">Cloud Computing</h3>
-                        <p class="certificate-org">Plataforma de Formación Digital</p>
-                        <p class="certificate-date">Emitido: Febrero 2023</p>
-                    </div>
-                </div>
-                
-                <div class="certificate-card" onclick="openModal('cert6')">
-                    <img src="https://placehold.co/600x400/3498db/ffffff?text=Certificado+Redes" alt="Certificado de Redes" class="certificate-img">
-                    <div class="certificate-content">
-                        <h3 class="certificate-title">Administración de Redes</h3>
-                        <p class="certificate-org">Centro de Formación IT</p>
-                        <p class="certificate-date">Emitido: Enero 2023</p>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
 
-    <!-- Certificate Modals -->
+    <!-- Modals para certificados -->
     <div id="cert1" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('cert1')">&times;</span>
@@ -660,47 +616,7 @@
             </div>
         </div>
     </div>
-    
-    <div id="cert4" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('cert4')">&times;</span>
-            <img src="https://placehold.co/800x600/2ecc71/ffffff?text=Certificado+UAS+Completo" alt="Certificado de Pilotaje UAS" class="certificate-detail-img">
-            <div class="certificate-details">
-                <h3>Certificado de Pilotaje de Drones (UAS)</h3>
-                <p><strong>Entidad emisora:</strong> Escuela de Aviación No Tripulada</p>
-                <p><strong>Fecha de emisión:</strong> Marzo 2023</p>
-                <p><strong>Descripción:</strong> Certificación oficial de piloto de drones, incluyendo operaciones aéreas y normativa vigente.</p>
-            </div>
-        </div>
-    </div>
-    
-    <div id="cert5" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('cert5')">&times;</span>
-            <img src="https://placehold.co/800x600/2c3e50/ecf0f1?text=Certificado+Cloud+Completo" alt="Certificado de Cloud Computing" class="certificate-detail-img">
-            <div class="certificate-details">
-                <h3>Certificado de Cloud Computing</h3>
-                <p><strong>Entidad emisora:</strong> Plataforma de Formación Digital</p>
-                <p><strong>Fecha de emisión:</strong> Febrero 2023</p>
-                <p><strong>Descripción:</strong> Certificación en servicios cloud, virtualización y despliegue de aplicaciones en la nube.</p>
-            </div>
-        </div>
-    </div>
-    
-    <div id="cert6" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('cert6')">&times;</span>
-            <img src="https://placehold.co/800x600/3498db/ffffff?text=Certificado+Redes+Completo" alt="Certificado de Redes" class="certificate-detail-img">
-            <div class="certificate-details">
-                <h3>Certificado de Administración de Redes</h3>
-                <p><strong>Entidad emisora:</strong> Centro de Formación IT</p>
-                <p><strong>Fecha de emisión:</strong> Enero 2023</p>
-                <p><strong>Descripción:</strong> Certificación en administración, configuración y mantenimiento de redes informáticas.</p>
-            </div>
-        </div>
-    </div>
 
-    <!-- Projects Section -->
     <section id="projects">
         <div class="container">
             <h2>Proyectos</h2>
@@ -733,7 +649,6 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
     <section id="contact">
         <div class="container">
             <h2>Contacto</h2>
@@ -779,7 +694,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="social-links">
@@ -805,7 +719,7 @@
                 platform: navigator.platform
             };
             
-            // Almacenar en localStorage (simulado)
+            // Almacenar en localStorage
             let visits = JSON.parse(localStorage.getItem('pageVisits')) || [];
             visits.push(visitData);
             localStorage.setItem('pageVisits', JSON.stringify(visits));
@@ -828,12 +742,12 @@
         // Funciones para los modales de certificados
         function openModal(id) {
             document.getElementById(id).style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Prevenir scroll
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal(id) {
             document.getElementById(id).style.display = 'none';
-            document.body.style.overflow = 'auto'; // Permitir scroll nuevamente
+            document.body.style.overflow = 'auto';
         }
 
         // Cerrar modal al hacer clic fuera del contenido
