@@ -13,6 +13,7 @@
             --light: #ecf0f1;
             --dark: #2c3e50;
             --success: #2ecc71;
+            --drone: #9b59b6;
         }
         
         * {
@@ -482,10 +483,10 @@
 <body>
     <header>
         <div class="container">
-            <img src="Foto.png" alt="Santiago Reguero Fernández" class="profile-img">
+            <img src="https://placehold.co/150x150/2c3e50/ecf0f1?text=SR" alt="Santiago Reguero Fernández" class="profile-img">
             <h1>Santiago Reguero Fernández</h1>
-            <p class="tagline">Especialista en Programación, Cloud Computing y Ciberseguridad</p>
-            <p>Fecha de nacimiento: 27/04/2007 | Nacionalidad: Española</p>
+            <p class="tagline">Especialista en Programación, Cloud Computing, Ciberseguridad y Pilotaje de Drones</p>
+            <p>Fecha de nacimiento: 27/04/2007 | Nacionalidad: Española | Género: Masculino</p>
         </div>
     </header>
 
@@ -494,7 +495,7 @@
             <h2>Sobre Mí</h2>
             <div class="about-content">
                 <p>Estudiante de informática con habilidades en programación y análisis de datos. Con experiencia en proyectos de desarrollo en Cloud y capacidad para trabajar en equipo de manera eficiente y colaborativa.</p>
-                <p>Mi pasión por la tecnología me ha llevado a formarme en diversas áreas como programación, inteligencia artificial, ciberseguridad y cloud computing. Busco oportunidades para aplicar mis conocimientos y continuar desarrollándome profesionalmente.</p>
+                <p>Mi pasión por la tecnología me ha llevado a formarme en diversas áreas como programación, inteligencia artificial, ciberseguridad, cloud computing y pilotaje de drones. Busco oportunidades para aplicar mis conocimientos y continuar desarrollándome profesionalmente.</p>
             </div>
         </div>
     </section>
@@ -599,7 +600,7 @@
             
             <div class="certificates-grid">
                 <div class="certificate-card" onclick="openModal('cert1')">
-                    <img src="https://placehold.co/600x400/2c3e50/ecf0f1?text=Certificado+Cloud+Computing" alt="Certificado de Cloud Computing" class="certificate-img">
+                    <img src="Certificado Universitario UNIR Cloud Computing.png" alt="Certificado de Cloud Computing" class="certificate-img">
                     <div class="certificate-content">
                         <h3 class="certificate-title">Experto Universitario en Cloud Computing</h3>
                         <p class="certificate-org">UNIR</p>
@@ -626,7 +627,7 @@
                 </div>
 
                 <div class="certificate-card" onclick="openModal('cert4')">
-                    <img src="https://placehold.co/600x400/2ecc71/ffffff?text=Certificado+Python" alt="Certificado de Python" class="certificate-img">
+                    <img src="Cisco Networking Academy Python 1.png" alt="Certificado de Python" class="certificate-img">
                     <div class="certificate-content">
                         <h3 class="certificate-title">Fundamentos de Python 1</h3>
                         <p class="certificate-org">Cisco Networking Academy</p>
@@ -635,7 +636,7 @@
                 </div>
 
                 <div class="certificate-card" onclick="openModal('cert5')">
-                    <img src="https://placehold.co/600x400/2c3e50/ecf0f1?text=Certificado+Ciberseguridad+Personal" alt="Certificado de Ciberseguridad Personal" class="certificate-img">
+                    <img src="BackTrack Academy Certificado Ciberseguridad Personal.png" alt="Certificado de Ciberseguridad Personal" class="certificate-img">
                     <div class="certificate-content">
                         <h3 class="certificate-title">Ciberseguridad Personal</h3>
                         <p class="certificate-org">Backtrack Academy</p>
@@ -644,11 +645,39 @@
                 </div>
 
                 <div class="certificate-card" onclick="openModal('cert6')">
-                    <img src="https://placehold.co/600x400/3498db/ffffff?text=Certificado+IA+Google" alt="Certificado de IA Google" class="certificate-img">
+                    <img src="Santander Academy Inteligencia Artificial.png" alt="Certificado de IA Google" class="certificate-img">
                     <div class="certificate-content">
                         <h3 class="certificate-title">Inteligencia Artificial y Productividad</h3>
                         <p class="certificate-org">Santander Academy</p>
                         <p class="certificate-date">Emitido: Mayo 2025</p>
+                    </div>
+                </div>
+
+                <!-- Nuevos certificados de drones -->
+                <div class="certificate-card" onclick="openModal('cert7')">
+                    <img src="Certificado UAS.png" alt="Certificado de Piloto de Drones A1/A3" class="certificate-img">
+                    <div class="certificate-content">
+                        <h3 class="certificate-title">Piloto de Drones A1/A3</h3>
+                        <p class="certificate-org">AESA</p>
+                        <p class="certificate-date">Julio 2025</p>
+                    </div>
+                </div>
+
+                <div class="certificate-card" onclick="openModal('cert8')">
+                    <img src="Certificado UAS.png" alt="Certificado de Piloto de Drones A2" class="certificate-img">
+                    <div class="certificate-content">
+                        <h3 class="certificate-title">Piloto de Drones A2</h3>
+                        <p class="certificate-org">AESA</p>
+                        <p class="certificate-date">Agosto 2025</p>
+                    </div>
+                </div>
+
+                <div class="certificate-card" onclick="openModal('cert9')">
+                    <img src="Certificado UAS.png" alt="Certificado de Piloto de Drones A2" class="certificate-img">
+                    <div class="certificate-content">
+                        <h3 class="certificate-title">Piloto de Drones A2/STS01-STS02</h3>
+                        <p class="certificate-org">Bai Escuela de drones</p>
+                        <p class="certificate-date">En curso</p>
                     </div>
                 </div>
             </div>
@@ -659,7 +688,7 @@
     <div id="cert1" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('cert1')">&times;</span>
-            <img src="https://placehold.co/800x600/2c3e50/ecf0f1?text=Certificado+Cloud+Computing+Completo" alt="Certificado de Cloud Computing" class="certificate-detail-img">
+            <img src="Certificado Universitario UNIR Cloud Computing.png" alt="Certificado de Cloud Computing" class="certificate-detail-img">
             <div class="certificate-details">
                 <h3>Experto Universitario en Cloud Computing</h3>
                 <p><strong>Entidad emisora:</strong> UNIR</p>
@@ -698,7 +727,7 @@
     <div id="cert4" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('cert4')">&times;</span>
-            <img src="https://placehold.co/800x600/2ecc71/ffffff?text=Certificado+Python+Completo" alt="Certificado de Python" class="certificate-detail-img">
+            <img src="Cisco Networking Academy Python 1.png" alt="Certificado de Python" class="certificate-detail-img">
             <div class="certificate-details">
                 <h3>Fundamentos de Python 1</h3>
                 <p><strong>Entidad emisora:</strong> Cisco Networking Academy</p>
@@ -711,7 +740,7 @@
     <div id="cert5" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('cert5')">&times;</span>
-            <img src="https://placehold.co/800x600/2c3e50/ecf0f1?text=Certificado+Ciberseguridad+Personal+Completo" alt="Certificado de Ciberseguridad Personal" class="certificate-detail-img">
+            <img src="BackTrack Academy Certificado Ciberseguridad Personal.png" alt="Certificado de Ciberseguridad Personal" class="certificate-detail-img">
             <div class="certificate-details">
                 <h3>Ciberseguridad Personal</h3>
                 <p><strong>Entidad emisora:</strong> Backtrack Academy</p>
@@ -724,12 +753,52 @@
     <div id="cert6" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('cert6')">&times;</span>
-            <img src="https://placehold.co/800x600/3498db/ffffff?text=Certificado+IA+Google+Completo" alt="Certificado de IA Google" class="certificate-detail-img">
+            <img src="Santander Academy Inteligencia Artificial.png" alt="Certificado de IA Google" class="certificate-detail-img">
             <div class="certificate-details">
                 <h3>Inteligencia Artificial y Productividad</h3>
                 <p><strong>Entidad emisora:</strong> Santander Academy</p>
                 <p><strong>Fecha de emisión:</strong> Mayo 2025</p>
                 <p><strong>Descripción:</strong> Certificación en inteligencia artificial y productividad con herramientas de Google.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nuevos modals para certificados de drones -->
+    <div id="cert7" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cert7')">&times;</span>
+            <img src="Certificado UAS.png" alt="Certificado de Piloto de Drones A1/A3" class="certificate-detail-img">
+            <div class="certificate-details">
+                <h3>Piloto de Drones A1/A3</h3>
+                <p><strong>Entidad emisora:</strong> AESA (Agencia Estatal de Seguridad Aérea)</p>
+                <p><strong>Fecha de emisión:</strong> Julio 2025</p>
+                <p><strong>Descripción:</strong> Certificación oficial como piloto de drones en categorías abiertas A1 y A3 según regulación europea. Habilita para vuelos en categoría abierta con drones de menos de 25kg.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="cert7" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cert8')">&times;</span>
+            <img src="Certificado UAS.png" alt="Certificado de Piloto de Drones A2" class="certificate-detail-img">
+            <div class="certificate-details">
+                <h3>Piloto de Drones A2</h3>
+                <p><strong>Entidad emisora:</strong> AESA (Agencia Estatal de Seguridad Aérea)</p>
+                <p><strong>Fecha de emisión:</strong> Agosto 2025</p>
+                <p><strong>Descripción:</strong> Certificación oficial como piloto de drones en categorías abiertas A2 según regulación europea. Habilita para vuelos en categoría abierta con drones de más de 25kg.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="cert8" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('cert9')">&times;</span>
+            <img src="https://placehold.co/800x600/8e44ad/ffffff?text=Certificado+Piloto+Drones+A2+Completo" alt="Certificado de Piloto de Drones A2" class="certificate-detail-img">
+            <div class="certificate-details">
+                <h3>Piloto de Drones A1/A3/A2STS01-STS02</h3>
+                <p><strong>Entidad emisora:</strong> Bai Escuela de drones</p>
+                <p><strong>Estado:</strong> En curso</p>
+                <p><strong>Descripción:</strong> Certificación avanzada como piloto de drones en categoría específica STS-01 y STS-02. Incluye formación en operaciones de vuelo más complejas y cerca de personas.</p>
             </div>
         </div>
     </div>
@@ -749,6 +818,7 @@
                             <th>Comprensión lectora</th>
                             <th>Producción oral</th>
                             <th>Interacción oral</th>
+                            <th>Expresión escrita</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -758,9 +828,11 @@
                             <td>A2</td>
                             <td>A2</td>
                             <td>A2</td>
+                            <td>A2</td>
                         </tr>
                         <tr>
                             <td><strong>Italiano</strong></td>
+                            <td>A2</td>
                             <td>A2</td>
                             <td>A2</td>
                             <td>A2</td>
@@ -795,8 +867,8 @@
                 </div>
                 <div class="project-card">
                     <div class="project-content">
-                        <h3 class="project-title">Sistema de Seguridad</h3>
-                        <p class="project-desc">Desarrollo de protocolos de seguridad para protección de sistemas y datos.</p>
+                        <h3 class="project-title">Aplicaciones con Drones</h3>
+                        <p class="project-desc">Proyectos de fotogrametría y mapeo con drones para diferentes aplicaciones.</p>
                         <a href="#" class="project-link">Ver detalles</a>
                     </div>
                 </div>
