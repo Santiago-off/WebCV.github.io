@@ -33,9 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Inicializar animaciones
     initAnimations();
-    
-    // Inicializar panel de administración
-    initAdminPanel();
 });
 
 // Almacenar visita
@@ -47,13 +44,6 @@ function storeVisit(visitData) {
     // Mostrar contador de visitas
     const visitCount = visits.length;
     document.getElementById('visitCount').textContent = visitCount;
-    document.getElementById('adminVisitCount').textContent = visitCount;
-    
-    // Mostrar última visita
-    if (visits.length > 0) {
-        const lastVisit = new Date(visits[visits.length - 1].timestamp);
-        document.getElementById('lastVisit').textContent = lastVisit.toLocaleString();
-    }
 }
 
 // ===== MANEJO DEL FORMULARIO DE CONTACTO =====
@@ -70,19 +60,81 @@ function handleContactForm(form) {
     messages.push(formData);
     localStorage.setItem('contactMessages', JSON.stringify(messages));
     
-    // Actualizar contador de mensajes
-    document.getElementById('messageCount').textContent = messages.length;
-    
-    // Mostrar confirmación
-    showNotification('¡Gracias por tu mensaje! Te responderé pronto.', 'success');
+    // Mostrar mensaje de confirmación
+    showConfirmationMessage();
     
     // Reiniciar formulario
     form.reset();
+}
+
+// ===== MOSTRAR MENSAJE DE CONFIRMACIÓN =====
+function showConfirmationMessage() {
+    // Crear elemento de confirmación
+    const confirmation = document.createElement('div');
+    confirmation.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        z-index: 10000;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+    `;
     
-    // NOTA: Para que los mensajes lleguen a tu correo, necesitas:
-    // 1. Un backend que procese el formulario (PHP, Node.js, etc.)
-    // 2. Un servicio de email como SendGrid, Mailgun o SMTP
-    // 3. Configurar el formulario para enviar los datos al backend
+    confirmation.innerHTML = `
+        <div style="font-size: 3rem; color: var(--success); margin-bottom: 1rem;">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h3 style="color: var(--primary); margin-bottom: 1rem;">¡Mensaje Enviado!</h3>
+        <p style="color: var(--dark); line-height: 1.5;">
+            Su mensaje ha sido enviado correctamente. 
+            Dentro de poco recibirá una respuesta. 
+            ¡Muchas gracias!
+        </p>
+        <button style="
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+        " onclick="closeConfirmation()">Aceptar</button>
+    `;
+    
+    // Crear overlay de fondo
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 9999;
+    `;
+    
+    overlay.id = 'confirmationOverlay';
+    overlay.appendChild(confirmation);
+    document.body.appendChild(overlay);
+    
+    // Prevenir scroll del body
+    document.body.style.overflow = 'hidden';
+}
+
+// Cerrar mensaje de confirmación
+function closeConfirmation() {
+    const overlay = document.getElementById('confirmationOverlay');
+    if (overlay) {
+        document.body.removeChild(overlay);
+    }
+    document.body.style.overflow = 'auto';
 }
 
 // ===== SISTEMA DE NOTIFICACIONES =====
@@ -176,66 +228,6 @@ function initAnimations() {
     }, 100);
 }
 
-// ===== PANEL DE ADMINISTRACIÓN =====
-function initAdminPanel() {
-    // Cargar estadísticas
-    const visits = JSON.parse(localStorage.getItem('pageVisits')) || [];
-    const messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
-    
-    document.getElementById('adminVisitCount').textContent = visits.length;
-    document.getElementById('messageCount').textContent = messages.length;
-    
-    if (visits.length > 0) {
-        const lastVisit = new Date(visits[visits.length - 1].timestamp);
-        document.getElementById('lastVisit').textContent = lastVisit.toLocaleString();
-    }
-}
-
-function toggleAdmin() {
-    const adminContent = document.getElementById('adminContent');
-    adminContent.classList.toggle('show');
-}
-
-function exportData() {
-    const visits = JSON.parse(localStorage.getItem('pageVisits')) || [];
-    const messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
-    
-    const data = {
-        visits: visits,
-        messages: messages,
-        exportedAt: new Date().toISOString()
-    };
-    
-    const dataStr = JSON.stringify(data, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-    
-    const exportFileDefaultName = 'portfolio_data.json';
-    
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
-    
-    showNotification('Datos exportados correctamente', 'success');
-}
-
-function clearData() {
-    if (confirm('¿Estás seguro de que quieres eliminar todos los datos? Esta acción no se puede deshacer.')) {
-        localStorage.removeItem('pageVisits');
-        localStorage.removeItem('contactMessages');
-        
-        document.getElementById('visitCount').textContent = '0';
-        document.getElementById('adminVisitCount').textContent = '0';
-        document.getElementById('messageCount').textContent = '0';
-        document.getElementById('lastVisit').textContent = '-';
-        
-        showNotification('Datos eliminados correctamente', 'success');
-    }
-}
-
-// Event listener para el botón de administración
-document.getElementById('adminBtn').addEventListener('click', toggleAdmin);
-
 // ===== FUNCIONES PARA LOS MODALES DE CERTIFICADOS =====
 function openModal(id) {
     document.getElementById(id).classList.add('show');
@@ -267,6 +259,13 @@ document.addEventListener('keydown', function(event) {
                 modals[i].classList.remove('show');
                 document.body.style.overflow = 'auto';
             }
+        }
+        
+        // También cerrar mensaje de confirmación si está abierto
+        const overlay = document.getElementById('confirmationOverlay');
+        if (overlay) {
+            document.body.removeChild(overlay);
+            document.body.style.overflow = 'auto';
         }
     }
 });
