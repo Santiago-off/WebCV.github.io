@@ -5,485 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Santiago Reguero Fernández - Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --success: #2ecc71;
-            --drone: #9b59b6;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f9f9f9;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-        
-        header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-        }
-        
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            margin-bottom: 1rem;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .tagline {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 1.5rem;
-        }
-        
-        section {
-            padding: 4rem 0;
-        }
-        
-        section:nth-child(even) {
-            background-color: white;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        h2 {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: var(--primary);
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-        
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background-color: var(--secondary);
-        }
-        
-        .about-content {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .skill-category {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-        
-        .skill-category:hover {
-            transform: translateY(-5px);
-        }
-        
-        .skill-category h3 {
-            color: var(--secondary);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .skill-category h3 i {
-            margin-right: 10px;
-        }
-        
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 6px;
-            background-color: var(--secondary);
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -3px;
-        }
-        
-        .timeline-item {
-            padding: 10px 40px;
-            position: relative;
-            width: 50%;
-            box-sizing: border-box;
-        }
-        
-        .timeline-item:nth-child(odd) {
-            left: 0;
-        }
-        
-        .timeline-item:nth-child(even) {
-            left: 50%;
-        }
-        
-        .timeline-content {
-            padding: 20px;
-            background-color: white;
-            position: relative;
-            border-radius: 6px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 25px;
-            height: 25px;
-            background-color: white;
-            border: 4px solid var(--secondary);
-            border-radius: 50%;
-            top: 15px;
-            z-index: 1;
-        }
-        
-        .timeline-item:nth-child(odd)::after {
-            right: -13px;
-        }
-        
-        .timeline-item:nth-child(even)::after {
-            left: -13px;
-        }
-        
-        .certificates-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .certificate-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .certificate-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-        
-        .certificate-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .certificate-content {
-            padding: 1.5rem;
-        }
-        
-        .certificate-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-        
-        .certificate-org {
-            color: var(--secondary);
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-        
-        .certificate-date {
-            color: #777;
-            font-size: 0.9rem;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.9);
-        }
-        
-        .modal-content {
-            position: relative;
-            margin: 5% auto;
-            padding: 20px;
-            width: 90%;
-            max-width: 800px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
-        }
-        
-        .close {
-            color: #aaa;
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 1001;
-        }
-        
-        .close:hover {
-            color: var(--accent);
-        }
-        
-        .certificate-detail-img {
-            width: 100%;
-            max-height: 70vh;
-            object-fit: contain;
-            border-radius: 4px;
-        }
-        
-        .certificate-details {
-            padding: 1.5rem;
-        }
-        
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .project-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .project-content {
-            padding: 1.5rem;
-        }
-        
-        .project-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-        
-        .project-desc {
-            color: #666;
-            margin-bottom: 1rem;
-        }
-        
-        .project-link {
-            display: inline-block;
-            padding: 8px 15px;
-            background-color: var(--secondary);
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: 500;
-            transition: background-color 0.3s;
-        }
-        
-        .project-link:hover {
-            background-color: var(--primary);
-        }
-        
-        .contact-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        
-        .contact-item i {
-            margin-right: 15px;
-            font-size: 1.2rem;
-            color: var(--secondary);
-            width: 30px;
-        }
-        
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        
-        .form-group label {
-            font-weight: 500;
-        }
-        
-        .form-group input,
-        .form-group textarea {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-        
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-        
-        button {
-            background-color: var(--secondary);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: var(--primary);
-        }
-        
-        footer {
-            background-color: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            transition: color 0.3s;
-        }
-        
-        .social-links a:hover {
-            color: var(--secondary);
-        }
-        
-        .language-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-        }
-        
-        .language-table th, .language-table td {
-            padding: 12px;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-        
-        .language-table th {
-            background-color: var(--secondary);
-            color: white;
-        }
-        
-        .language-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        
-        @media (max-width: 768px) {
-            .timeline::after {
-                left: 31px;
-            }
-            
-            .timeline-item {
-                width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
-            }
-            
-            .timeline-item:nth-child(even) {
-                left: 0;
-            }
-            
-            .timeline-item::after {
-                left: 18px;
-            }
-            
-            .timeline-item:nth-child(odd)::after {
-                right: auto;
-            }
-            
-            .certificates-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .language-table {
-                font-size: 0.8rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
 </head>
 <body>
     <header>
         <div class="container">
-            <img src="https://placehold.co/150x150/2c3e50/ecf0f1?text=SR" alt="Santiago Reguero Fernández" class="profile-img">
+            <img src="Foto.png" alt="Santiago Reguero Fernández" class="profile-img">
             <h1>Santiago Reguero Fernández</h1>
             <p class="tagline">Especialista en Programación, Cloud Computing, Ciberseguridad y Pilotaje de Drones</p>
             <p>Fecha de nacimiento: 27/04/2007 | Nacionalidad: Española | Género: Masculino</p>
@@ -584,7 +112,14 @@
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <h3>PILOTO DE DRONES A2/STS01-STS02</h3>
+                        <h3>PILOTO DE DRONES A2</h3>
+                        <p>AESA - Madrid, España</p>
+                        <p class="date">02/08/2025 – 28/08/2025</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>PILOTO DE DRONES A1/A3/A2/STS01-STS02</h3>
                         <p>Bai Escuela de drones - Madrid, España</p>
                         <p class="date">03/07/2025 – ACTUAL</p>
                     </div>
@@ -673,9 +208,9 @@
                 </div>
 
                 <div class="certificate-card" onclick="openModal('cert9')">
-                    <img src="Certificado UAS.png" alt="Certificado de Piloto de Drones A2" class="certificate-img">
+                    <img src="https://placehold.co/800x600/8e44ad/ffffff?text=Certificado+Piloto+Drones+A2+Completo" alt="Certificado de Piloto de Drones STS" class="certificate-img">
                     <div class="certificate-content">
-                        <h3 class="certificate-title">Piloto de Drones A2/STS01-STS02</h3>
+                        <h3 class="certificate-title">Piloto de Drones A1/A3/A2/STS01-STS02</h3>
                         <p class="certificate-org">Bai Escuela de drones</p>
                         <p class="certificate-date">En curso</p>
                     </div>
@@ -777,7 +312,7 @@
         </div>
     </div>
 
-    <div id="cert7" class="modal">
+    <div id="cert8" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('cert8')">&times;</span>
             <img src="Certificado UAS.png" alt="Certificado de Piloto de Drones A2" class="certificate-detail-img">
@@ -785,17 +320,17 @@
                 <h3>Piloto de Drones A2</h3>
                 <p><strong>Entidad emisora:</strong> AESA (Agencia Estatal de Seguridad Aérea)</p>
                 <p><strong>Fecha de emisión:</strong> Agosto 2025</p>
-                <p><strong>Descripción:</strong> Certificación oficial como piloto de drones en categorías abiertas A2 según regulación europea. Habilita para vuelos en categoría abierta con drones de más de 25kg.</p>
+                <p><strong>Descripción:</strong> Certificación oficial como piloto de drones en categorías abiertas A1 y A3 según regulación europea. Habilita para vuelos en categoría abierta con drones de menos de 25kg.</p>
             </div>
         </div>
     </div>
 
-    <div id="cert8" class="modal">
+    <div id="cert9" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('cert9')">&times;</span>
-            <img src="https://placehold.co/800x600/8e44ad/ffffff?text=Certificado+Piloto+Drones+A2+Completo" alt="Certificado de Piloto de Drones A2" class="certificate-detail-img">
+            <img src="https://placehold.co/800x600/8e44ad/ffffff?text=Certificado+Piloto+Drones+A2+Completo" alt="Certificado de Piloto de Drones STS" class="certificate-detail-img">
             <div class="certificate-details">
-                <h3>Piloto de Drones A1/A3/A2STS01-STS02</h3>
+                <h3>Piloto de Drones A1/A3/A2/STS01-STS02</h3>
                 <p><strong>Entidad emisora:</strong> Bai Escuela de drones</p>
                 <p><strong>Estado:</strong> En curso</p>
                 <p><strong>Descripción:</strong> Certificación avanzada como piloto de drones en categoría específica STS-01 y STS-02. Incluye formación en operaciones de vuelo más complejas y cerca de personas.</p>
@@ -854,7 +389,7 @@
                 <div class="project-card">
                     <div class="project-content">
                         <h3 class="project-title">Proyecto de Cloud Computing</h3>
-                        <p class="project-desc">Desarrollo de soluciones en la nube con AWS y Azure para optimización de recursos.</p>
+                        <p class="project-desc">Desarrollo de soluciones en la nube con AWS и Azure para optimización de recursos.</p>
                         <a href="#" class="project-link">Ver detalles</a>
                     </div>
                 </div>
@@ -933,73 +468,12 @@
         </div>
     </footer>
 
-    <script>
-        // Sistema de tracking de visitas
-        document.addEventListener('DOMContentLoaded', function() {
-            // Registrar visita
-            const visitData = {
-                timestamp: new Date().toISOString(),
-                page: window.location.href,
-                referrer: document.referrer,
-                userAgent: navigator.userAgent,
-                language: navigator.language,
-                platform: navigator.platform
-            };
-            
-            // Almacenar en localStorage
-            let visits = JSON.parse(localStorage.getItem('pageVisits')) || [];
-            visits.push(visitData);
-            localStorage.setItem('pageVisits', JSON.stringify(visits));
-            
-            // Mostrar contador de visitas
-            document.getElementById('visitCount').textContent = visits.length;
-            
-            // Aquí normalmente enviarías estos datos a un servidor
-            console.log('Visita registrada:', visitData);
-            console.log('Total de visitas:', visits.length);
-            
-            // Manejar el formulario de contacto
-            document.getElementById('contactForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('¡Gracias por tu mensaje! Te responderé pronto.');
-                this.reset();
-            });
-        });
+    <div class="admin-panel">
+        <a href="admin.html" class="admin-btn">
+            <i class="fas fa-cog"></i>
+        </a>
+    </div>
 
-        // Funciones para los modales de certificados
-        function openModal(id) {
-            document.getElementById(id).style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Cerrar modal al hacer clic fuera del contenido
-        window.onclick = function(event) {
-            const modals = document.getElementsByClassName('modal');
-            for (let i = 0; i < modals.length; i++) {
-                if (event.target == modals[i]) {
-                    modals[i].style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-            }
-        }
-
-        // Cerrar con tecla ESC
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                const modals = document.getElementsByClassName('modal');
-                for (let i = 0; i < modals.length; i++) {
-                    if (modals[i].style.display === 'block') {
-                        modals[i].style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                    }
-                }
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
