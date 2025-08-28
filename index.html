@@ -7,43 +7,45 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <script src="script.js"></script>
+    <script src="language-switcher.js"></script>
 </head>
 <body>
     <header>
         <div class="container">
+            <!-- Las banderas se insertarán automáticamente aquí por JavaScript -->
             <img src="Foto.png" alt="Santiago Reguero Fernández" class="profile-img">
             <h1>Santiago Reguero Fernández</h1>
-            <p class="tagline">Especialista en Programación, Cloud Computing, Ciberseguridad y Pilotaje de Drones</p>
-            <p>Fecha de nacimiento: 27/04/2007 | Nacionalidad: Española | Género: Masculino</p>
+            <p class="tagline" data-translate="tagline">Especialista en Programación, Cloud Computing, Ciberseguridad y Pilotaje de Drones</p>
+            <p data-translate="birthdate">Fecha de nacimiento: 27/04/2007 | Nacionalidad: Española | Género: Masculino</p>
         </div>
     </header>
 
     <section id="about">
         <div class="container">
-            <h2>Sobre Mí</h2>
+            <h2 data-translate="about-title">Sobre Mí</h2>
             <div class="about-content">
-                <p>Estudiante de informática con habilidades en programación y análisis de datos. Con experiencia en proyectos de desarrollo en Cloud y capacidad para trabajar en equipo de manera eficiente y colaborativa.</p>
-                <p>Mi pasión por la tecnología me ha llevado a formarme en diversas áreas como programación, inteligencia artificial, ciberseguridad, cloud computing y pilotaje de drones. Busco oportunidades para aplicar mis conocimientos y continuar desarrollándome profesionalmente.</p>
+                <p data-translate="about-content-1">Estudiante de informática con habilidades en programación y análisis de datos. Con experiencia en proyectos de desarrollo en Cloud y capacidad para trabajar en equipo de manera eficiente y colaborativa.</p>
+                <p data-translate="about-content-2">Mi pasión por la tecnología me ha llevado a formarme en diversas áreas como programación, inteligencia artificial, ciberseguridad, cloud computing y pilotaje de drones. Busco oportunidades para aplicar mis conocimientos y continuar desarrollándome profesionalmente.</p>
             </div>
         </div>
     </section>
 
     <section id="experience">
         <div class="container">
-            <h2>Experiencia Laboral</h2>
+            <h2 data-translate="experience-title">Experiencia Laboral</h2>
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <h3>ARMONIA – SALERNO, ITALIA</h3>
-                        <p><strong>Programador</strong></p>
-                        <p>18/03/2025 – 16/06/2025</p>
+                        <h3 data-translate="armonia-title">ARMONIA – SALERNO, ITALIA</h3>
+                        <p><strong data-translate="armonia-position">Programador</strong></p>
+                        <p data-translate="armonia-date">18/03/2025 – 16/06/2025</p>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <h3>SOPORTE DE HOSTING (ONLINE)</h3>
-                        <p><strong>Madrid, España</strong></p>
-                        <p>05/2022 – 09/2023</p>
+                        <h3 data-translate="hosting-title">SOPORTE DE HOSTING (ONLINE)</h3>
+                        <p><strong data-translate="hosting-location">Madrid, España</strong></p>
+                        <p data-translate="hosting-date">05/2022 – 09/2023</p>
                     </div>
                 </div>
             </div>
@@ -52,7 +54,7 @@
 
     <section id="education">
         <div class="container">
-            <h2>Educación y Formación</h2>
+            <h2 data-translate="education-title">Educación y Formación</h2>
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-content">
@@ -130,8 +132,8 @@
 
     <section id="certificates">
         <div class="container">
-            <h2>Certificados</h2>
-            <p style="text-align: center; margin-bottom: 2rem;">Haz clic en cualquier certificado para verlo en tamaño completo</p>
+            <h2 data-translate="certificates-title">Certificados</h2>
+            <p style="text-align: center; margin-bottom: 2rem;" data-translate="certificates-click">Haz clic en cualquier certificado para verlo en tamaño completo</p>
             
             <div class="certificates-grid">
                 <div class="certificate-card" onclick="openModal('cert1')">
@@ -188,7 +190,6 @@
                     </div>
                 </div>
 
-                <!-- Nuevos certificados de drones -->
                 <div class="certificate-card" onclick="openModal('cert7')">
                     <img src="Certificado UAS.png" alt="Certificado de Piloto de Drones A1/A3" class="certificate-img">
                     <div class="certificate-content">
@@ -298,7 +299,6 @@
         </div>
     </div>
 
-    <!-- Nuevos modals para certificados de drones -->
     <div id="cert7" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('cert7')">&times;</span>
@@ -340,11 +340,11 @@
 
     <section id="languages">
         <div class="container">
-            <h2>Competencias Lingüísticas</h2>
+            <h2 data-translate="languages-title">Competencias Lingüísticas</h2>
             <div class="about-content">
-                <p><strong>Lengua materna:</strong> Español</p>
+                <p data-translate="mother-tongue"><strong>Lengua materna:</strong> Español</p>
                 
-                <h3 style="margin-top: 2rem; text-align: center;">Idiomas Extranjeros</h3>
+                <h3 style="margin-top: 2rem; text-align: center;" data-translate="foreign-languages">Idiomas Extranjeros</h3>
                 <table class="language-table">
                     <thead>
                         <tr>
@@ -375,7 +375,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <p style="text-align: center; margin-top: 1rem; font-style: italic;">
+                <p style="text-align: center; margin-top: 1rem; font-style: italic;" data-translate="language-levels">
                     Niveles: A1 y A2 (usuario básico), B1 y B2 (usuario independiente), C1 y C2 (usuario competente)
                 </p>
             </div>
@@ -384,27 +384,27 @@
 
     <section id="projects">
         <div class="container">
-            <h2>Proyectos</h2>
+            <h2 data-translate="projects-title">Proyectos</h2>
             <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-content">
                         <h3 class="project-title">Proyecto de Cloud Computing</h3>
-                        <p class="project-desc">Desarrollo de soluciones en la nube con AWS и Azure para optimización de recursos.</p>
-                        <a href="#" class="project-link">Ver detalles</a>
+                        <p class="project-desc" data-translate="project-desc-1">Desarrollo de soluciones en la nube con AWS y Azure para optimización de recursos.</p>
+                        <a href="#" class="project-link" data-translate="project-link">Ver detalles</a>
                     </div>
                 </div>
                 <div class="project-card">
                     <div class="project-content">
                         <h3 class="project-title">Análisis de Datos con Python</h3>
-                        <p class="project-desc">Implementación de scripts en Python para análisis y visualización de datos.</p>
-                        <a href="#" class="project-link">Ver detalles</a>
+                        <p class="project-desc" data-translate="project-desc-2">Implementación de scripts en Python para análisis y visualización de datos.</p>
+                        <a href="#" class="project-link" data-translate="project-link">Ver detalles</a>
                     </div>
                 </div>
                 <div class="project-card">
                     <div class="project-content">
                         <h3 class="project-title">Aplicaciones con Drones</h3>
-                        <p class="project-desc">Proyectos de fotogrametría y mapeo con drones para diferentes aplicaciones.</p>
-                        <a href="#" class="project-link">Ver detalles</a>
+                        <p class="project-desc" data-translate="project-desc-3">Proyectos de fotogrametría y mapeo con drones para diferentes aplicaciones.</p>
+                        <a href="#" class="project-link" data-translate="project-link">Ver detalles</a>
                     </div>
                 </div>
             </div>
@@ -413,7 +413,7 @@
 
     <section id="contact">
         <div class="container">
-            <h2>Contacto</h2>
+            <h2 data-translate="contact-title">Contacto</h2>
             <div class="contact-container">
                 <div class="contact-info">
                     <div class="contact-item">
@@ -439,18 +439,18 @@
                 </div>
                 <form class="contact-form" id="contactForm">
                     <div class="form-group">
-                        <label for="name">Nombre</label>
-                        <input type="text" id="name" required>
+                        <label for="name" data-translate="name-label">Nombre</label>
+                        <input type="text" id="name" required data-translate-placeholder="name-label">
                     </div>
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" required>
+                        <label for="email" data-translate="email-label">Email</label>
+                        <input type="email" id="email" required data-translate-placeholder="email-label">
                     </div>
                     <div class="form-group">
-                        <label for="message">Mensaje</label>
-                        <textarea id="message" required></textarea>
+                        <label for="message" data-translate="message-label">Mensaje</label>
+                        <textarea id="message" required data-translate-placeholder="message-label"></textarea>
                     </div>
-                    <button type="submit">Enviar Mensaje</button>
+                    <button type="submit" data-translate="send-button">Enviar Mensaje</button>
                 </form>
             </div>
         </div>
@@ -463,11 +463,12 @@
                 <a href="#"><i class="fab fa-github"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
             </div>
-            <p>&copy; 2023 Santiago Reguero Fernández. Todos los derechos reservados.</p>
-            <p>Visitas: <span id="visitCount">0</span></p>
+            <p>&copy; 2023 Santiago Reguero Fernández. <span data-translate="rights-reserved">Todos los derechos reservados.</span></p>
+            <p><span data-translate="visits">Visitas:</span> <span id="visitCount">0</span></p>
         </div>
     </footer>
 
+    <!-- Panel de administración -->
     <div class="admin-panel">
         <a href="admin.html" class="admin-btn">
             <i class="fas fa-cog"></i>
