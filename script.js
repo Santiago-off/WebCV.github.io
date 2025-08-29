@@ -298,8 +298,16 @@ async function handleContactForm(e) {
 }
 
 function validateFormData(formData) {
-    if (formData.message.length > SECURITY_CONFIG.maxMessageLength) {
-        showNotification(`El mensaje no puede exceder ${SECURITY_CONFIG.maxMessageLength} caracteres.`, 'error');
+    if (formData.message.length > SECURITY_CONFIG.maxMessageLength ||
+        formData.name.length > 100 ||
+        formData.email.length > 100) {
+        showNotification(`El mensaje o los campos no pueden exceder el tamaño permitido.`, 'error');
+        return false;
+    }
+
+    // Email: solo letras, números, puntos y guion bajo antes de @
+    if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
+        showNotification('Por favor, introduce un email válido.', 'error');
         return false;
     }
 
@@ -311,7 +319,9 @@ function validateFormData(formData) {
     if (securitySystem.detectXSS(formData.name) || 
         securitySystem.detectXSS(formData.email) || 
         securitySystem.detectXSS(formData.message)) {
-        showNotification('⚠️ Se detectó contenido no permitido. Por favor, revisa tu mensaje.', 'error');
+        showNotification('⚠️ Se detectó contenido no permitido. Por seguridad, los datos no se guardarán.', 'error');
+        // Elimina datos potencialmente peligrosos
+        localStorage.removeItem('contactMessages');
         return false;
     }
 
@@ -559,10 +569,22 @@ function checkNodeSecurity(node) {
     }
 }
 
+function sanitizeHTML(html) {
+    const div = document.createElement('div');
+    div.textContent = html;
+    return div.innerHTML;
+}
+
 // ===== FUNCIONES PARA MODALES =====
 function openModal(id) {
     const modal = document.getElementById(id);
     if (modal) {
+        // Sanitiza el contenido del modal antes de mostrarlo
+        const imgs = modal.querySelectorAll('img');
+        imgs.forEach(img => {
+            img.src = sanitizeHTML(img.src);
+            img.alt = sanitizeHTML(img.alt);
+        });
         modal.classList.add('show');
         document.body.style.overflow = 'hidden';
         document.addEventListener('keydown', handleModalEscape);
@@ -625,10 +647,10 @@ window.addEventListener('load', checkScroll);
 window.addEventListener('scroll', checkScroll);
 window.addEventListener('resize', checkScroll);
 
-// Exportar funciones globales
-window.openModal = openModal;
-window.closeModal = closeModal;
-window.closeConfirmation = closeConfirmation;
+// Evita sobrescritura accidental de funciones globales
+if (!window.openModal) window.openModal = openModal;
+if (!window.closeModal) window.closeModal = closeModal;
+if (!window.closeConfirmation) window.closeConfirmation = closeConfirmation;
 
 // Inicialización final
 setTimeout(() => {

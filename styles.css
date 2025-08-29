@@ -781,16 +781,16 @@ footer {
 }
 
 /* Experiencia laboral: letras blancas */
-#experiencia,
-.experiencia {
+#experience,
+.experience {
     color: #fff;
 }
-#experiencia h2,
-#experiencia h3,
-#experiencia p,
-.experiencia h2,
-.experiencia h3,
-.experiencia p {
+#experience h2,
+#experience h3,
+#experience p,
+.experience h2,
+.experience h3,
+.experience p {
     color: #fff;
 }
 

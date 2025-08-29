@@ -125,6 +125,10 @@ class AdminSecurity {
             return { valid: false, message: 'Todos los campos son requeridos' };
         }
 
+        if (username.length > 20 || password.length > 20) {
+            return { valid: false, message: 'Usuario o contraseña demasiado largos' };
+        }
+
         // Validar formato
         const usernameRegex = /^[a-zA-Z0-9]+$/;
         const passwordRegex = /^[a-zA-Z0-9]+$/;
@@ -789,10 +793,21 @@ function showNotification(message, type = 'info') {
     console.log(`[${type.toUpperCase()}] ${message}`);
 }
 
+function sanitizeHTML(html) {
+    const div = document.createElement('div');
+    div.textContent = html;
+    return div.innerHTML;
+}
+
 function validateInput(e) {
     const input = e.target;
     const value = input.value.trim();
-    
+
+    // Limita el tamaño de los campos
+    if (value.length > 20) {
+        input.value = value.substring(0, 20);
+    }
+
     // Validaciones básicas
     if (input.type === 'text' || input.type === 'password') {
         if (!/^[a-zA-Z0-9]*$/.test(value)) {
@@ -800,14 +815,14 @@ function validateInput(e) {
             return false;
         }
     }
-    
+
     input.style.borderColor = 'var(--success)';
     return true;
 }
 
 function viewDetails(type, data) {
-    document.getElementById('detailsTitle').textContent = `Detalles de ${type}`;
-    document.getElementById('detailsContent').textContent = JSON.stringify(data, null, 2);
+    document.getElementById('detailsTitle').textContent = `Detalles de ${sanitizeHTML(type)}`;
+    document.getElementById('detailsContent').textContent = sanitizeHTML(JSON.stringify(data, null, 2));
     showModal('detailsModal');
 }
 
