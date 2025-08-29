@@ -708,6 +708,44 @@ function exportData() {
     }
 }
 
+function backupData() {
+    try {
+        const visits = JSON.parse(localStorage.getItem('pageVisits')) || [];
+        const messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
+        const securityLog = securityEvents || [];
+        const backup = {
+            visits,
+            messages,
+            securityLog,
+            backupDate: new Date().toISOString(),
+            backupBy: currentSession.user
+        };
+        const backupStr = JSON.stringify(backup, null, 2);
+        const uri = 'data:application/json;charset=utf-8,' + encodeURIComponent(backupStr);
+        const link = document.createElement('a');
+        link.setAttribute('href', uri);
+        link.setAttribute('download', `portfolio-backup-${new Date().toISOString().split('T')[0]}.json`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        adminSecurity.logSecurityEvent('Backup creado correctamente', 'low');
+        showNotification('Backup creado correctamente', 'success');
+    } catch (error) {
+        showNotification('Error al crear backup', 'error');
+        adminSecurity.logSecurityEvent('Error al crear backup', 'medium');
+    }
+}
+
+function viewAuditLog() {
+    // Muestra los últimos 20 eventos de seguridad en el modal de detalles
+    const log = securityEvents.slice(0, 20);
+    document.getElementById('detailsTitle').textContent = 'Log de Auditoría';
+    document.getElementById('detailsContent').textContent = log.map(e =>
+        `[${e.timestamp}] (${e.severity}) ${e.message} - IP: ${e.ip}`
+    ).join('\n');
+    showModal('detailsModal');
+}
+
 function clearAllData() {
     if (confirm('¿Estás seguro de que quieres eliminar TODOS los datos? Esta acción no se puede deshacer.')) {
         localStorage.removeItem('pageVisits');
@@ -803,7 +841,20 @@ window.runSecurityScan = function() {
 // Exportar funciones globales
 window.showTab = function(tabName) {
     currentTab = tabName;
-    // Implementar cambio de pestaña
+    // Oculta todas las pestañas
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    // Muestra la pestaña seleccionada
+    const tabContent = document.getElementById(tabName + 'Tab');
+    if (tabContent) tabContent.classList.add('active');
+
+    // Actualiza el estado visual de los botones
+    document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    const btn = document.getElementById('tabBtn' + tabName.charAt(0).toUpperCase() + tabName.slice(1));
+    if (btn) btn.classList.add('active');
 };
 
 window.logout = logout;
@@ -814,3 +865,5 @@ window.deleteMessage = deleteMessage;
 window.viewDetails = viewDetails;
 window.closeModal = closeModal;
 window.generateCaptcha = generateCaptcha;
+window.backupData = backupData;
+window.viewAuditLog = viewAuditLog;

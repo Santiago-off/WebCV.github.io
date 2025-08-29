@@ -589,6 +589,22 @@ body {
     color: var(--secondary);
 }
 
+.tab-button img {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+    width: 20px;
+    height: 20px;
+    filter: grayscale(0%);
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.tab-button.active img {
+    opacity: 1;
+    filter: none;
+}
+
 .tab-badge {
     background: var(--secondary);
     color: white;

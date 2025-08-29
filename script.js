@@ -6,9 +6,9 @@ const SECURITY_CONFIG = {
     maxMessageLength: 500,
     allowedEmailDomains: ['gmail.com', 'hotmail.com', 'yahoo.com', 'outlook.com'],
     rateLimit: {
-        visits: 100, // Máximo 100 visitas por sesión
-        messages: 5,  // Máximo 5 mensajes por hora
-        timeWindow: 3600000 // 1 hora en milisegundos
+        visits: 100,
+        messages: 5,
+        timeWindow: 3600000
     }
 };
 
@@ -20,7 +20,6 @@ class SecuritySystem {
     }
 
     setupSecurityHeaders() {
-        // Headers de seguridad se configuran via meta tags en HTML
         console.log('Sistema de seguridad inicializado');
     }
 
@@ -28,7 +27,6 @@ class SecuritySystem {
         const now = Date.now();
         const userAttempts = this.attempts.get(key) || [];
         
-        // Limpiar intentos antiguos
         const recentAttempts = userAttempts.filter(time => now - time < SECURITY_CONFIG.rateLimit.timeWindow);
         
         if (recentAttempts.length >= limit) {
@@ -43,7 +41,6 @@ class SecuritySystem {
     sanitizeInput(input) {
         if (typeof input !== 'string') return '';
         
-        // Eliminar scripts y caracteres peligrosos
         return input
             .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
             .replace(/on\w+=\s*["'][^"']*["']/gi, '')
@@ -68,15 +65,8 @@ class SecuritySystem {
 
     detectXSS(input) {
         const xssPatterns = [
-            /<script/i,
-            /javascript:/i,
-            /onerror=/i,
-            /onload=/i,
-            /onclick=/i,
-            /eval\(/i,
-            /alert\(/i,
-            /document\.cookie/i,
-            /window\.location/i
+            /<script/i, /javascript:/i, /onerror=/i, /onload=/i,
+            /onclick=/i, /eval\(/i, /alert\(/i, /document\.cookie/i
         ];
 
         return xssPatterns.some(pattern => pattern.test(input));
@@ -87,15 +77,12 @@ class SecuritySystem {
 const securitySystem = new SecuritySystem();
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Verificar si el navegador soporta las características necesarias
     if (!checkBrowserCompatibility()) {
         showCompatibilityWarning();
         return;
     }
 
-    // Inicializar sistemas
     initSecurityMonitoring();
-    registerServiceWorker();
     initVisitTracking();
     setupEventListeners();
     initAnimations();
@@ -106,8 +93,7 @@ function checkBrowserCompatibility() {
     const features = {
         'localStorage': 'localStorage' in window,
         'fetch': 'fetch' in window,
-        'IntersectionObserver': 'IntersectionObserver' in window,
-        'serviceWorker': 'serviceWorker' in navigator
+        'IntersectionObserver': 'IntersectionObserver' in window
     };
 
     return Object.values(features).every(feature => feature);
@@ -127,13 +113,12 @@ function showCompatibilityWarning() {
         z-index: 10000;
         font-weight: bold;
     `;
-    warning.textContent = '⚠️ Tu navegador no es compatible con todas las funcionalidades de esta página. Por favor, actualiza a una versión más reciente.';
+    warning.textContent = '⚠️ Tu navegador no es compatible con todas las funcionalidades. Por favor, actualízalo.';
     document.body.appendChild(warning);
 }
 
 // ===== SISTEMA DE VISITAS =====
 function initVisitTracking() {
-    // Verificar rate limiting para visitas
     const visitorKey = getVisitorFingerprint();
     
     if (!securitySystem.checkRateLimit(visitorKey, SECURITY_CONFIG.rateLimit.visits)) {
@@ -153,28 +138,22 @@ function initVisitTracking() {
         ip: null
     };
 
-    // Obtener IP de forma segura
     fetch('https://api.ipify.org?format=json', {
         mode: 'cors',
         credentials: 'omit'
     })
-    .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         visitData.ip = data.ip;
         storeVisit(visitData);
     })
     .catch(error => {
-        console.log('IP no disponible:', error);
         visitData.ip = 'unknown';
         storeVisit(visitData);
     });
 }
 
 function getVisitorFingerprint() {
-    // Crear una huella digital simple del visitante
     const components = [
         navigator.userAgent,
         navigator.language,
@@ -190,15 +169,13 @@ function storeVisit(visitData) {
     try {
         let visits = JSON.parse(localStorage.getItem('pageVisits')) || [];
         
-        // Limitar el número de visitas almacenadas
         if (visits.length > 1000) {
-            visits = visits.slice(-500); // Mantener solo las 500 más recientes
+            visits = visits.slice(-500);
         }
         
         visits.push(visitData);
         localStorage.setItem('pageVisits', JSON.stringify(visits));
         
-        // Actualizar contador
         updateVisitCounter(visits.length);
     } catch (error) {
         console.error('Error almacenando visita:', error);
@@ -218,7 +195,6 @@ function setupEventListeners() {
     if (contactForm) {
         contactForm.addEventListener('submit', handleContactForm);
         
-        // Validación en tiempo real
         const inputs = contactForm.querySelectorAll('input, textarea');
         inputs.forEach(input => {
             input.addEventListener('input', validateRealTime);
@@ -226,13 +202,11 @@ function setupEventListeners() {
         });
     }
 
-    // Protección contra right-click
     document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
         showNotification('El menú contextual está deshabilitado por seguridad.', 'warning');
     });
 
-    // Protección contra inspección de elementos
     document.addEventListener('keydown', function(e) {
         if (e.ctrlKey && e.shiftKey && e.key === 'I') {
             e.preventDefault();
@@ -308,45 +282,32 @@ async function handleContactForm(e) {
         ip: await getIPAddress()
     };
 
-    // Validaciones de seguridad
     if (!validateFormData(formData)) {
         return;
     }
 
-    // Rate limiting para mensajes
     const messageKey = `message_${getVisitorFingerprint()}`;
     if (!securitySystem.checkRateLimit(messageKey, SECURITY_CONFIG.rateLimit.messages)) {
         showNotification('⚠️ Has enviado demasiados mensajes. Por favor, espera un momento.', 'error');
         return;
     }
 
-    // Guardar mensaje
     saveMessage(formData);
-    
-    // Mostrar confirmación
     showConfirmationMessage();
-    
-    // Reiniciar formulario
     form.reset();
-    
-    // Enviar notificación por email (simulado)
-    simulateEmailNotification(formData);
 }
 
 function validateFormData(formData) {
-    // Validar longitud
     if (formData.message.length > SECURITY_CONFIG.maxMessageLength) {
         showNotification(`El mensaje no puede exceder ${SECURITY_CONFIG.maxMessageLength} caracteres.`, 'error');
         return false;
     }
 
-    // Validar email
     if (!securitySystem.validateEmail(formData.email)) {
         showNotification('Por favor, introduce un email válido de un dominio permitido.', 'error');
         return false;
     }
 
-    // Detectar XSS
     if (securitySystem.detectXSS(formData.name) || 
         securitySystem.detectXSS(formData.email) || 
         securitySystem.detectXSS(formData.message)) {
@@ -374,9 +335,8 @@ function saveMessage(formData) {
     try {
         let messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
         
-        // Limitar el número de mensajes almacenados
         if (messages.length > 100) {
-            messages = messages.slice(-50); // Mantener solo los 50 más recientes
+            messages = messages.slice(-50);
         }
         
         messages.push(formData);
@@ -391,7 +351,6 @@ function saveMessage(formData) {
 
 // ===== SISTEMA DE NOTIFICACIONES =====
 function showNotification(message, type = 'info') {
-    // Eliminar notificaciones existentes
     document.querySelectorAll('.notification').forEach(notification => {
         notification.remove();
     });
@@ -411,10 +370,8 @@ function showNotification(message, type = 'info') {
         transition: transform 0.3s ease;
         font-weight: 500;
         max-width: 300px;
-        backdrop-filter: blur(10px);
     `;
 
-    // Estilo según tipo
     const styles = {
         success: 'background: rgba(46, 204, 113, 0.95);',
         error: 'background: rgba(231, 76, 60, 0.95);',
@@ -426,12 +383,10 @@ function showNotification(message, type = 'info') {
     notification.textContent = message;
     document.body.appendChild(notification);
 
-    // Animación de entrada
     setTimeout(() => {
         notification.style.transform = 'translateX(0)';
     }, 100);
 
-    // Auto-eliminar después de 5 segundos
     setTimeout(() => {
         notification.style.transform = 'translateX(100%)';
         setTimeout(() => {
@@ -500,7 +455,6 @@ function showConfirmationMessage() {
     document.body.appendChild(confirmation);
     document.body.style.overflow = 'hidden';
 
-    // Aplicar traducciones
     if (window.LanguageSwitcher) {
         window.LanguageSwitcher.applyLanguage(window.LanguageSwitcher.getCurrentLanguage());
     }
@@ -521,13 +475,11 @@ function closeConfirmation() {
 
 // ===== ANIMACIONES =====
 function initAnimations() {
-    // Hacer visibles todas las secciones
     const sections = document.querySelectorAll('section');
     sections.forEach(section => {
         section.classList.add('visible');
     });
 
-    // Animación para elementos de la línea de tiempo
     const timelineItems = document.querySelectorAll('.timeline-item');
     timelineItems.forEach((item, index) => {
         setTimeout(() => {
@@ -535,7 +487,6 @@ function initAnimations() {
         }, index * 200);
     });
 
-    // Animación para tarjetas de certificados
     const certificateCards = document.querySelectorAll('.certificate-card');
     certificateCards.forEach((card, index) => {
         setTimeout(() => {
@@ -543,7 +494,6 @@ function initAnimations() {
         }, index * 100);
     });
 
-    // Animación para tarjetas de proyectos
     const projectCards = document.querySelectorAll('.project-card');
     projectCards.forEach((card, index) => {
         setTimeout(() => {
@@ -551,11 +501,7 @@ function initAnimations() {
         }, index * 100);
     });
 
-    // Efecto de escritura para el título
     animateTitle();
-
-    // Iniciar animaciones de habilidades
-    initSkillsAnimation();
 }
 
 function animateTitle() {
@@ -577,50 +523,13 @@ function animateTitle() {
     }, 100);
 }
 
-function initSkillsAnimation() {
-    const skillBars = document.querySelectorAll('.skill-progress');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const skillBar = entry.target;
-                const level = skillBar.getAttribute('data-level');
-                skillBar.style.width = level + '%';
-                skillBar.style.animation = 'fillBar 2s ease-out';
-            }
-        });
-    }, { threshold: 0.5 });
-
-    skillBars.forEach(bar => {
-        observer.observe(bar);
-    });
-}
-
-// ===== PWA SERVICE WORKER =====
-function registerServiceWorker() {
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js')
-            .then(registration => {
-                console.log('SW registered: ', registration);
-                
-                // Verificar actualizaciones periódicamente
-                setInterval(() => {
-                    registration.update();
-                }, 3600000); // Cada hora
-            })
-            .catch(registrationError => {
-                console.log('SW registration failed: ', registrationError);
-            });
-    }
-}
-
 // ===== SEGURIDAD Y MONITOREO =====
 function initSecurityMonitoring() {
-    // Monitorizar cambios en el DOM para detectar inyecciones
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             if (mutation.addedNodes.length) {
                 mutation.addedNodes.forEach((node) => {
-                    if (node.nodeType === 1) { // Element node
+                    if (node.nodeType === 1) {
                         checkNodeSecurity(node);
                     }
                 });
@@ -633,27 +542,17 @@ function initSecurityMonitoring() {
         subtree: true
     });
 
-    // Protección contra iframe embedding
-    if (window !== window.top) {
-        window.top.location = window.location;
-    }
-
-    // Deshabilitar console en producción
-    if (window.location.hostname !== 'localhost') {
-        console.log = function() {};
-        console.warn = function() {};
-        console.error = function() {};
+    if (window.self !== window.top) {
+        window.top.location = window.self.location;
     }
 }
 
 function checkNodeSecurity(node) {
-    // Detectar scripts inyectados
     if (node.tagName === 'SCRIPT' && !node.src) {
         node.remove();
         showNotification('⚠️ Actividad sospechosa detectada y bloqueada', 'warning');
     }
 
-    // Detectar iframes
     if (node.tagName === 'IFRAME') {
         node.remove();
         showNotification('⚠️ Iframes no permitidos por seguridad', 'warning');
@@ -666,8 +565,6 @@ function openModal(id) {
     if (modal) {
         modal.classList.add('show');
         document.body.style.overflow = 'hidden';
-        
-        // Bloquear la tecla ESC para modales
         document.addEventListener('keydown', handleModalEscape);
     }
 }
@@ -690,7 +587,6 @@ function handleModalEscape(event) {
     }
 }
 
-// Cerrar modal al hacer clic fuera del contenido
 window.onclick = function(event) {
     const modals = document.getElementsByClassName('modal');
     for (let modal of modals) {
@@ -702,7 +598,7 @@ window.onclick = function(event) {
 
 // ===== SCROLL ANIMATIONS =====
 function checkScroll() {
-    const elements = document.querySelectorAll('.timeline-item, .certificate-card, .project-card, .skill-category');
+    const elements = document.querySelectorAll('.timeline-item, .certificate-card, .project-card');
     
     elements.forEach(element => {
         const position = element.getBoundingClientRect();
@@ -715,7 +611,6 @@ function checkScroll() {
 
 // ===== SIMULACIÓN DE EMAIL =====
 function simulateEmailNotification(formData) {
-    // En un entorno real, aquí se conectaría a un servicio de email
     console.log('Simulando envío de email:', {
         to: 'santiagorfernandezcv@gmail.com',
         subject: 'Nuevo mensaje del portfolio',
@@ -740,3 +635,24 @@ setTimeout(() => {
     console.log('Portfolio cargado completamente ✅');
     showNotification('Bienvenido al portfolio de Santiago', 'success');
 }, 1000);
+
+// ===== POLYFILLS PARA COMPATIBILIDAD =====
+if (!NodeList.prototype.forEach) {
+    NodeList.prototype.forEach = Array.prototype.forEach;
+}
+
+if (!Element.prototype.matches) {
+    Element.prototype.matches = Element.prototype.msMatchesSelector || 
+                                Element.prototype.webkitMatchesSelector;
+}
+
+// ===== MANEJO DE ERRORES GLOBAL =====
+window.addEventListener('error', function(e) {
+    console.error('Error global capturado:', e.error);
+    showNotification('Se produjo un error inesperado. Por favor, recarga la página.', 'error');
+});
+
+window.addEventListener('unhandledrejection', function(e) {
+    console.error('Promise rechazada:', e.reason);
+    e.preventDefault();
+});

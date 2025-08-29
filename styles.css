@@ -101,6 +101,10 @@ header {
     text-align: center;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 header::before {
@@ -120,7 +124,7 @@ header::before {
     border-radius: 50%;
     object-fit: cover;
     border: 5px solid rgba(255, 255, 255, 0.3);
-    margin-bottom: 1rem;
+    margin: 0 auto 1rem auto;
     transition: all 0.3s ease;
     animation: pulse 2s infinite;
     background: linear-gradient(45deg, var(--primary), var(--secondary));
@@ -165,6 +169,15 @@ section.visible {
 section:nth-child(even) {
     background-color: white;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    color: #222; /* Color más oscuro para mejor contraste */
+}
+
+section:nth-child(even) h2,
+section:nth-child(even) .about-content,
+section:nth-child(even) .timeline-content,
+section:nth-child(even) .certificate-content,
+section:nth-child(even) .project-content {
+    color: #222;
 }
 
 h2 {
@@ -243,6 +256,7 @@ h2:hover::after {
     border-radius: 6px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    color: #222;
 }
 
 .timeline-content:hover {
@@ -328,6 +342,7 @@ h2:hover::after {
     position: relative;
     z-index: 1;
     background: white;
+    color: #222;
 }
 
 .certificate-title {
@@ -383,6 +398,7 @@ h2:hover::after {
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
     transform: scale(0.9);
     transition: transform 0.3s ease;
+    color: #222;
 }
 
 .modal.show .modal-content {
@@ -452,6 +468,7 @@ h2:hover::after {
 
 .project-content {
     padding: 1.5rem;
+    color: #222;
 }
 
 .project-title {
@@ -504,6 +521,7 @@ h2:hover::after {
     align-items: center;
     margin-bottom: 1rem;
     transition: transform 0.3s ease;
+    color: #222;
 }
 
 .contact-item:hover {
@@ -703,32 +721,18 @@ footer {
     text-align: center;
     border: 1px solid #ddd;
     transition: background-color 0.3s ease;
+    color: #222;
+    background-color: #fff;
 }
 
 .language-table th {
     background-color: var(--secondary);
-    color: white;
-    position: relative;
-    overflow: hidden;
-}
-
-.language-table th::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transform: translateX(-100%);
+    color: #fff;
 }
 
 .language-table tr:nth-child(even) {
     background-color: #f2f2f2;
-}
-
-.language-table tr:hover td {
-    background-color: rgba(52, 152, 219, 0.1);
+    color: #222;
 }
 
 /* Panel de administración */
@@ -774,6 +778,20 @@ footer {
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+/* Experiencia laboral: letras blancas */
+#experiencia,
+.experiencia {
+    color: #fff;
+}
+#experiencia h2,
+#experiencia h3,
+#experiencia p,
+.experiencia h2,
+.experiencia h3,
+.experiencia p {
+    color: #fff;
 }
 
 /* Responsive */
@@ -903,17 +921,44 @@ footer {
     
     section:nth-child(even) {
         background-color: #34495e;
+        color: #ecf0f1;
     }
     
     .timeline-content,
     .certificate-card,
-    .project-card {
+    .project-card,
+    .certificate-content,
+    .project-content {
         background: #34495e;
         color: #ecf0f1;
     }
     
-    .certificate-content {
-        background: #34495e;
+    .language-table th, .language-table td {
+        color: #ecf0f1;
+        background-color: #34495e;
+    }
+    
+    .language-table th {
+        background-color: var(--secondary);
+        color: #fff;
+    }
+    
+    .language-table tr:nth-child(even) {
+        background: #2c3e50;
+        color: #ecf0f1;
+    }
+    
+    .modal-content {
+        color: #ecf0f1;
+        background-color: #34495e;
+    }
+    
+    .contact-item {
+        color: #ecf0f1;
+    }
+    
+    .contact-item i {
+        color: var(--secondary);
     }
 }
 
