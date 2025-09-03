@@ -23,8 +23,8 @@ const translations = {
         'language-levels': 'Niveles: A1 y A2 (usuario básico), B1 y B2 (usuario independiente), C1 y C2 (usuario competente)',
         
         'projects-title': 'Proyectos',
-        'project-desc-1': 'Desarrollo de soluciones en la nube con AWS y Azure para optimización de recursos.',
-        'project-desc-2': 'Implementación de scripts en Python para análisis y visualización de datos.',
+        'project-desc-1': 'File Integrity Monitor es una herramienta desarrollada en Python para la monitorización de integridad de archivos.',
+        'project-desc-2': 'Encryptador es una aplicación en React + Vite que permite encriptar y desencriptar información de manera local',
         'project-desc-3': 'Proyectos de fotogrametría y mapeo con drones para diferentes aplicaciones.',
         'project-link': 'Ver detalles',
         
@@ -75,8 +75,8 @@ const translations = {
         'language-levels': 'Levels: A1 and A2 (basic user), B1 and B2 (independent user), C1 and C2 (proficient user)',
         
         'projects-title': 'Projects',
-        'project-desc-1': 'Development of cloud solutions with AWS and Azure for resource optimization.',
-        'project-desc-2': 'Implementation of Python scripts for data analysis and visualization.',
+        'project-desc-1': 'File Integrity Monitor is a tool developed in Python for file integrity monitoring.',
+        'project-desc-2': 'Encryptador is a React + Vite application that allows you to encrypt and decrypt information locally.',
         'project-desc-3': 'Photogrammetry and mapping projects with drones for various applications.',
         'project-link': 'View details',
         
