@@ -1,622 +1,111 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - Portfolio Santiago Reguero</title>
-    
-    <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com/ajax/libs; img-src 'self' data:; font-src 'self' https://cdnjs.cloudflare.com/ajax/libs; connect-src 'self'">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="Referrer-Policy" content="no-referrer">
-    <meta name="robots" content="noindex, nofollow">
-
-    <!-- Preload y Preconnect -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax/libs">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com/ajax/libs">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <link rel="stylesheet" href="admin.css">
-    <script src="admin.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🔐 Panel de Administración</title>
+  <link rel="stylesheet" href="css/style-admin.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
 </head>
 <body>
-    <!-- Overlay de seguridad -->
-    <div id="securityOverlay" class="security-overlay">
-        <div class="security-check">
-            <div class="security-spinner"></div>
-            <h3>Verificando seguridad...</h3>
-            <p>Protegiendo el panel de administración</p>
-        </div>
+  <div class="admin-container" id="loginForm">
+    <h2><i class="fas fa-user-shield"></i> Acceso al Panel</h2>
+    <input type="email" id="email" placeholder="Tu correo" />
+    <input type="password" id="password" placeholder="Contraseña" />
+    <button onclick="login()">Iniciar Sesión</button>
+    <p id="error" style="color: #f05454; display: none; margin-top: 10px;"></p>
+  </div>
+
+  <div class="admin-container" id="adminPanel" style="display: none;">
+    <h2>🛡️ Panel de Administración</h2>
+    <p>Bienvenido, Santiago. Control total del portafolio.</p>
+
+    <!-- PESTAÑAS -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="stats"><i class="fas fa-chart-line"></i> Estadísticas</button>
+      <button class="tab-btn" data-tab="messages"><i class="fas fa-envelope"></i> Mensajes</button>
+      <button class="tab-btn" data-tab="logs"><i class="fas fa-network-wired"></i> Registros IP</button>
+      <button class="tab-btn" data-tab="firewall"><i class="fas fa-shield-alt"></i> Firewall</button>
+      <button class="tab-btn" data-tab="config"><i class="fas fa-cog"></i> Configuración</button>
+      <button class="tab-btn" data-tab="export"><i class="fas fa-file-export"></i> Exportar</button>
     </div>
 
-    <!-- Contenedor de login -->
-    <div class="login-container" id="loginContainer">
-        <div class="login-form">
-            <div class="login-header">
-                <div class="security-badge">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>Acceso Seguro</span>
-                </div>
-                <h2><i class="fas fa-lock"></i> Acceso Administrativo</h2>
-                <p>Panel de administración del portfolio</p>
-            </div>
+    <!-- CONTENIDO DE PESTAÑAS -->
+    <div id="tab-content">
+      <!-- ESTADÍSTICAS -->
+      <div class="tab-pane active" id="stats-pane">
+        <h3><i class="fas fa-eye"></i> Visitas</h3>
+        <p>Visitas totales: <strong id="visitCount">0</strong></p>
+        <p>Última visita: <span id="lastVisit">Nunca</span></p>
+      </div>
 
-            <form id="adminLoginForm" class="login-form-content">
-                <div class="form-group">
-                    <label for="username">
-                        <i class="fas fa-user"></i> Usuario
-                    </label>
-                    <input type="text" id="username" required autocomplete="off" maxlength="20" 
-                           pattern="[A-Za-z0-9]+" title="Solo letras y números">
-                    <div class="input-security">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="password">
-                        <i class="fas fa-key"></i> Contraseña
-                    </label>
-                    <input type="password" id="password" required autocomplete="off" maxlength="20"
-                           pattern="[A-Za-z0-9]+" title="Solo letras y números">
-                    <div class="input-security">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="password-strength">
-                        <div class="strength-bar"></div>
-                    </div>
-                </div>
-
-                <div class="form-options">
-                    <div class="captcha-container">
-                        <div class="captcha">
-                            <span id="captchaText">ABCD</span>
-                            <button type="button" onclick="generateCaptcha()" class="captcha-refresh">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
-                        </div>
-                        <input type="text" id="captchaInput" placeholder="Ingresa el código" required 
-                               maxlength="4" pattern="[A-Z0-9]+">
-                    </div>
-                </div>
-
-                <button type="submit" class="login-btn">
-                    <i class="fas fa-sign-in-alt"></i>
-                    <span>Iniciar Sesión Segura</span>
-                    <div class="login-loader"></div>
-                </button>
-
-                <div class="login-security">
-                    <div class="security-indicators">
-                        <div class="indicator ssl">
-                            <i class="fas fa-lock"></i>
-                            <span>Conexión Segura</span>
-                        </div>
-                        <div class="indicator encryption">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>Datos Encriptados</span>
-                        </div>
-                    </div>
-                </div>
-            </form>
-
-            <div class="login-footer">
-                <p class="error-message" id="errorMessage"></p>
-                <div class="attempts-counter">
-                    <span>Intentos restantes: <span id="attemptsLeft">3</span></span>
-                </div>
-                <a href="index.html" class="back-link">
-                    <i class="fas fa-arrow-left"></i> Volver al Portfolio
-                </a>
-            </div>
+      <!-- MENSAJES -->
+      <div class="tab-pane" id="messages-pane">
+        <h3><i class="fas fa-inbox"></i> Mensajes Recibidos</h3>
+        <div id="messagesList" class="log-list">
+          <em>Cargando mensajes...</em>
         </div>
+      </div>
 
-        <!-- Monitor de actividad sospechosa -->
-        <div class="security-monitor" id="securityMonitor">
-            <div class="monitor-header">
-                <i class="fas fa-radar"></i>
-                <span>Monitor de Seguridad</span>
-            </div>
-            <div class="monitor-content">
-                <div class="security-event">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Sistema de protección activado</span>
-                </div>
-            </div>
+      <!-- REGISTROS IP -->
+      <div class="tab-pane" id="logs-pane">
+        <h3><i class="fas fa-list"></i> Historial de IPs</h3>
+        <div id="ipLog" class="log-list">
+          <em>Cargando registros...</em>
         </div>
+      </div>
+
+      <!-- FIREWALL -->
+      <div class="tab-pane" id="firewall-pane">
+        <h3><i class="fas fa-user-secret"></i> Seguridad de Acceso</h3>
+        <p>Intentos fallidos: <strong id="failedAttempts">0</strong></p>
+        <p>Intentos exitosos: <strong id="successAttempts">0</strong></p>
+        <p>IPs bloqueadas: <span id="blockedIPs">0</span></p>
+      </div>
+
+      <!-- CONFIGURACIÓN -->
+      <div class="tab-pane" id="config-pane">
+        <h3><i class="fas fa-tools"></i> Estado del Sitio</h3>
+        <button id="maintenanceBtn" onclick="toggleMaintenance()">
+          <span id="maintenanceStatus">Cargando...</span>
+        </button>
+        <p id="maintenanceMsg" style="margin-top: 10px; font-size: 0.9em; color: #ccc;"></p>
+        <h4 style="margin-top: 20px;"><i class="fas fa-clock"></i> Tareas Programadas</h4>
+        <p>Próxima ejecución: <strong>Lunes a las 12:00 PM</strong></p>
+        <p><small>Backup semanal y limpieza de logs</small></p>
+      </div>
+
+      <!-- EXPORTAR -->
+      <div class="tab-pane" id="export-pane">
+        <h3><i class="fas fa-download"></i> Exportar Datos</h3>
+        <button onclick="exportAllData()">
+          <i class="fas fa-file-archive"></i> Exportar Todo (JSON)
+        </button>
+        <p style="margin-top: 8px; font-size: 0.9em; color: #aaa;">Incluye: CV, mensajes, logs, configuración</p>
+      </div>
     </div>
 
-    <!-- Contenedor principal de administración -->
-    <div class="admin-container" id="adminContainer" style="display: none;">
-        <!-- Header de administración -->
-        <header class="admin-header">
-            <div class="admin-header-left">
-                <h1>
-                    <i class="fas fa-shield-alt"></i>
-                    Panel de Administración
-                </h1>
-                <div class="admin-status">
-                    <span class="status-online"></span>
-                    <span>Sesión segura activa</span>
-                </div>
-            </div>
+    <!-- BOTÓN DE CIERRE -->
+    <button onclick="logout()" style="width: 100%; margin-top: 20px; background: #f05454;">
+      <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+    </button>
+  </div>
 
-            <div class="admin-actions">
-                <div class="session-info">
-                    <i class="fas fa-clock"></i>
-                    <span id="sessionTimer">30:00</span>
-                </div>
-                <div class="user-info">
-                    <i class="fas fa-user-shield"></i>
-                    <span>Administrador</span>
-                </div>
-                <button onclick="refreshData()" class="btn-refresh" title="Actualizar datos">
-                    <i class="fas fa-sync-alt"></i>
-                </button>
-                <button onclick="exportData()" class="btn-export" title="Exportar datos">
-                    <i class="fas fa-download"></i>
-                </button>
-                <button onclick="toggleSecurityMode()" class="btn-security" title="Modo seguridad">
-                    <i class="fas fa-shield-alt"></i>
-                </button>
-                <button onclick="logout()" class="btn-logout" title="Cerrar sesión">
-                    <i class="fas fa-sign-out-alt"></i>
-                </button>
-            </div>
-        </header>
-
-        <!-- Sistema de notificaciones de seguridad -->
-        <div class="security-alerts" id="securityAlerts">
-            <div class="alert-header">
-                <i class="fas fa-bell"></i>
-                <span>Alertas de Seguridad</span>
-                <span class="alert-count">0</span>
-            </div>
-            <div class="alert-content">
-                <div class="alert-item info">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Sistema de administración inicializado</span>
-                </div>
-            </div>
-        </div>
-
-        <main class="admin-main">
-            <!-- Estadísticas principales -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-eye"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>Total de Visitas</h3>
-                        <p id="totalVisits">0</p>
-                        <span class="stat-trend" id="visitsTrend">+0%</span>
-                    </div>
-                    <div class="stat-security">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>Mensajes Recibidos</h3>
-                        <p id="totalMessages">0</p>
-                        <span class="stat-trend" id="messagesTrend">+0%</span>
-                    </div>
-                    <div class="stat-security">
-                        <i class="fas fa-comment-dots"></i>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>Última Visita</h3>
-                        <p id="lastVisit">-</p>
-                        <span class="stat-trend" id="lastVisitAgo">Ahora</span>
-                    </div>
-                    <div class="stat-security">
-                        <i class="fas fa-history"></i>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-calendar"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>Visitas Hoy</h3>
-                        <p id="visitsToday">0</p>
-                        <span class="stat-trend" id="todayTrend">+0%</span>
-                    </div>
-                    <div class="stat-security">
-                        <i class="fas fa-calendar-day"></i>
-                    </div>
-                </div>
-
-                <div class="stat-card security">
-                    <div class="stat-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>Intentos Fallidos</h3>
-                        <p id="failedAttempts">0</p>
-                        <span class="stat-trend" id="attemptsTrend">0 hoy</span>
-                    </div>
-                    <div class="stat-security">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                </div>
-
-                <div class="stat-card performance">
-                    <div class="stat-icon">
-                        <i class="fas fa-tachometer-alt"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>Rendimiento</h3>
-                        <p id="performanceScore">100%</p>
-                        <span class="stat-trend" id="performanceTrend">Óptimo</span>
-                    </div>
-                    <div class="stat-security">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pestañas de navegación -->
-            <div class="admin-tabs">
-                <button class="tab-button active" onclick="showTab('visits')" data-tab="visits" id="tabBtnVisits">
-                    <img src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/svgs/solid/users.svg" alt="Visitas" style="width:20px;height:20px;vertical-align:middle;margin-right:8px;">
-                    <span>Registro de Visitas</span>
-                    <span class="tab-badge" id="visitsBadge">0</span>
-                </button>
-
-                <button class="tab-button" onclick="showTab('messages')" data-tab="messages" id="tabBtnMessages">
-                    <img src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/svgs/solid/envelope.svg" alt="Mensajes" style="width:20px;height:20px;vertical-align:middle;margin-right:8px;">
-                    <span>Mensajes de Contacto</span>
-                    <span class="tab-badge" id="messagesBadge">0</span>
-                </button>
-
-                <button class="tab-button" onclick="showTab('security')" data-tab="security" id="tabBtnSecurity">
-                    <img src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/svgs/solid/shield-alt.svg" alt="Seguridad" style="width:20px;height:20px;vertical-align:middle;margin-right:8px;">
-                    <span>Seguridad</span>
-                    <span class="tab-badge" id="securityBadge">0</span>
-                </button>
-
-                <button class="tab-button" onclick="showTab('settings')" data-tab="settings" id="tabBtnSettings">
-                    <img src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/svgs/solid/cog.svg" alt="Configuración" style="width:20px;height:20px;vertical-align:middle;margin-right:8px;">
-                    <span>Configuración</span>
-                </button>
-            </div>
-
-            <!-- Contenido de pestañas -->
-            <div class="tab-content active" id="visitsTab">
-                <div class="tab-header">
-                    <h3><i class="fas fa-users"></i> Registro de Visitas</h3>
-                    <div class="tab-actions">
-                        <div class="search-box">
-                            <i class="fas fa-search"></i>
-                            <input type="text" id="visitsSearch" placeholder="Buscar visitas..." 
-                                   oninput="filterVisits()">
-                        </div>
-                        <button onclick="clearVisitsFilter()" class="btn-clear">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="table-container">
-                    <table class="data-table" id="visitsTable">
-                        <thead>
-                            <tr>
-                                <th data-sort="timestamp" onclick="sortTable('visits', 'timestamp')">
-                                    Fecha/Hora <i class="fas fa-sort"></i>
-                                </th>
-                                <th data-sort="ip" onclick="sortTable('visits', 'ip')">
-                                    IP <i class="fas fa-sort"></i>
-                                </th>
-                                <th data-sort="browser" onclick="sortTable('visits', 'browser')">
-                                    Navegador <i class="fas fa-sort"></i>
-                                </th>
-                                <th data-sort="page" onclick="sortTable('visits', 'page')">
-                                    Página <i class="fas fa-sort"></i>
-                                </th>
-                                <th data-sort="referrer" onclick="sortTable('visits', 'referrer')">
-                                    Origen <i class="fas fa-sort"></i>
-                                </th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="visitsTableBody">
-                            <tr class="loading-row">
-                                <td colspan="6">
-                                    <div class="loading-spinner"></div>
-                                    <span>Cargando visitas...</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="table-footer">
-                    <div class="pagination-info">
-                        Mostrando <span id="visitsShowing">0</span> de <span id="visitsTotal">0</span> visitas
-                    </div>
-                    <div class="pagination-controls">
-                        <button onclick="prevPage('visits')" class="pagination-btn" disabled>
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <span class="pagination-page">1</span>
-                        <button onclick="nextPage('visits')" class="pagination-btn" disabled>
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-content" id="messagesTab">
-                <div class="tab-header">
-                    <h3><i class="fas fa-envelope"></i> Mensajes de Contacto</h3>
-                    <div class="tab-actions">
-                        <div class="search-box">
-                            <i class="fas fa-search"></i>
-                            <input type="text" id="messagesSearch" placeholder="Buscar mensajes..." 
-                                   oninput="filterMessages()">
-                        </div>
-                        <button onclick="exportMessages()" class="btn-export">
-                            <i class="fas fa-download"></i> Exportar
-                        </button>
-                    </div>
-                </div>
-
-                <div class="table-container">
-                    <table class="data-table" id="messagesTable">
-                        <thead>
-                            <tr>
-                                <th data-sort="timestamp" onclick="sortTable('messages', 'timestamp')">
-                                    Fecha/Hora <i class="fas fa-sort"></i>
-                                </th>
-                                <th data-sort="name" onclick="sortTable('messages', 'name')">
-                                    Nombre <i class="fas fa-sort"></i>
-                                </th>
-                                <th data-sort="email" onclick="sortTable('messages', 'email')">
-                                    Email <i class="fas fa-sort"></i>
-                                </th>
-                                <th data-sort="message" onclick="sortTable('messages', 'message')">
-                                    Mensaje <i class="fas fa-sort"></i>
-                                </th>
-                                <th>IP</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="messagesTableBody">
-                            <tr class="loading-row">
-                                <td colspan="6">
-                                    <div class="loading-spinner"></div>
-                                    <span>Cargando mensajes...</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="table-footer">
-                    <div class="pagination-info">
-                        Mostrando <span id="messagesShowing">0</span> de <span id="messagesTotal">0</span> mensajes
-                    </div>
-                    <div class="pagination-controls">
-                        <button onclick="prevPage('messages')" class="pagination-btn" disabled>
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <span class="pagination-page">1</span>
-                        <button onclick="nextPage('messages')" class="pagination-btn" disabled>
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-content" id="securityTab">
-                <div class="tab-header">
-                    <h3><i class="fas fa-shield-alt"></i> Panel de Seguridad</h3>
-                    <div class="tab-actions">
-                        <button onclick="runSecurityScan()" class="btn-scan">
-                            <i class="fas fa-radar"></i> Escanear Ahora
-                        </button>
-                    </div>
-                </div>
-
-                <div class="security-dashboard">
-                    <div class="security-stats">
-                        <div class="security-stat">
-                            <div class="stat-icon critical">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h4>Alertas Críticas</h4>
-                                <p id="criticalAlerts">0</p>
-                            </div>
-                        </div>
-
-                        <div class="security-stat">
-                            <div class="stat-icon warning">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h4>Advertencias</h4>
-                                <p id="warningAlerts">0</p>
-                            </div>
-                        </div>
-
-                        <div class="security-stat">
-                            <div class="stat-icon success">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h4>Elementos Seguros</h4>
-                                <p id="secureItems">0</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="security-logs">
-                        <h4>Últimos Eventos de Seguridad</h4>
-                        <div class="logs-container" id="securityLogs">
-                            <div class="log-entry">
-                                <i class="fas fa-info-circle"></i>
-                                <span>Sistema de seguridad inicializado</span>
-                                <span class="log-time">Ahora</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="security-actions">
-                        <h4>Acciones de Seguridad</h4>
-                        <div class="action-buttons">
-                            <button onclick="clearAllData()" class="btn-danger">
-                                <i class="fas fa-trash"></i> Limpiar Todos los Datos
-                            </button>
-                            <button onclick="backupData()" class="btn-success">
-                                <i class="fas fa-database"></i> Crear Backup
-                            </button>
-                            <button onclick="viewAuditLog()" class="btn-info">
-                                <i class="fas fa-history"></i> Ver Log de Auditoría
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-content" id="settingsTab">
-                <div class="tab-header">
-                    <h3><i class="fas fa-cog"></i> Configuración del Sistema</h3>
-                </div>
-
-                <div class="settings-panel">
-                    <div class="setting-group">
-                        <h4>Preferencias de Seguridad</h4>
-                        
-                        <div class="setting-item">
-                            <label>
-                                <input type="checkbox" id="autoLogout" checked>
-                                Cierre de sesión automático (30 min)
-                            </label>
-                        </div>
-
-                        <div class="setting-item">
-                            <label>
-                                <input type="checkbox" id="emailNotifications" checked>
-                                Notificaciones por email
-                            </label>
-                        </div>
-
-                        <div class="setting-item">
-                            <label>
-                                <input type="checkbox" id="securityScan" checked>
-                                Escaneo de seguridad automático
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="setting-group">
-                        <h4>Configuración de Datos</h4>
-                        
-                        <div class="setting-item">
-                            <label>Límite de visitas almacenadas:</label>
-                            <select id="visitsLimit">
-                                <option value="100">100 visitas</option>
-                                <option value="500" selected>500 visitas</option>
-                                <option value="1000">1000 visitas</option>
-                            </select>
-                        </div>
-
-                        <div class="setting-item">
-                            <label>Límite de mensajes almacenados:</label>
-                            <select id="messagesLimit">
-                                <option value="50">50 mensajes</option>
-                                <option value="100" selected>100 mensajes</option>
-                                <option value="200">200 mensajes</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="setting-actions">
-                        <button onclick="saveSettings()" class="btn-save">
-                            <i class="fas fa-save"></i> Guardar Configuración
-                        </button>
-                        <button onclick="resetSettings()" class="btn-reset">
-                            <i class="fas fa-undo"></i> Restablecer
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Footer de administración -->
-        <footer class="admin-footer">
-            <div class="footer-info">
-                <p>&copy; 2023 Santiago Reguero Fernández - Sistema de Administración</p>
-                <p>Sesión iniciada: <span id="sessionStart">-</span></p>
-            </div>
-            <div class="footer-stats">
-                <span>Uso de memoria: <span id="memoryUsage">0 MB</span></span>
-                <span>Tiempo de carga: <span id="loadTime">0ms</span></span>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Modal de confirmación -->
-    <div id="confirmModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="confirmTitle">Confirmar acción</h3>
-                <span class="close" onclick="closeModal('confirmModal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p id="confirmMessage">¿Estás seguro de que quieres realizar esta acción?</p>
-            </div>
-            <div class="modal-footer">
-                <button onclick="closeModal('confirmModal')" class="btn-cancel">Cancelar</button>
-                <button onclick="confirmAction()" class="btn-confirm">Confirmar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de detalles -->
-    <div id="detailsModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="detailsTitle">Detalles</h3>
-                <span class="close" onclick="closeModal('detailsModal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <pre id="detailsContent"></pre>
-            </div>
-        </div>
-    </div>
-
-    <!-- Script de seguridad -->
-    <script>
-        // Script inicial de seguridad
-        function initializeSecurity() {
-            console.log('Sistema de seguridad inicializado');
-            
-            // Prevenir acceso directo al admin.html
-            if (window === window.top) {
-                document.getElementById('securityOverlay').style.display = 'none';
-            } else {
-                window.top.location = window.location;
-            }
-        }
-
-        // Inicializar cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', initializeSecurity);
-    </script>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDdSYZKLswQn9EROpZ8SekOvFtTWr3rYUQ",
+      authDomain: "mi-portafolio-admin.firebaseapp.com",
+      projectId: "mi-portafolio-admin",
+      storageBucket: "mi-portafolio-admin.firebasestorage.app",
+      messagingSenderId: "593564928013",
+      appId: "1:593564928013:web:3f7c3a9e0da743abaead44"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script src="js/admin.js"></script>
 </body>
 </html>

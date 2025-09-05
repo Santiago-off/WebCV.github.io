@@ -1,523 +1,162 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Santiago Reguero Fernández - Portfolio</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Portfolio de Santiago Reguero Fernández - Especialista en Programación, Cloud Computing, Ciberseguridad y Pilotaje de Drones">
-    <meta name="keywords" content="programación, cloud computing, cybersecurity, drones, portfolio, desarrollador">
-    <meta name="author" content="Santiago Reguero Fernández">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://tuusuario.github.io">
-
-    <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com/ajax/libs https://api.ipify.org; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com/ajax/libs; img-src 'self' data: https:; connect-src 'self' https://api.ipify.org; font-src 'self' https://cdnjs.cloudflare.com/ajax/libs;">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-
-    <!-- Preload para mejor rendimiento -->
-    <link rel="preload" as="image" href="https://via.placeholder.com/150/2c3e50/ffffff?text=SR">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com/ajax/libs">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com/ajax/libs">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
-    <script src="language-switcher.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Santiago Reguero Fernández | Portafolio</title>
+  <link rel="stylesheet" href="css/style-index.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
-    <!-- Status Banner -->
-    <div class="status-banner">
-        <i class="fas fa-circle"></i>
-        <span data-translate="status-available">Disponible para oportunidades laborales y proyectos freelance</span>
-    </div>
+  <div class="cursor-follower"></div>
+  <div class="color-bar"></div>
+  <div id="webgl-background"></div>
 
-    <header>
-        <div class="container">
-            <!-- Las banderas se insertarán automáticamente aquí por JavaScript -->
-            <img src="Foto.png" alt="Santiago Reguero Fernández" class="profile-img" loading="eager">
-            <h1>Santiago Reguero Fernández</h1>
-            <p class="tagline" data-translate="tagline">Especialista en Programación, Cloud Computing, Ciberseguridad y Pilotaje de Drones</p>
-            <p data-translate="birthdate">Fecha de nacimiento: 27/04/2007 | Nacionalidad: Española | Género: Masculino</p>
-        </div>
-    </header>
+  <header id="home">
+    <h1><span class="text-animate">Santiago Reguero Fernández</span></h1>
+    <p><span class="typing-text"></span></p>
+  </header>
 
-    <section id="about">
-        <div class="container">
-            <h2 data-translate="about-title">Sobre Mí</h2>
-            <div class="about-content">
-                <p data-translate="about-content-1">Estudiante de informática con habilidades en programación y análisis de datos. Con experiencia en proyectos de desarrollo en Cloud y capacidad para trabajar en equipo de manera eficiente y colaborativa.</p>
-                <p data-translate="about-content-2">Mi pasión por la tecnología me ha llevado a formarme en diversas áreas como programación, inteligencia artificial, ciberseguridad, cloud computing y pilotaje de drones. Busco oportunidades para aplicar mis conocimientos y continuar desarrollándome profesionalmente.</p>
-            </div>
-        </div>
+  <nav id="main-nav">
+    <a href="#home" data-color="#00f5d4">Inicio</a>
+    <a href="#sobre-mi" data-color="#7b2cbf">Sobre Mí</a>
+    <a href="#proyectos" data-color="#e91e63">Proyectos</a>
+    <a href="#experiencia" data-color="#ff9500">Experiencia</a>
+    <a href="#educacion" data-color="#7ed957">Educación</a>
+    <a href="#competencias-tecnicas" data-color="#6f42c1">Competencias</a>
+    <a href="#competencias" data-color="#29c7c9">Idiomas</a>
+    <a href="#contacto" data-color="#f05454">Contacto</a>
+    <a href="admin.html" class="btn-admin">🔐 Admin</a>
+  </nav>
+
+  <main>
+    <section id="sobre-mi">
+      <h2><span class="section-title">Sobre mí</span></h2>
+      <p>Estudiante de informática con habilidades en programación y análisis de datos. Con experiencia en proyectos de desarrollo en Cloud y en pilotaje de drones, además de capacidad para trabajar en equipo de manera eficiente y colaborativa.</p>
+      <p>Mi pasión por la tecnología me ha llevado a formarme en diversas áreas como programación, inteligencia artificial, ciberseguridad, cloud computing y pilotaje de drones. Busco oportunidades para aplicar mis conocimientos y continuar desarrollándome profesionalmente.</p>
     </section>
 
-    <section id="experience">
-        <div class="container">
-            <h2 data-translate="experience-title">Experiencia Laboral</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3 data-translate="armonia-title">ARMONIA – SALERNO, ITALIA</h3>
-                        <p><strong data-translate="armonia-position">Programador</strong></p>
-                        <p data-translate="armonia-date">18/03/2025 – 16/06/2025</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3 data-translate="hosting-title">SOPORTE DE HOSTING (ONLINE)</h3>
-                        <p><strong data-translate="hosting-location">Madrid, España</strong></p>
-                        <p data-translate="hosting-date">05/2022 – 09/2023</p>
-                    </div>
-                </div>
+    <section id="proyectos">
+      <h2><span class="section-title">Proyectos Destacados</span></h2>
+      <div class="projects-grid">
+        <div class="project-card" data-github="https://github.com/Santiago-off/File-Integrity-Monitor.git">
+          <div class="card-content">
+            <h3>File-Integrity-Monitor</h3>
+            <p>Monitor de integridad de archivos en Python. Detecta cambios en tiempo real con hashes SHA-256.</p>
+            <span class="tech">Python · SHA-256 · Watchdog · CLI</span>
+            <div class="project-footer">
+              <i class="fab fa-github"></i> <small>Ver código</small>
             </div>
+          </div>
         </div>
+        <div class="project-card" data-github="https://github.com/Santiago-off/Encryptator.git">
+          <div class="card-content">
+            <h3>Encryptator</h3>
+            <p>Aplicación web para encriptar/desencriptar datos localmente con clave personalizada.</p>
+            <span class="tech">React · Vite · AES · JavaScript</span>
+            <div class="project-footer">
+              <i class="fab fa-github"></i> <small>Ver código</small>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section id="education">
-        <div class="container">
-            <h2 data-translate="education-title">Educación y Formación</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>GRADO MEDIO SISTEMAS MICROINFORMÁTICOS Y REDES</h3>
-                        <p>Santa Gema FP, Galgani - Madrid, España</p>
-                        <p class="date">09/2023 – 06/2025</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>EXPERTO UNIVERSITARIO EN CLOUD COMPUTING</h3>
-                        <p>ARQUITECTURA Y SOLUCIONES (AWS Y AZURE) - UNIR</p>
-                        <p class="date">10/2023 – 01/2024</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>INTRODUCCIÓN A CIBERSEGURIDAD</h3>
-                        <p>Cisco Networking Academy - Madrid, España</p>
-                        <p class="date">04/2024 – ACTUAL</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>FUNDAMENTOS DE IA CON IBM SKILLSBUILD</h3>
-                        <p>Cisco Networking Academy - Madrid, España</p>
-                        <p class="date">11/2024 – ACTUAL</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>FUNDAMENTOS DE PYTHON 1</h3>
-                        <p>Cisco Networking Academy - Madrid, España</p>
-                        <p class="date">03/2024 – 11/2024</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>CIBERSEGURIDAD PERSONAL</h3>
-                        <p>BACKTRACK ACADEMY - Madrid, España</p>
-                        <p class="date">12/2020 – 01/2021</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>INTELIGENCIA ARTIFICIAL Y PRODUCTIVIDAD</h3>
-                        <p>Santander Academy - Madrid, España</p>
-                        <p class="date">04/05/2025</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>PILOTO DE DRONES A1/A3</h3>
-                        <p>AESA - Madrid, España</p>
-                        <p class="date">02/07/2025 – 31/07/2025</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>PILOTO DE DRONES A2</h3>
-                        <p>AESA - Madrid, España</p>
-                        <p class="date">02/08/2025 – 28/08/2025</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h3>PILOTO DE DRONES A1/A3/A2/STS01-STS02</h3>
-                        <p>Bai Escuela de drones - Madrid, España</p>
-                        <p class="date">03/07/2025 – ACTUAL</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section id="experiencia">
+      <h2><span class="section-title">Experiencia Laboral</span></h2>
+      <ul class="timeline">
+        <li><strong>Realizando tareas de Programador</strong> – 18/03/2025 – 16/06/2025 | Madrid, España</li>
+        <li><strong>Soporte de hosting (online)</strong> – 05/2022 – 09/2023 | Madrid, España</li>
+        <li><strong>Armonia Salerno</strong> – 09/2023 – 06/2025 | Madrid, España</li>
+        <li><strong>Desarrollo Web Freelance</strong> – 04/2024 – ACTUAL | Madrid, España</li>
+        <li><strong>Proyecto Cloud en AWS</strong> – 03/07/2025 – ACTUAL | Madrid, España</li>
+      </ul>
     </section>
 
-    <section id="certificates">
-        <div class="container">
-            <h2 data-translate="certificates-title">Certificados</h2>
-            <p style="text-align: center; margin-bottom: 2rem;" data-translate="certificates-click">Haz clic en cualquier certificado para verlo en tamaño completo</p>
-            
-            <div class="certificates-grid">
-                <div class="certificate-card" onclick="openModal('cert1')">
-                    <img src="Certificado Universitario UNIR Cloud Computing.png" alt="Certificado de Cloud Computing" class="certificate-img" loading="lazy">
-                    <div class="certificate-content">
-                        <h3 class="certificate-title">Experto Universitario en Cloud Computing</h3>
-                        <p class="certificate-org">UNIR</p>
-                        <p class="certificate-date">Emitido: Enero 2024</p>
-                    </div>
-                </div>
-                
-                <div class="certificate-card" onclick="openModal('cert2')">
-                    <img src="https://via.placeholder.com/600x400/3498db/ffffff?text=Certificado+Ciberseguridad" alt="Certificado de Ciberseguridad" class="certificate-img" loading="lazy">
-                    <div class="certificate-content">
-                        <h3 class="certificate-title">Introducción a Ciberseguridad</h3>
-                        <p class="certificate-org">Cisco Networking Academy</p>
-                        <p class="certificate-date">En curso</p>
-                    </div>
-                </div>
-                
-                <div class="certificate-card" onclick="openModal('cert3')">
-                    <img src="https://via.placeholder.com/600x400/e74c3c/ffffff?text=Certificado+IA" alt="Certificado de IA" class="certificate-img" loading="lazy">
-                    <div class="certificate-content">
-                        <h3 class="certificate-title">Fundamentos de IA con IBM SkillsBuild</h3>
-                        <p class="certificate-org">Cisco Networking Academy</p>
-                        <p class="certificate-date">En curso</p>
-                    </div>
-                </div>
-
-                <div class="certificate-card" onclick="openModal('cert4')">
-                    <img src="Cisco Networking Academy Python 1.png" alt="Certificado de Python" class="certificate-img" loading="lazy">
-                    <div class="certificate-content">
-                        <h3 class="certificate-title">Fundamentos de Python 1</h3>
-                        <p class="certificate-org">Cisco Networking Academy</p>
-                        <p class="certificate-date">Emitido: Noviembre 2024</p>
-                    </div>
-                </div>
-
-                <div class="certificate-card" onclick="openModal('cert5')">
-                    <img src="BackTrack Academy Certificado Ciberseguridad Personal.png" alt="Certificado de Ciberseguridad Personal" class="certificate-img" loading="lazy">
-                    <div class="certificate-content">
-                        <h3 class="certificate-title">Ciberseguridad Personal</h3>
-                        <p class="certificate-org">Backtrack Academy</p>
-                        <p class="certificate-date">Emitido: Enero 2021</p>
-                    </div>
-                </div>
-
-                <div class="certificate-card" onclick="openModal('cert6')">
-                    <img src="Santander Academy Inteligencia Artificial.png" alt="Certificado de IA Google" class="certificate-img" loading="lazy">
-                    <div class="certificate-content">
-                        <h3 class="certificate-title">Inteligencia Artificial y Productividad</h3>
-                        <p class="certificate-org">Santander Academy</p>
-                        <p class="certificate-date">Emitido: Mayo 2025</p>
-                    </div>
-                </div>
-
-                <div class="certificate-card" onclick="openModal('cert7')">
-                    <img src="Certificado UAS.png" alt="Certificado de Piloto de Drones A1/A3" class="certificate-img" loading="lazy">
-                    <div class="certificate-content">
-                        <h3 class="certificate-title">Piloto de Drones A1/A3</h3>
-                        <p class="certificate-org">AESA</p>
-                        <p class="certificate-date">Julio 2025</p>
-                    </div>
-                </div>
-
-                <div class="certificate-card" onclick="openModal('cert8')">
-                    <img src="Certificado UAS.png" alt="Certificado de Piloto de Drones A2" class="certificate-img" loading="lazy">
-                    <div class="certificate-content">
-                        <h3 class="certificate-title">Piloto de Drones A2</h3>
-                        <p class="certificate-org">AESA</p>
-                        <p class="certificate-date">Agosto 2025</p>
-                    </div>
-                </div>
-
-                <div class="certificate-card" onclick="openModal('cert9')">
-                    <img src="https://via.placeholder.com/600x400/8e44ad/ffffff?text=Certificado+Drones+STS" alt="Certificado de Piloto de Drones STS" class="certificate-img" loading="lazy">
-                    <div class="certificate-content">
-                        <h3 class="certificate-title">Piloto de Drones A1/A3/A2/STS01-STS02</h3>
-                        <p class="certificate-org">Bai Escuela de drones</p>
-                        <p class="certificate-date">En curso</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section id="educacion">
+      <h2><span class="section-title">Educación y Formación</span></h2>
+      <ul class="education-list">
+        <li><strong>Grado Medio Sistemas Microinformáticos y Redes</strong> – Santa Gema FP</li>
+        <li><strong>Experto en Cloud Computing (AWS y Azure)</strong> – UNIR</li>
+        <li><strong>Fundamentos de Python 1</strong> – Cisco Networking Academy</li>
+        <li><strong>Piloto de Drones A1/A3 y A2</strong> – AESA / Bai Escuela</li>
+      </ul>
     </section>
 
-    <!-- Modals para certificados -->
-    <div id="cert1" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('cert1')">&times;</span>
-            <img src="Certificado Universitario UNIR Cloud Computing.png" alt="Certificado de Cloud Computing" class="certificate-detail-img">
-            <div class="certificate-details">
-                <h3>Experto Universitario en Cloud Computing</h3>
-                <p><strong>Entidad emisora:</strong> UNIR</p>
-                <p><strong>Fecha de emisión:</strong> Enero 2024</p>
-                <p><strong>Descripción:</strong> Certificación en arquitectura y soluciones de Cloud Computing con AWS y Azure.</p>
-            </div>
+    <!-- NUEVA SECCIÓN: COMPETENCIAS TÉCNICAS -->
+    <section id="competencias-tecnicas">
+      <h2><span class="section-title">Competencias Técnicas</span></h2>
+      <div class="skills-grid">
+        <div class="skill-item">
+          <i class="fab fa-python"></i>
+          <h3>Python</h3>
         </div>
-    </div>
-    
-    <div id="cert2" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('cert2')">&times;</span>
-            <img src="https://via.placeholder.com/800x600/3498db/ffffff?text=Certificado+Ciberseguridad+Completo" alt="Certificado de Ciberseguridad" class="certificate-detail-img">
-            <div class="certificate-details">
-                <h3>Introducción a Ciberseguridad</h3>
-                <p><strong>Entidad emisora:</strong> Cisco Networking Academy</p>
-                <p><strong>Estado:</strong> En curso</p>
-                <p><strong>Descripción:</strong> Formación en conceptos fundamentales de ciberseguridad y protección de sistemas.</p>
-            </div>
+        <div class="skill-item">
+          <i class="fab fa-html5"></i>
+          <h3>HTML</h3>
         </div>
-    </div>
-    
-    <div id="cert3" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('cert3')">&times;</span>
-            <img src="https://via.placeholder.com/800x600/e74c3c/ffffff?text=Certificado+IA+Completo" alt="Certificado de IA" class="certificate-detail-img">
-            <div class="certificate-details">
-                <h3>Fundamentos de IA con IBM SkillsBuild</h3>
-                <p><strong>Entidad emisora:</strong> Cisco Networking Academy</p>
-                <p><strong>Estado:</strong> En curso</p>
-                <p><strong>Descripción:</strong> Certificación en fundamentos de inteligencia artificial con IBM SkillsBuild.</p>
-            </div>
+        <div class="skill-item">
+          <i class="fab fa-css3-alt"></i>
+          <h3>CSS</h3>
         </div>
-    </div>
-
-    <div id="cert4" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('cert4')">&times;</span>
-            <img src="Cisco Networking Academy Python 1.png" alt="Certificado de Python" class="certificate-detail-img">
-            <div class="certificate-details">
-                <h3>Fundamentos de Python 1</h3>
-                <p><strong>Entidad emisora:</strong> Cisco Networking Academy</p>
-                <p><strong>Fecha de emisión:</strong> Noviembre 2024</p>
-                <p><strong>Descripción:</strong> Certificación en fundamentos de programación con Python.</p>
-            </div>
+        <div class="skill-item">
+          <i class="fab fa-js"></i>
+          <h3>JavaScript</h3>
         </div>
-    </div>
-
-    <div id="cert5" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('cert5')">&times;</span>
-            <img src="BackTrack Academy Certificado Ciberseguridad Personal.png" alt="Certificado de Ciberseguridad Personal" class="certificate-detail-img">
-            <div class="certificate-details">
-                <h3>Ciberseguridad Personal</h3>
-                <p><strong>Entidad emisora:</strong> Backtrack Academy</p>
-                <p><strong>Fecha de emisión:</strong> Enero 2021</p>
-                <p><strong>Descripción:</strong> Certificación en ciberseguridad personal y protección de datos.</p>
-            </div>
+        <div class="skill-item">
+          <i class="fas fa-database"></i>
+          <h3>SQL</h3>
         </div>
-    </div>
-
-    <div id="cert6" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('cert6')">&times;</span>
-            <img src="Santander Academy Inteligencia Artificial.png" alt="Certificado de IA Google" class="certificate-detail-img">
-            <div class="certificate-details">
-                <h3>Inteligencia Artificial y Productividad</h3>
-                <p><strong>Entidad emisora:</strong> Santander Academy</p>
-                <p><strong>Fecha de emisión:</strong> Mayo 2025</p>
-                <p><strong>Descripción:</strong> Certificación en inteligencia artificial y productividad con herramientas de Google.</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="cert7" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('cert7')">&times;</span>
-            <img src="Certificado UAS.png" alt="Certificado de Piloto de Drones A1/A3" class="certificate-detail-img">
-            <div class="certificate-details">
-                <h3>Piloto de Drones A1/A3</h3>
-                <p><strong>Entidad emisora:</strong> AESA (Agencia Estatal de Seguridad Aérea)</p>
-                <p><strong>Fecha de emisión:</strong> Julio 2025</p>
-                <p><strong>Descripción:</strong> Certificación oficial como piloto de drones en categorías abiertas A1 y A3 según regulación europea.</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="cert8" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('cert8')">&times;</span>
-            <img src="Certificado UAS.png" alt="Certificado de Piloto de Drones A2" class="certificate-detail-img">
-            <div class="certificate-details">
-                <h3>Piloto de Drones A2</h3>
-                <p><strong>Entidad emisora:</strong> AESA (Agencia Estatal de Seguridad Aérea)</p>
-                <p><strong>Fecha de emisión:</strong> Agosto 2025</p>
-                <p><strong>Descripción:</strong> Certificación oficial como piloto de drones en categorías abiertas A1 y A3 según regulación europea.</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="cert9" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('cert9')">&times;</span>
-            <img src="https://via.placeholder.com/800x600/8e44ad/ffffff?text=Certificado+Drones+STS+Completo" alt="Certificado de Piloto de Drones STS" class="certificate-detail-img">
-            <div class="certificate-details">
-                <h3>Piloto de Drones A1/A3/A2/STS01-STS02</h3>
-                <p><strong>Entidad emisora:</strong> Bai Escuela de drones</p>
-                <p><strong>Estado:</strong> En curso</p>
-                <p><strong>Descripción:</strong> Certificación avanzada como piloto de drones en categoría específica STS-01 y STS-02.</p>
-            </div>
-        </div>
-    </div>
-
-    <section id="languages">
-        <div class="container">
-            <h2 data-translate="languages-title">Competencias Lingüísticas</h2>
-            <div class="about-content">
-                <p data-translate="mother-tongue"><strong>Lengua materna:</strong> Español</p>
-                
-                <h3 style="margin-top: 2rem; text-align: center;" data-translate="foreign-languages">Idiomas Extranjeros</h3>
-                <table class="language-table">
-                    <thead>
-                        <tr>
-                            <th>Idioma</th>
-                            <th>Comprensión auditiva</th>
-                            <th>Comprensión lectora</th>
-                            <th>Producción oral</th>
-                            <th>Interacción oral</th>
-                            <th>Expresión escrita</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Inglés</strong></td>
-                            <td>A2</td>
-                            <td>A2</td>
-                            <td>A2</td>
-                            <td>A2</td>
-                            <td>A2</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Italiano</strong></td>
-                            <td>A2</td>
-                            <td>A2</td>
-                            <td>A2</td>
-                            <td>A2</td>
-                            <td>A2</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p style="text-align: center; margin-top: 1rem; font-style: italic;" data-translate="language-levels">
-                    Niveles: A1 y A2 (usuario básico), B1 y B2 (usuario independiente), C1 y C2 (usuario competente)
-                </p>
-            </div>
-        </div>
+      </div>
     </section>
 
-    <section id="projects">
-        <div class="container">
-            <h2 data-translate="projects-title">Proyectos</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-content">
-                        <h3 class="project-title">Proyecto de Ciberseguridad</h3>
-                        <p class="project-desc" data-translate="project-desc-1">File Integrity Monitor es una herramienta desarrollada en Python para la monitorización de integridad de archivos.</p>
-                        <a href="https://github.com/Santiago-off/File-Integrity-Monitor.git" class="project-link" data-translate="project-link">Ver detalles</a>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-content">
-                        <h3 class="project-title">Análisis de Datos con Python</h3>
-                        <p class="project-desc" data-translate="project-desc-2">Encryptador es una aplicación en React + Vite que permite encriptar y desencriptar información de manera local</p>
-                        <a href="https://github.com/Santiago-off/Encryptator.git" class="project-link" data-translate="project-link">Ver detalles</a>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-content">
-                        <h3 class="project-title">Aplicaciones con Drones</h3>
-                        <p class="project-desc" data-translate="project-desc-3">Proyectos de fotogrametría y mapeo con drones para diferentes aplicaciones.</p>
-                        <a href="#" class="project-link" data-translate="project-link">Ver detalles</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- COMPETENCIAS LINGÜÍSTICAS (IDIOMAS) -->
+    <section id="competencias">
+      <h2><span class="section-title">Competencias Lingüísticas</span></h2>
+      <div class="language"><h3>Español</h3><p>Lengua materna</p></div>
+      <div class="language"><h3>Inglés</h3><p>Nivel: A2 (Básico)</p></div>
+      <div class="language"><h3>Italiano</h3><p>Nivel: A2 (Básico)</p></div>
     </section>
 
-    <section id="contact">
-        <div class="container">
-            <h2 data-translate="contact-title">Contacto</h2>
-            <div class="contact-container">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>santiagorfernandezcv@gmail.com</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <span>+34 640365047</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>28939, Arroyomolinos, España</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fab fa-linkedin"></i>
-                        <a href="https://linkedin.com/in/tuperfil" target="_blank" rel="noopener">linkedin.com/in/tuperfil</a>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fab fa-github"></i>
-                        <a href="https://github.com/Santiago-off" target="_blank" rel="noopener">github.com/tuusuario</a>
-                    </div>
-                </div>
-                <form class="contact-form" id="contactForm" autocomplete="on">
-                    <div class="form-group">
-                        <label for="name" data-translate="name-label">Nombre</label>
-                        <input type="text" id="name" required data-translate-placeholder="name-label" autocomplete="name">
-                    </div>
-                    <div class="form-group">
-                        <label for="email" data-translate="email-label">Email</label>
-                        <input type="email" id="email" required data-translate-placeholder="email-label" autocomplete="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="message" data-translate="message-label">Mensaje</label>
-                        <textarea id="message" required data-translate-placeholder="message-label" autocomplete="off"></textarea>
-                    </div>
-                    <button type="submit" data-translate="send-button">Enviar Mensaje</button>
-                </form>
-            </div>
-        </div>
+    <section id="contacto">
+      <div class="contact-info">
+        <h2>Contacto</h2>
+        <ul>
+          <li><i class="fas fa-map-marker-alt"></i> Arroyomolinos, España</li>
+          <li><i class="fas fa-envelope"></i> santiagorfernandezcv@gmail.com</li>
+          <li><i class="fas fa-phone"></i> (+34) 640365047</li>
+          <li><i class="fas fa-calendar"></i> 27/04/2007</li>
+        </ul>
+      </div>
+      <div class="contact-form">
+        <h3>Envíame un mensaje</h3>
+        <form id="contactForm">
+          <input type="text" id="name" placeholder="Nombre" required />
+          <input type="email" id="email" placeholder="Correo" required />
+          <textarea id="message" placeholder="Mensaje" required></textarea>
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
     </section>
+  </main>
 
-    <section id="cta">
-        <div class="container">
-            <h2 data-translate="cta-title">¿Listo para trabajar juntos?</h2>
-            <p data-translate="cta-description">Estoy disponible para oportunidades laborales y proyectos freelance. ¡Hablemos!</p>
-            <div class="cta-buttons">
-                <a href="#contact" class="cta-btn primary" data-translate="cta-contact">Contáctame</a>
-                <a href="CV-Santiago-Reguero.pdf" download class="cta-btn secondary">
-                    <i class="fas fa-download"></i> <span data-translate="cta-download">Descargar CV</span>
-                </a>
-            </div>
-        </div>
-    </section>
+  <footer><p>&copy; 2025 Santiago Reguero Fernández</p></footer>
 
-    <footer>
-        <div class="container">
-            <div class="social-links">
-                <a href="https://linkedin.com/in/tuperfil" aria-label="LinkedIn" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
-                <a href="https://github.com/Santiago-off" aria-label="GitHub" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
-                <a href="#" aria-label="Twitter" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
-            </div>
-            <p>&copy; 2023 Santiago Reguero Fernández. <span data-translate="rights-reserved">Todos los derechos reservados.</span></p>
-            <p><span data-translate="visits">Visitas:</span> <span id="visitCount">0</span></p>
-        </div>
-    </footer>
-
-    <!-- Panel de administración -->
-    <div class="admin-panel">
-        <a href="admin.html" class="admin-btn" aria-label="Panel de administración">
-            <i class="fas fa-cog"></i>
-        </a>
-    </div>
-
-    <!-- NoScript message for security -->
-    <noscript>
-        <div style="position: fixed; top: 0; left: 0; width: 100%; background: #e74c3c; color: white; text-align: center; padding: 10px; z-index: 10000;">
-            ⚠️ JavaScript está deshabilitado. Algunas funcionalidades pueden no estar disponibles.
-        </div>
-    </noscript>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDdSYZKLswQn9EROpZ8SekOvFtTWr3rYUQ",
+      authDomain: "mi-portafolio-admin.firebaseapp.com",
+      projectId: "mi-portafolio-admin",
+      storageBucket: "mi-portafolio-admin.firebasestorage.app",
+      messagingSenderId: "593564928013",
+      appId: "1:593564928013:web:3f7c3a9e0da743abaead44"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script src="js/app.js"></script>
 </body>
 </html>
