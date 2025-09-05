@@ -3,10 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Santiago Reguero Fernández | Portafolio</title>
+  
+  <!-- ===== SEO BÁSICO ===== -->
+  <title>Santiago Reguero Fernández | Portafolio de Programación, Cloud y Drones</title>
+  <meta name="description" content="Portafolio profesional de Santiago Reguero Fernández. Estudiante de informática con experiencia en desarrollo, cloud computing, ciberseguridad y pilotaje de drones. Proyectos en Python, JavaScript, AWS y más.">
+  <meta name="keywords" content="programador, desarrollador web, python, javascript, cloud, aws, azure, drone, piloto de drones, portafolio, santiago reguero, informática, ciberseguridad, ia">
+  <meta name="author" content="Santiago Reguero Fernández">
+  <meta name="robots" content="index, follow">
+
+  <!-- ===== OPEN GRAPH (Facebook, LinkedIn, WhatsApp) ===== -->
+  <meta property="og:title" content="Santiago Reguero Fernández | Portafolio Profesional">
+  <meta property="og:description" content="Estudiante de informática especializado en desarrollo, cloud computing y pilotaje de drones. Conecta conmigo y revisa mis proyectos en Python, JavaScript y AWS.">
+  <meta property="og:image" content="https://santiagoreguero.github.io/mi-portafolio/assets/og-image.jpg">
+  <meta property="og:url" content="https://santiagoreguero.github.io/mi-portafolio/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Santiago Reguero Fernández">
+
+  <!-- ===== TWITTER CARD ===== -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Santiago-off">
+  <meta name="twitter:creator" content="@Santiago-off">
+  <meta name="twitter:title" content="Santiago Reguero Fernández | Portafolio de Tecnología">
+  <meta name="twitter:description" content="Desarrollador, piloto de drones y apasionado por la tecnología. Proyectos reales en Python, Cloud y seguridad.">
+  <meta name="twitter:image" content="https://santiagoreguero.github.io/mi-portafolio/assets/og-image.jpg">
+
+  <!-- ===== CANONICAL URL ===== -->
+  <link rel="canonical" href="https://santiagoreguero.github.io/mi-portafolio/">
+
+  <!-- ===== FAVICONS ===== -->
+  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+
+  <!-- ===== PRELOAD Y PERFORMANCE ===== -->
+  <link rel="preload" href="css/style-index.css" as="style">
+  <link rel="preload" href="js/app.js" as="script">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
+
+  <!-- ===== FONT AWESOME (iconos) ===== -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <!-- ===== THREE.js (WebGL) ===== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+
+  <!-- ===== ESTILOS PRINCIPALES ===== -->
   <link rel="stylesheet" href="css/style-index.css" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
   <div class="cursor-follower"></div>
@@ -143,6 +185,43 @@
 
   <footer><p>&copy; 2025 Santiago Reguero Fernández</p></footer>
 
+  <!-- ===== STRUCTURED DATA (Schema.org) para SEO avanzado ===== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Santiago Reguero Fernández",
+    "url": "https://santiagoreguero.github.io/mi-portafolio/",
+    "sameAs": [
+      "https://github.com/Santiago-off",
+      "https://linkedin.com/in/santiago-reguero-fernandez"
+    ],
+    "jobTitle": "Estudiante de Informática",
+    "description": "Programador, especialista en Cloud, ciberseguridad y piloto de drones.",
+    "image": "https://santiagoreguero.github.io/mi-portafolio/assets/og-image.jpg",
+    "email": "santiagorfernandezcv@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Arroyomolinos, España"
+    },
+    "alumniOf": {
+      "@type": "EducationalOrganization",
+      "name": "Santa Gema FP"
+    },
+    "knowsAbout": [
+      "Python",
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "SQL",
+      "Cloud Computing",
+      "Ciberseguridad",
+      "Drones"
+    ]
+  }
+  </script>
+
+  <!-- ===== FIREBASE SDK ===== -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
