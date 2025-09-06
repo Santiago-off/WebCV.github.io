@@ -44,13 +44,20 @@
   <!-- ===== FONT AWESOME (iconos) ===== -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-  <!-- ===== THREE.js (WebGL) ===== -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-
   <!-- ===== ESTILOS PRINCIPALES ===== -->
   <link rel="stylesheet" href="css/style-index.css" />
 </head>
 <body>
+  <!-- Selector de idioma (banderas) -->
+  <div class="language-switcher">
+    <button id="es-btn" class="lang-btn active">
+      <img src="https://flagcdn.com/es.svg" alt="Español" width="32" height="24">
+    </button>
+    <button id="en-btn" class="lang-btn">
+      <img src="https://flagcdn.com/us.svg" alt="English" width="32" height="24">
+    </button>
+  </div>
+
   <div class="cursor-follower"></div>
   <div class="color-bar"></div>
   <div id="webgl-background"></div>
@@ -61,44 +68,48 @@
   </header>
 
   <nav id="main-nav">
-    <a href="#home" data-color="#00f5d4">Inicio</a>
-    <a href="#sobre-mi" data-color="#7b2cbf">Sobre Mí</a>
-    <a href="#proyectos" data-color="#e91e63">Proyectos</a>
-    <a href="#experiencia" data-color="#ff9500">Experiencia</a>
-    <a href="#educacion" data-color="#7ed957">Educación</a>
-    <a href="#competencias-tecnicas" data-color="#6f42c1">Competencias</a>
-    <a href="#competencias" data-color="#29c7c9">Idiomas</a>
-    <a href="#contacto" data-color="#f05454">Contacto</a>
+    <a href="#home" data-color="#00f5d4" data-es="Inicio" data-en="Home">Inicio</a>
+    <a href="#sobre-mi" data-color="#7b2cbf" data-es="Sobre Mí" data-en="About Me">Sobre Mí</a>
+    <a href="#proyectos" data-color="#e91e63" data-es="Proyectos" data-en="Projects">Proyectos</a>
+    <a href="#experiencia" data-color="#ff9500" data-es="Experiencia" data-en="Experience">Experiencia</a>
+    <a href="#educacion" data-color="#7ed957" data-es="Educación" data-en="Education">Educación</a>
+    <a href="#competencias-tecnicas" data-color="#6f42c1" data-es="Competencias" data-en="Skills">Competencias</a>
+    <a href="#competencias" data-color="#29c7c9" data-es="Idiomas" data-en="Languages">Idiomas</a>
+    <a href="#contacto" data-color="#f05454" data-es="Contacto" data-en="Contact">Contacto</a>
     <a href="admin.html" class="btn-admin">🔐 Admin</a>
   </nav>
 
   <main>
     <section id="sobre-mi">
-      <h2><span class="section-title">Sobre mí</span></h2>
-      <p>Estudiante de informática con habilidades en programación y análisis de datos. Con experiencia en proyectos de desarrollo en Cloud y en pilotaje de drones, además de capacidad para trabajar en equipo de manera eficiente y colaborativa.</p>
-      <p>Mi pasión por la tecnología me ha llevado a formarme en diversas áreas como programación, inteligencia artificial, ciberseguridad, cloud computing y pilotaje de drones. Busco oportunidades para aplicar mis conocimientos y continuar desarrollándome profesionalmente.</p>
+      <h2><span class="section-title" data-es="Sobre mí" data-en="About Me">Sobre mí</span></h2>
+      <p class="i18n" data-es="Estudiante de informática con habilidades en programación y análisis de datos. Con experiencia en proyectos de desarrollo en Cloud y en pilotaje de drones, además de capacidad para trabajar en equipo de manera eficiente y colaborativa." 
+         data-en="Computer science student with skills in programming and data analysis. Experienced in Cloud development and drone piloting, with strong teamwork and collaboration abilities."></p>
+      <p class="i18n" data-es="Mi pasión por la tecnología me ha llevado a formarme en diversas áreas como programación, inteligencia artificial, ciberseguridad, cloud computing y pilotaje de drones. Busco oportunidades para aplicar mis conocimientos y continuar desarrollándome profesionalmente." 
+         data-en="My passion for technology has led me to train in areas such as programming, artificial intelligence, cybersecurity, cloud computing, and drone piloting. I'm seeking opportunities to apply my knowledge and grow professionally."></p>
     </section>
 
     <section id="proyectos">
-      <h2><span class="section-title">Proyectos Destacados</span></h2>
+      <h2><span class="section-title" data-es="Proyectos Destacados" data-en="Featured Projects">Proyectos Destacados</span></h2>
       <div class="projects-grid">
         <div class="project-card" data-github="https://github.com/Santiago-off/File-Integrity-Monitor.git">
           <div class="card-content">
             <h3>File-Integrity-Monitor</h3>
-            <p>Monitor de integridad de archivos en Python. Detecta cambios en tiempo real con hashes SHA-256.</p>
+            <p class="i18n" data-es="Monitor de integridad de archivos en Python. Detecta cambios en tiempo real con hashes SHA-256." 
+               data-en="File integrity monitor in Python. Detects real-time changes using SHA-256 hashes."></p>
             <span class="tech">Python · SHA-256 · Watchdog · CLI</span>
             <div class="project-footer">
-              <i class="fab fa-github"></i> <small>Ver código</small>
+              <i class="fab fa-github"></i> <small class="i18n" data-es="Ver código" data-en="View Code"></small>
             </div>
           </div>
         </div>
         <div class="project-card" data-github="https://github.com/Santiago-off/Encryptator.git">
           <div class="card-content">
             <h3>Encryptator</h3>
-            <p>Aplicación web para encriptar/desencriptar datos localmente con clave personalizada.</p>
+            <p class="i18n" data-es="Aplicación web para encriptar/desencriptar datos localmente con clave personalizada." 
+               data-en="Web app to encrypt/decrypt data locally with a custom key."></p>
             <span class="tech">React · Vite · AES · JavaScript</span>
             <div class="project-footer">
-              <i class="fab fa-github"></i> <small>Ver código</small>
+              <i class="fab fa-github"></i> <small class="i18n" data-es="Ver código" data-en="View Code"></small>
             </div>
           </div>
         </div>
@@ -106,64 +117,64 @@
     </section>
 
     <section id="experiencia">
-      <h2><span class="section-title">Experiencia Laboral</span></h2>
+      <h2><span class="section-title" data-es="Experiencia Laboral" data-en="Work Experience">Experiencia Laboral</span></h2>
       <ul class="timeline">
-        <li><strong>Realizando tareas de Programador</strong> – 18/03/2025 – 16/06/2025 | Madrid, España</li>
-        <li><strong>Soporte de hosting (online)</strong> – 05/2022 – 09/2023 | Madrid, España</li>
-        <li><strong>Armonia Salerno</strong> – 09/2023 – 06/2025 | Madrid, España</li>
-        <li><strong>Desarrollo Web Freelance</strong> – 04/2024 – ACTUAL | Madrid, España</li>
-        <li><strong>Proyecto Cloud en AWS</strong> – 03/07/2025 – ACTUAL | Madrid, España</li>
+        <li><strong class="i18n" data-es="Realizando tareas de Programador" data-en="Working as Programmer">Realizando tareas de Programador</strong> – 18/03/2025 – 16/06/2025 | Madrid, España</li>
+        <li><strong class="i18n" data-es="Soporte de hosting (online)" data-en="Hosting support (online)">Soporte de hosting (online)</strong> – 05/2022 – 09/2023 | Madrid, España</li>
+        <li><strong class="i18n" data-es="Armonia Salerno" data-en="Armonia Salerno">Armonia Salerno</strong> – 09/2023 – 06/2025 | Madrid, España</li>
+        <li><strong class="i18n" data-es="Desarrollo Web Freelance" data-en="Freelance Web Development">Desarrollo Web Freelance</strong> – 04/2024 – ACTUAL | Madrid, España</li>
+        <li><strong class="i18n" data-es="Proyecto Cloud en AWS" data-en="AWS Cloud Project">Proyecto Cloud en AWS</strong> – 03/07/2025 – ACTUAL | Madrid, España</li>
       </ul>
     </section>
 
     <section id="educacion">
-      <h2><span class="section-title">Educación y Formación</span></h2>
+      <h2><span class="section-title" data-es="Educación y Formación" data-en="Education & Training">Educación y Formación</span></h2>
       <ul class="education-list">
-        <li><strong>Grado Medio Sistemas Microinformáticos y Redes</strong> – Santa Gema FP</li>
-        <li><strong>Experto en Cloud Computing (AWS y Azure)</strong> – UNIR</li>
-        <li><strong>Fundamentos de Python 1</strong> – Cisco Networking Academy</li>
-        <li><strong>Piloto de Drones A1/A3 y A2</strong> – AESA / Bai Escuela</li>
+        <li><strong class="i18n" data-es="Grado Medio Sistemas Microinformáticos y Redes" data-en="Vocational Degree in IT Systems">Grado Medio Sistemas Microinformáticos y Redes</strong> – Santa Gema FP</li>
+        <li><strong class="i18n" data-es="Experto en Cloud Computing (AWS y Azure)" data-en="Cloud Computing Expert (AWS & Azure)">Experto en Cloud Computing (AWS y Azure)</strong> – UNIR</li>
+        <li><strong class="i18n" data-es="Fundamentos de Python 1" data-en="Python Fundamentals 1">Fundamentos de Python 1</strong> – Cisco Networking Academy</li>
+        <li><strong class="i18n" data-es="Piloto de Drones A1/A3 y A2" data-en="Drone Pilot A1/A3 and A2">Piloto de Drones A1/A3 y A2</strong> – AESA / Bai Escuela</li>
       </ul>
     </section>
 
     <!-- NUEVA SECCIÓN: COMPETENCIAS TÉCNICAS -->
     <section id="competencias-tecnicas">
-      <h2><span class="section-title">Competencias Técnicas</span></h2>
+      <h2><span class="section-title" data-es="Competencias Técnicas" data-en="Technical Skills">Competencias Técnicas</span></h2>
       <div class="skills-grid">
         <div class="skill-item">
           <i class="fab fa-python"></i>
-          <h3>Python</h3>
+          <h3 class="i18n" data-es="Python" data-en="Python">Python</h3>
         </div>
         <div class="skill-item">
           <i class="fab fa-html5"></i>
-          <h3>HTML</h3>
+          <h3 class="i18n" data-es="HTML" data-en="HTML">HTML</h3>
         </div>
         <div class="skill-item">
           <i class="fab fa-css3-alt"></i>
-          <h3>CSS</h3>
+          <h3 class="i18n" data-es="CSS" data-en="CSS">CSS</h3>
         </div>
         <div class="skill-item">
           <i class="fab fa-js"></i>
-          <h3>JavaScript</h3>
+          <h3 class="i18n" data-es="JavaScript" data-en="JavaScript">JavaScript</h3>
         </div>
         <div class="skill-item">
           <i class="fas fa-database"></i>
-          <h3>SQL</h3>
+          <h3 class="i18n" data-es="SQL" data-en="SQL">SQL</h3>
         </div>
       </div>
     </section>
 
     <!-- COMPETENCIAS LINGÜÍSTICAS (IDIOMAS) -->
     <section id="competencias">
-      <h2><span class="section-title">Competencias Lingüísticas</span></h2>
-      <div class="language"><h3>Español</h3><p>Lengua materna</p></div>
-      <div class="language"><h3>Inglés</h3><p>Nivel: A2 (Básico)</p></div>
-      <div class="language"><h3>Italiano</h3><p>Nivel: A2 (Básico)</p></div>
+      <h2><span class="section-title" data-es="Competencias Lingüísticas" data-en="Language Skills">Competencias Lingüísticas</span></h2>
+      <div class="language"><h3>Español</h3><p class="i18n" data-es="Lengua materna" data-en="Native language">Lengua materna</p></div>
+      <div class="language"><h3>Inglés</h3><p class="i18n" data-es="Nivel: A2 (Básico)" data-en="Level: A2 (Basic)">Nivel: A2 (Básico)</p></div>
+      <div class="language"><h3>Italiano</h3><p class="i18n" data-es="Nivel: A2 (Básico)" data-en="Level: A2 (Basic)">Nivel: A2 (Básico)</p></div>
     </section>
 
     <section id="contacto">
       <div class="contact-info">
-        <h2>Contacto</h2>
+        <h2 class="i18n" data-es="Contacto" data-en="Contact">Contacto</h2>
         <ul>
           <li><i class="fas fa-map-marker-alt"></i> Arroyomolinos, España</li>
           <li><i class="fas fa-envelope"></i> santiagorfernandezcv@gmail.com</li>
@@ -172,12 +183,12 @@
         </ul>
       </div>
       <div class="contact-form">
-        <h3>Envíame un mensaje</h3>
+        <h3 class="i18n" data-es="Envíame un mensaje" data-en="Send me a message">Envíame un mensaje</h3>
         <form id="contactForm">
           <input type="text" id="name" placeholder="Nombre" required />
           <input type="email" id="email" placeholder="Correo" required />
           <textarea id="message" placeholder="Mensaje" required></textarea>
-          <button type="submit">Enviar</button>
+          <button type="submit" class="i18n" data-es="Enviar" data-en="Send">Enviar</button>
         </form>
       </div>
     </section>
@@ -185,7 +196,7 @@
 
   <footer><p>&copy; 2025 Santiago Reguero Fernández</p></footer>
 
-  <!-- ===== STRUCTURED DATA (Schema.org) para SEO avanzado ===== -->
+  <!-- ===== STRUCTURED DATA (Schema.org) ===== -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",

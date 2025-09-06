@@ -402,3 +402,40 @@ footer {
 .skill-item .fa-css3-alt { color: #1572b6; }
 .skill-item .fa-js { color: #f0db4f; }
 .skill-item .fa-database { color: #f29111; }
+
+/* === SELECTOR DE IDIOMA (BANDERAS) === */
+.language-switcher {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 8px;
+  z-index: 100;
+  border: 1px solid rgba(0, 245, 212, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.lang-btn {
+  background: rgba(10, 10, 10, 0.9);
+  border: none;
+  width: 48px;
+  height: 32px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.lang-btn:hover {
+  opacity: 1;
+}
+
+.lang-btn.active {
+  opacity: 1;
+  box-shadow: 0 0 0 2px #00f5d4;
+}
+
+.lang-btn img {
+  border-radius: 2px;
+}

@@ -1,4 +1,81 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // === IDIOMA ===
+  const esBtn = document.getElementById("es-btn");
+  const enBtn = document.getElementById("en-btn");
+
+  // Verificar que los botones existan
+  if (!esBtn || !enBtn) {
+    console.warn("⚠️ Botones de idioma no encontrados. Saltando funcionalidad de traducción.");
+  } else {
+    // Cargar idioma guardado
+    const savedLang = localStorage.getItem("lang") || "es";
+    if (savedLang === "en") {
+      enBtn.classList.add("active");
+      esBtn.classList.remove("active");
+    }
+
+    function setLanguage(lang) {
+      // Cambiar textos
+      document.querySelectorAll(".i18n").forEach(el => {
+        const text = el.getAttribute(`data-${lang}`);
+        if (text) el.textContent = text;
+      });
+
+      // Cambiar placeholders
+      document.querySelectorAll("input, textarea").forEach(el => {
+        const placeholder = el.getAttribute(`data-${lang}`);
+        if (placeholder) el.placeholder = placeholder;
+      });
+
+      // Cambiar menú
+      document.querySelectorAll("nav a").forEach(a => {
+        const text = a.getAttribute(`data-${lang}`);
+        if (text) a.textContent = text;
+      });
+
+      // Cambiar título
+      document.querySelector("title").textContent = 
+        lang === "es" 
+          ? "Santiago Reguero Fernández | Portafolio de Programación, Cloud y Drones"
+          : "Santiago Reguero Fernández | Programming, Cloud & Drones Portfolio";
+
+      // Cambiar texto animado
+      const typingText = document.querySelector(".typing-text");
+      if (typingText) {
+        typingText.textContent = "";
+        const text = lang === "es" 
+          ? "Estudiante de Informática | Programador | Cloud & Drones" 
+          : "Computer Science Student | Developer | Cloud & Drones";
+        let i = 0;
+        const type = () => {
+          if (i < text.length) {
+            typingText.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, 50);
+          }
+        };
+        type();
+      }
+
+      localStorage.setItem("lang", lang);
+    }
+
+    esBtn.addEventListener("click", () => {
+      setLanguage("es");
+      esBtn.classList.add("active");
+      enBtn.classList.remove("active");
+    });
+
+    enBtn.addEventListener("click", () => {
+      setLanguage("en");
+      enBtn.classList.add("active");
+      esBtn.classList.remove("active");
+    });
+
+    // Aplicar idioma al cargar
+    setLanguage(savedLang);
+  }
+
   // === CURSOR PERSONALIZADO ===
   const cursor = document.querySelector(".cursor-follower");
   if (cursor) {
@@ -23,57 +100,47 @@ document.addEventListener("DOMContentLoaded", () => {
         cursor.style.boxShadow = "0 0 20px 5px rgba(0, 245, 212, 0.4)";
       });
     });
-  } else {
-    console.error("❌ ERROR: No se encontró el elemento .cursor-follower");
-    document.body.style.cursor = "default";
   }
 
-  // === TEXTO ANIMADO DEBajo DEL NOMBRE ===
-  const typingText = document.querySelector(".typing-text");
-  const text = "Estudiante de Informática | Programador | Cloud & Datos | Piloto de Drones";
-  let i = 0;
-  const type = () => {
-    if (i < text.length) {
-      typingText.textContent += text.charAt(i);
-      i++;
-      setTimeout(type, 70);
-    }
-  };
-  setTimeout(type, 1500);
+  // === TEXTO ANIMADO (ya se maneja en setLanguage) ===
 
   // === WEBGL BACKGROUND ===
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({ alpha: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0x000000, 0);
-  document.getElementById("webgl-background").appendChild(renderer.domElement);
+  try {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
+    document.getElementById("webgl-background").appendChild(renderer.domElement);
 
-  const geometry = new THREE.TorusKnotGeometry(10, 3, 128, 16);
-  const material = new THREE.MeshPhongMaterial({ 
-    color: 0x00f5d4, 
-    wireframe: true, 
-    opacity: 0.3, 
-    transparent: true,
-    emissive: 0x00f5d4,
-    emissiveIntensity: 0.3
-  });
-  const torusKnot = new THREE.Mesh(geometry, material);
-  scene.add(torusKnot);
+    const geometry = new THREE.TorusKnotGeometry(10, 3, 128, 16);
+    const material = new THREE.MeshPhongMaterial({ 
+      color: 0x00f5d4, 
+      wireframe: true, 
+      opacity: 0.3, 
+      transparent: true,
+      emissive: 0x00f5d4,
+      emissiveIntensity: 0.3
+    });
+    const torusKnot = new THREE.Mesh(geometry, material);
+    scene.add(torusKnot);
 
-  const light = new THREE.DirectionalLight(0x00f5d4, 1);
-  light.position.set(5, 5, 5).normalize();
-  scene.add(light);
+    const light = new THREE.DirectionalLight(0x00f5d4, 1);
+    light.position.set(5, 5, 5).normalize();
+    scene.add(light);
 
-  camera.position.z = 30;
+    camera.position.z = 30;
 
-  const animate = () => {
-    requestAnimationFrame(animate);
-    torusKnot.rotation.x += 0.005;
-    torusKnot.rotation.y += 0.01;
-    renderer.render(scene, camera);
-  };
-  animate();
+    const animate = () => {
+      requestAnimationFrame(animate);
+      torusKnot.rotation.x += 0.005;
+      torusKnot.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    };
+    animate();
+  } catch (err) {
+    console.warn("⚠️ WebGL no disponible o Three.js no cargado:", err);
+  }
 
   // === PROYECTOS 3D ===
   document.querySelectorAll(".project-card").forEach(card => {
@@ -105,9 +172,11 @@ document.addEventListener("DOMContentLoaded", () => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         const color = entry.target.querySelector("h2")?.dataset?.color || "#00f5d4";
-        colorBar.style.background = color;
-        colorBar.classList.add("active");
-        setTimeout(() => colorBar.classList.remove("active"), 800);
+        if (colorBar) {
+          colorBar.style.background = color;
+          colorBar.classList.add("active");
+          setTimeout(() => colorBar.classList.remove("active"), 800);
+        }
 
         navLinks.forEach(a => a.classList.remove("active"));
         navLinks.forEach(a => {
@@ -127,31 +196,34 @@ document.addEventListener("DOMContentLoaded", () => {
   sections.forEach(s => secObserver.observe(s));
 
   // === FORMULARIO ===
-  document.getElementById("contactForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const message = document.getElementById("message").value.trim();
+  const contactForm = document.getElementById("contactForm");
+  if (contactForm) {
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
 
-    if (!name || !email || !message) {
-      alert("Por favor, completa todos los campos.");
-      return;
-    }
+      if (!name || !email || !message) {
+        alert("Por favor, completa todos los campos.");
+        return;
+      }
 
-    try {
-      await firebase.firestore().collection("messages").add({
-        name,
-        email,
-        message,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        read: false
-      });
-      alert("✅ Mensaje enviado correctamente.");
-      e.target.reset();
-    } catch (err) {
-      alert("❌ Error al enviar el mensaje: " + err.message);
-    }
-  });
+      try {
+        await firebase.firestore().collection("messages").add({
+          name,
+          email,
+          message,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          read: false
+        });
+        alert("✅ Mensaje enviado correctamente.");
+        contactForm.reset();
+      } catch (err) {
+        alert("❌ Error al enviar el mensaje: " + err.message);
+      }
+    });
+  }
 
   // === CONTADOR DE VISITAS EN FIRESTORE ===
   async function registerVisit() {
