@@ -170,7 +170,7 @@ function generateListFields(data, listKey, fieldConfig) {
                 const inputType = isTextarea ? 'textarea' : 'input';
                 fieldsHtml += `
                     <div class="field-group-inner"><label>${key.replace(/\b\w/g, l => l.toUpperCase())}</label>
-                    <${inputType} data-lang="${lang}" data-key="${key}" ${!isTextarea ? 'type="text"' : ''}>${data[lang][listKey]?.[index]?.[key] || ''}</${inputType}></div>`;
+                    <${inputType} data-lang="${lang}" data-key="${key}" ${!isTextarea ? 'type="text"' : ''}>${data[lang][listKey]?.[index]?.[key] || ''}</` + inputType + `></div>`;
             }
             // El link del proyecto es único, no bilingüe
             if (fieldConfig.link && lang === 'es') fieldsHtml += `<div class="field-group-inner"><label>Link</label><input type="text" data-key="link" value="${data.es[listKey]?.[index]?.link || ''}"></div>`;
