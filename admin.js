@@ -19,6 +19,26 @@ document.getElementById('logout-btn').addEventListener('click', () => {
     });
 });
 
+function setupTabs() {
+    const tabLinks = document.querySelectorAll('.admin-tab-link');
+    const tabContents = document.querySelectorAll('.admin-tab-content');
+
+    tabLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const tabId = link.dataset.tab;
+
+            // Ocultar todo
+            tabLinks.forEach(l => l.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+
+            // Mostrar el seleccionado
+            link.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+}
+
+
 function getPortfolioData() {
     const savedData = localStorage.getItem('portfolioData');
     if (!savedData) {
@@ -29,6 +49,14 @@ function getPortfolioData() {
 }
 
 function loadAdminPanel() {
+    setupTabs();
+    loadEditTab();
+    loadMessagesTab();
+    loadInfoTab();
+    loadConfigTab();
+}
+
+function loadEditTab() {
     const portfolioData = getPortfolioData();
     if (!portfolioData) return;
 
@@ -68,8 +96,6 @@ function loadAdminPanel() {
     generateListFields(portfolioData, 'languages-list', { title: 'texto', company: 'texto' });
     generateListFields(portfolioData, 'projects-list', { title: 'texto', description: 'area', link: 'texto' });
 
-    // Cargar mensajes de contacto
-    loadContactMessages();
 }
 
 function createField(key, value, isTextarea = false) {
@@ -195,19 +221,19 @@ document.getElementById('admin-form').addEventListener('submit', (e) => {
     }, 500);
 });
 
-function loadContactMessages() {
+function loadMessagesTab() {
     const container = document.getElementById('messages-container');
     const messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
     container.innerHTML = '';
 
     if (messages.length === 0) {
-        container.innerHTML = '<p>No hay mensajes nuevos.</p>';
+        container.innerHTML = '<p>No se han recibido mensajes.</p>';
         return;
     }
 
     messages.reverse().forEach(msg => {
         const msgDiv = document.createElement('div');
-        msgDiv.className = 'list-item';
+        msgDiv.className = 'message-item';
         msgDiv.innerHTML = `
             <h4>De: ${msg.name} (${msg.email})</h4>
             <p><strong>Fecha:</strong> ${new Date(msg.date).toLocaleString()}</p>
@@ -216,4 +242,89 @@ function loadContactMessages() {
         `;
         container.appendChild(msgDiv);
     });
+}
+
+function loadInfoTab() {
+    const container = document.getElementById('info-container');
+    const visits = localStorage.getItem('visitCounter') || 0;
+
+    container.innerHTML = `
+        <div class="message-item">
+            <h3>Visitas Totales</h3>
+            <p style="font-size: 2rem; font-weight: bold;">${visits}</p>
+        </div>
+        <div class="message-item">
+            <h3>Seguimiento de Visitantes</h3>
+            <p><strong>Nota importante:</strong> Este sitio es una página estática alojada en GitHub Pages. Por limitaciones técnicas y de privacidad, no es posible registrar direcciones IP o datos detallados de los visitantes sin un servidor backend.</p>
+            <p>Para un análisis avanzado, se recomienda integrar herramientas externas como Google Analytics.</p>
+        </div>
+    `;
+}
+
+function loadConfigTab() {
+    const container = document.getElementById('config-container');
+    const settings = JSON.parse(localStorage.getItem('siteSettings')) || {};
+    const isMaintenance = settings.maintenanceMode === 'on';
+
+    container.innerHTML = `
+        <div class="setting-item">
+            <div>
+                <p>Modo Mantenimiento</p>
+                <small>Pone el sitio fuera de línea y muestra una página de mantenimiento.</small>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="maintenance-toggle" ${isMaintenance ? 'checked' : ''}>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="setting-item">
+            <div>
+                <p>Exportar Datos</p>
+                <small>Guarda una copia de seguridad de todo el contenido editable en un archivo XML.</small>
+            </div>
+            <button id="export-btn" class="btn-action">Exportar a XML</button>
+        </div>
+    `;
+
+    document.getElementById('maintenance-toggle').addEventListener('change', (e) => {
+        const newSettings = { ...settings, maintenanceMode: e.target.checked ? 'on' : 'off' };
+        localStorage.setItem('siteSettings', JSON.stringify(newSettings));
+        alert(`Modo mantenimiento ${e.target.checked ? 'ACTIVADO' : 'DESACTIVADO'}.`);
+    });
+
+    document.getElementById('export-btn').addEventListener('click', exportDataToXML);
+}
+
+function exportDataToXML() {
+    const data = getPortfolioData();
+    if (!data) return;
+
+    let xmlString = '<?xml version="1.0" encoding="UTF-8"?>\n<portfolio>\n';
+
+    const toXML = (obj, name) => {
+        if (Array.isArray(obj)) {
+            return obj.map(item => toXML(item, name.slice(0, -1))).join('');
+        }
+        if (typeof obj === 'object' && obj !== null) {
+            let content = Object.entries(obj).map(([key, val]) => toXML(val, key)).join('');
+            return `<${name}>${content}</${name}>\n`;
+        }
+        return `<${name}>${obj}</${name}>\n`;
+    };
+
+    for (const key in data) {
+        xmlString += toXML(data[key], key);
+    }
+
+    xmlString += '</portfolio>';
+
+    const blob = new Blob([xmlString], { type: 'application/xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'portfolio_backup.xml';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }

@@ -1,5 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Inicialización de Datos y Contenido ---
+
+    // --- Comprobación de Modo Mantenimiento ---
+    const siteSettings = JSON.parse(localStorage.getItem('siteSettings')) || {};
+    if (siteSettings.maintenanceMode === 'on') {
+        document.body.innerHTML = `
+            <style>
+                body { display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center; background-color: #222831; color: #EEEEEE; font-family: 'Segoe UI', sans-serif; }
+                .maintenance-box { padding: 2rem; border: 2px solid #00ADB5; border-radius: 8px; }
+                h1 { color: #00ADB5; }
+            </style>
+            <div class="maintenance-box">
+                <h1>Sitio en Mantenimiento</h1>
+                <p>Estamos realizando algunas actualizaciones. Volveremos pronto.</p>
+            </div>
+        `;
+        // Detiene la ejecución del resto del script
+        return;
+    }
+
+
+    // --- Inicialización de Datos y Contenido (si no está en mantenimiento) ---
     const initData = {
         'page-title': 'Santiago Fernandez - Programador y Experto en Ciberseguridad',
         'header-name': 'Santiago Fernandez',

@@ -10,7 +10,7 @@ body {
     border-radius: 8px;
 }
 
-.admin-main h1, .admin-main h2 {
+.admin-main h1 {
     color: var(--accent-color);
     text-align: center;
     margin-bottom: 2rem;
@@ -117,10 +117,82 @@ legend {
     font-weight: bold;
 }
 
-#messages-section {
-    margin-top: 4rem;
+/* Estilos para Mensajes y Configuración */
+.message-item, .setting-item {
+    background-color: var(--dark-bg);
+    border: 1px solid #4a515c;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
 }
 
-#messages-container .list-item {
+.message-item h4 {
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+}
+
+.message-item p {
+    margin-bottom: 0.25rem;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.setting-item p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.btn-action {
+    background: var(--accent-color);
+    color: var(--dark-bg);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Toggle Switch para Mantenimiento */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.switch input { display: none; }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px; width: 26px;
+  left: 4px; bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+input:checked + .slider { background-color: var(--accent-color); }
+input:checked + .slider:before { transform: translateX(26px); }
+
+/* Estilos para Pestañas */
+.admin-tabs { display: flex; border-bottom: 2px solid var(--accent-color); margin-bottom: 2rem; }
+.admin-tab-link { padding: 1rem 1.5rem; cursor: pointer; background: none; border: none; color: var(--text-color); font-size: 1.1rem; font-weight: 500; transition: background-color 0.2s, color 0.2s; }
+.admin-tab-link:hover { background-color: #4a515c; }
+.admin-tab-link.active { background-color: var(--accent-color); color: var(--dark-bg); font-weight: bold; }
+.admin-tab-content { display: none; }
+.admin-tab-content.active { display: block; }
+
+/* Info Container */
+#info-container .message-item {
     background-color: #2a3038;
 }

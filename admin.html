@@ -21,40 +21,61 @@
     </header>
 
     <main class="admin-main">
-        <h1>Editar Contenido del Portafolio</h1>
-        <form id="admin-form">
-            <!-- Los campos se generarán dinámicamente aquí -->
-            <fieldset>
-                <legend>Configuración General</legend>
-                <div id="general-fields" class="fields-container"></div>
-            </fieldset>
-            <fieldset>
-                <legend>Sección "Hero"</legend>
-                <div id="hero-fields" class="fields-container"></div>
-            </fieldset>
-            <fieldset>
-                <legend>Sección "Sobre Mí"</legend>
-                <div id="about-me-fields" class="fields-container"></div>
-            </fieldset>
-            <fieldset>
-                <legend>Listas (Experiencia, Educación, etc.)</legend>
-                <div id="list-fields" class="fields-container"></div>
-            </fieldset>
-            <fieldset>
-                <legend>Sección "Contacto"</legend>
-                <div id="contact-fields" class="fields-container"></div>
-            </fieldset>
-            <button type="submit" class="btn-save">Guardar Cambios</button>
-            <div id="save-status"></div>
-        </form>
+        <nav class="admin-tabs">
+            <button class="admin-tab-link active" data-tab="edicion">📝 Edición</button>
+            <button class="admin-tab-link" data-tab="mensajes">✉️ Mensajes</button>
+            <button class="admin-tab-link" data-tab="informacion">📊 Información</button>
+            <button class="admin-tab-link" data-tab="configuracion">⚙️ Configuración</button>
+        </nav>
 
-        <section id="messages-section">
-            <h2>Mensajes de Contacto Recibidos</h2>
+        <!-- Pestaña de Edición -->
+        <div id="edicion" class="admin-tab-content active">
+            <h1>Editar Contenido del Portafolio</h1>
+            <form id="admin-form">
+                <fieldset>
+                    <legend>Configuración General</legend>
+                    <div id="general-fields" class="fields-container"></div>
+                </fieldset>
+                <fieldset>
+                    <legend>Sección "Hero"</legend>
+                    <div id="hero-fields" class="fields-container"></div>
+                </fieldset>
+                <fieldset>
+                    <legend>Sección "Sobre Mí"</legend>
+                    <div id="about-me-fields" class="fields-container"></div>
+                </fieldset>
+                <fieldset>
+                    <legend>Listas (Experiencia, Educación, etc.)</legend>
+                    <div id="list-fields" class="fields-container"></div>
+                </fieldset>
+                <fieldset>
+                    <legend>Sección "Contacto"</legend>
+                    <div id="contact-fields" class="fields-container"></div>
+                </fieldset>
+                <button type="submit" class="btn-save">Guardar Cambios</button>
+                <div id="save-status"></div>
+            </form>
+        </div>
+
+        <!-- Pestaña de Mensajes -->
+        <div id="mensajes" class="admin-tab-content">
+            <h1>Mensajes de Contacto Recibidos</h1>
             <div id="messages-container"></div>
-        </section>
+        </div>
+
+        <!-- Pestaña de Información -->
+        <div id="informacion" class="admin-tab-content">
+            <h1>Información de Visitas</h1>
+            <div id="info-container"></div>
+        </div>
+
+        <!-- Pestaña de Configuración -->
+        <div id="configuracion" class="admin-tab-content">
+            <h1>Configuración del Sitio</h1>
+            <div id="config-container"></div>
+        </div>
     </main>
 
     <script type="module" src="admin.js"></script>
 </body>
 </html>
-
