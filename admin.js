@@ -153,9 +153,10 @@ function generateSimpleFields(data, keys, containerId, textareaKeys = {}) {
 }
 
 function generateListFields(data, listKey, fieldConfig) {
-    const section = document.querySelector(`[data-list-key="${listKey}"]`);
+    const section = document.querySelector(`.list-section[data-list-key="${listKey}"]`);
+    if (!section) return; // Si la sección no existe, no continuamos.
+
     const container = section.querySelector('.list-items-container');
-    container.innerHTML = '';
     
     const renderList = () => {
         container.innerHTML = ''; // Limpiar antes de renderizar
