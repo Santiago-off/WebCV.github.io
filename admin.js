@@ -42,7 +42,7 @@ function setupTabs() {
 
 
 function getPortfolioData() {
-    const savedData = localStorage.getItem('portfolioData');
+    const savedData = localStorage.getItem('portfolioContent');
     if (!savedData) {
         alert("No se encontraron datos del portafolio. Visita la página principal primero.");
         return null;
@@ -63,10 +63,10 @@ function loadEditTab() {
     if (!portfolioData) return;
 
     // Generar campos simples
-    generateSimpleFields(portfolioData, ['page-title', 'header-name', 'fiverr-link'], 'general-fields');
+    generateSimpleFields(portfolioData, ['page-title', 'header-name', 'fiverr-link'], 'general-fields', { 'page-title': 'area' });
     generateSimpleFields(portfolioData, ['hero-title', 'hero-subtitle'], 'hero-fields');
-    generateSimpleFields(portfolioData, ['about-me-text'], 'about-me-fields', true);
-    generateSimpleFields(portfolioData, ['contact-intro', 'contact-email', 'contact-phone', 'contact-location', 'footer-text'], 'contact-fields');
+    generateSimpleFields(portfolioData, ['about-me-text'], 'about-me-fields', { 'about-me-text': 'area' });
+    generateSimpleFields(portfolioData, ['contact-intro', 'contact-email', 'contact-phone', 'contact-location', 'footer-text'], 'contact-fields', { 'contact-intro': 'area' });
 
     // Generar campos de listas
     const listContainer = document.getElementById('list-fields');
@@ -100,29 +100,35 @@ function loadEditTab() {
 
 }
 
-function createField(key, value, isTextarea = false) {
-    const type = isTextarea ? 'textarea' : 'input';
-    const input = document.createElement(type);
-    input.id = `field-${key}`;
-    input.name = key;
-    input.value = value;
-    if (!isTextarea) input.type = 'text';
-
+function createBilingualField(key, values, isTextarea = false) {
     const label = document.createElement('label');
-    label.htmlFor = input.id;
     label.textContent = key.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
     const group = document.createElement('div');
     group.className = 'field-group';
     group.appendChild(label);
-    group.appendChild(input);
+
+    ['es', 'en'].forEach(lang => {
+        const inputType = isTextarea ? 'textarea' : 'input';
+        const input = document.createElement(inputType);
+        input.name = `${key}-${lang}`;
+        input.placeholder = lang.toUpperCase();
+        input.value = values[lang][key] || '';
+        if (!isTextarea) input.type = 'text';
+        group.appendChild(input);
+    });
+
     return group;
 }
 
-function generateSimpleFields(data, keys, containerId, isTextarea = false) {
+function generateSimpleFields(data, keys, containerId, textareaKeys = {}) {
     const container = document.getElementById(containerId);
     keys.forEach(key => {
-        container.appendChild(createField(key, data[key] || '', isTextarea));
+        const isTextarea = textareaKeys[key] === 'area';
+        // Para campos no traducibles como email, teléfono, etc.
+        const isShared = !data.es[key] && !data.en[key];
+        const values = isShared ? { es: { [key]: data[key] }, en: { [key]: data[key] } } : data;
+        container.appendChild(createBilingualField(key, values, isTextarea));
     });
 }
 
@@ -137,15 +143,18 @@ function generateListFields(data, listKey, fieldConfig) {
         itemDiv.dataset.index = index;
 
         let fieldsHtml = '';
-        for (const key in fieldConfig) {
-            const isTextarea = fieldConfig[key] === 'area';
-            const inputType = isTextarea ? 'textarea' : 'input';
-            fieldsHtml += `
-                <div class="field-group">
-                    <label>${key.replace(/\b\w/g, l => l.toUpperCase())}</label>
-                    <${inputType} data-key="${key}" ${!isTextarea ? 'type="text"' : ''}>${item[key] || ''}</${inputType}>
-                </div>
-            `;
+        ['es', 'en'].forEach(lang => {
+            fieldsHtml += `<div class="lang-group"><h4>${lang.toUpperCase()}</h4>`;
+            for (const key in fieldConfig) {
+                const isTextarea = fieldConfig[key] === 'area';
+                const inputType = isTextarea ? 'textarea' : 'input';
+                fieldsHtml += `
+                    <div class="field-group"><label>${key.replace(/\b\w/g, l => l.toUpperCase())}</label>
+                    <${inputType} data-lang="${lang}" data-key="${key}" ${!isTextarea ? 'type="text"' : ''}>${item[lang]?.[key] || ''}</${inputType}></div>`;
+            }
+            // El link del proyecto es único, no bilingüe
+            if (fieldConfig.link && lang === 'es') fieldsHtml += `<div class="field-group"><label>Link</label><input type="text" data-key="link" value="${item.link || ''}"></div>`;
+            fieldsHtml += `</div>`;
         }
 
         itemDiv.innerHTML = `
@@ -158,12 +167,16 @@ function generateListFields(data, listKey, fieldConfig) {
         container.appendChild(itemDiv);
     };
 
-    (data[listKey] || []).forEach(renderItem);
+    // Asumimos que la lista en español es la principal para la longitud
+    (data.es[listKey] || []).forEach((_, index) => {
+        const item = { es: data.es[listKey][index], en: data.en[listKey][index], link: data.es[listKey][index].link };
+        renderItem(item, index);
+    });
 
     section.querySelector('.btn-add').addEventListener('click', () => {
-        const newItem = {};
-        for (const key in fieldConfig) newItem[key] = '';
-        data[listKey].push(newItem);
+        const newItem = { es: {}, en: {} };
+        data.es[listKey].push(newItem.es);
+        data.en[listKey].push(newItem.en);
         renderItem(newItem, data[listKey].length - 1);
     });
 
@@ -171,8 +184,8 @@ function generateListFields(data, listKey, fieldConfig) {
         if (e.target.classList.contains('btn-remove')) {
             const itemDiv = e.target.closest('.list-item');
             const index = parseInt(itemDiv.dataset.index, 10);
-            data[listKey].splice(index, 1);
-            itemDiv.remove();
+            data.es[listKey].splice(index, 1);
+            data.en[listKey].splice(index, 1);
             // Re-index remaining items
             Array.from(container.children).forEach((child, i) => {
                 child.dataset.index = i;
@@ -185,34 +198,44 @@ document.getElementById('admin-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const statusDiv = document.getElementById('save-status');
     const saveButton = e.target.querySelector('.btn-save');
-    const newData = {};
+    const newData = { es: {}, en: {} };
     const form = e.target;
 
     saveButton.disabled = true;
     statusDiv.textContent = 'Guardando...';
     statusDiv.style.color = 'var(--text-color)';
 
-    // Guardar campos simples
+    // Guardar campos simples bilingües
     form.querySelectorAll('input[type="text"], textarea').forEach(input => {
         if (!input.closest('.list-item')) {
-            newData[input.name] = input.value;
+            const [key, lang] = input.name.split('-');
+            if (lang) {
+                newData[lang][key] = input.value;
+            }
         }
     });
 
     // Guardar listas
     form.querySelectorAll('.list-section').forEach(section => {
         const listKey = section.dataset.listKey;
-        newData[listKey] = [];
+        newData.es[listKey] = [];
+        newData.en[listKey] = [];
         section.querySelectorAll('.list-item').forEach(itemDiv => {
-            const item = {};
+            const itemES = {};
+            const itemEN = {};
             itemDiv.querySelectorAll('input, textarea').forEach(input => {
-                item[input.dataset.key] = input.value;
+                const lang = input.dataset.lang;
+                const key = input.dataset.key;
+                if (lang === 'es') itemES[key] = input.value;
+                if (lang === 'en') itemEN[key] = input.value;
+                if (!lang && key === 'link') { itemES.link = itemEN.link = input.value; }
             });
-            newData[listKey].push(item);
+            newData.es[listKey].push(itemES);
+            newData.en[listKey].push(itemEN);
         });
     });
 
-    localStorage.setItem('portfolioData', JSON.stringify(newData));
+    localStorage.setItem('portfolioContent', JSON.stringify(newData));
 
     // Simular un pequeño retardo para que el usuario vea el mensaje "Guardando..."
     setTimeout(() => {

@@ -20,124 +20,150 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Inicialización de Datos y Contenido (si no está en mantenimiento) ---
-    const initData = {
-        'page-title': 'Santiago Fernandez - Programador y Experto en Ciberseguridad',
-        'header-name': 'Santiago Fernandez',
-        'fiverr-link': 'https://www.fiverr.com/s/NNyovjR',
-        'hero-title': 'Desarrollador de Software y Experto en Ciberseguridad',
-        'hero-subtitle': 'Creando soluciones digitales seguras, eficientes y escalables en la nube.',
-        'about-me-text': 'Soy un técnico en sistemas microinformáticos y redes, actualmente especializándome en ciberseguridad y cloud computing (AWS y Azure). Mi pasión por la tecnología me impulsa a aprender y aplicar constantemente nuevos conocimientos en programación, seguridad de sistemas y administración de infraestructuras. Busco oportunidades para desarrollar soluciones seguras y eficientes, y contribuir con mi entusiasmo y habilidades a proyectos innovadores.',
-        'contact-intro': 'Estoy disponible para oportunidades freelance o para discutir sobre tecnología y seguridad. No dudes en contactarme.',
-        'contact-email': 'santiagorfernandezcv@gmail.com',
-        'contact-phone': '+34 640365047',
-        'contact-location': '28939 Arroyomolinos, España',
-        'footer-text': 'Santiago Fernandez. Todos los derechos reservados.',
-        'experience-list': [
-            {
-                title: 'Realizando tareas de Programador',
-                company: 'Armonia (18/03/2025 – 16/06/2025) Salerno, Italia',
-                description: ''
+    const initialTranslations = {
+        // Textos fijos de la interfaz
+        ui: {
+            es: {
+                'nav-about': 'Sobre mí', 'nav-experience': 'Experiencia', 'nav-projects': 'Proyectos', 'nav-contact': 'Contacto',
+                'fiverr-btn': 'Contrátame en Fiverr',
+                'title-about': 'Sobre Mí', 'title-experience': 'Experiencia Laboral', 'title-education': 'Educación y Formación', 'title-languages': 'Competencias Lingüísticas', 'title-projects': 'Proyectos Destacados', 'title-contact': 'Contacto',
+                'contact-lets-talk': 'Hablemos', 'contact-send-message': 'Envíame un mensaje',
+                'form-placeholder-name': 'Tu Nombre', 'form-placeholder-email': 'Tu Correo Electrónico', 'form-placeholder-message': 'Tu Mensaje',
+                'form-send-button': 'Enviar Mensaje',
+                'project-link': 'Ver en GitHub →'
             },
-            {
-                title: 'Soporte de hosting (online)',
-                company: '(05/2022 – 09/2023) Madrid, España',
-                description: ''
+            en: {
+                'nav-about': 'About Me', 'nav-experience': 'Experience', 'nav-projects': 'Projects', 'nav-contact': 'Contact',
+                'fiverr-btn': 'Hire me on Fiverr',
+                'title-about': 'About Me', 'title-experience': 'Work Experience', 'title-education': 'Education & Training', 'title-languages': 'Language Skills', 'title-projects': 'Featured Projects', 'title-contact': 'Contact',
+                'contact-lets-talk': "Let's Talk", 'contact-send-message': 'Send me a message',
+                'form-placeholder-name': 'Your Name', 'form-placeholder-email': 'Your Email', 'form-placeholder-message': 'Your Message',
+                'form-send-button': 'Send Message',
+                'project-link': 'View on GitHub →'
             }
-        ],
-        'education-list': [
-            {
-                title: 'Grado Medio Sistemas Microinformáticos y Redes',
-                company: 'Santa Gema FP, Galgani (09/2023 – 06/2025) Madrid, España',
-                description: ''
+        },
+        // Contenido editable
+        content: {
+            es: {
+                'page-title': 'Santiago Fernandez - Programador y Experto en Ciberseguridad',
+                'header-name': 'Santiago Fernandez',
+                'fiverr-link': 'https://www.fiverr.com/s/NNyovjR',
+                'hero-title': 'Desarrollador de Software y Experto en Ciberseguridad',
+                'hero-subtitle': 'Creando soluciones digitales seguras, eficientes y escalables en la nube.',
+                'about-me-text': 'Soy un técnico en sistemas microinformáticos y redes, actualmente especializándome en ciberseguridad y cloud computing (AWS y Azure). Mi pasión por la tecnología me impulsa a aprender y aplicar constantemente nuevos conocimientos en programación, seguridad de sistemas y administración de infraestructuras. Busco oportunidades para desarrollar soluciones seguras y eficientes, y contribuir con mi entusiasmo y habilidades a proyectos innovadores.',
+                'contact-intro': 'Estoy disponible para oportunidades freelance o para discutir sobre tecnología y seguridad. No dudes en contactarme.',
+                'contact-email': 'santiagorfernandezcv@gmail.com',
+                'contact-phone': '+34 640365047',
+                'contact-location': '28939 Arroyomolinos, España',
+                'footer-text': 'Santiago Fernandez. Todos los derechos reservados.',
+                'experience-list': [
+                    { title: 'Realizando tareas de Programador', company: 'Armonia (18/03/2025 – 16/06/2025) Salerno, Italia', description: '' },
+                    { title: 'Soporte de hosting (online)', company: '(05/2022 – 09/2023) Madrid, España', description: '' }
+                ],
+                'education-list': [
+                    { title: 'Grado Medio Sistemas Microinformáticos y Redes', company: 'Santa Gema FP, Galgani (09/2023 – 06/2025) Madrid, España', description: '' },
+                    { title: 'Experto Universitario en Cloud Computing. Arquitectura y Soluciones (AWS y Azure)', company: 'UNIR (10/2023 – 01/2024) Madrid, España', description: '' },
+                    { title: 'Introducción a Ciberseguridad', company: 'Cisco Networking Academy (04/2024 – Actual) Madrid, España', description: '' },
+                    { title: 'Fundamentos de IA con IBM SkillsBuild', company: 'Cisco Networking Academy (11/2024 – Actual) Madrid, España', description: '' },
+                    { title: 'Fundamentos de Python 1', company: 'Cisco Networking Academy (03/2024 – 11/2024) Madrid, España', description: '' },
+                    { title: 'CIBERSEGURIDAD PERSONAL', company: 'BACKTRACK ACADEMY (12/2020 – 01/2021) Madrid, España', description: '' },
+                    { title: 'Google: Inteligencia Artificial y Productividad', company: 'Santander Academy (04/05/2025) Madrid, España', description: '' },
+                    { title: 'Piloto De Drones (A1/A3, A2, STS01-STS02)', company: 'AESA & Bai Escuela de drones (2025) Madrid, España', description: '' }
+                ],
+                'languages-list': [
+                    { title: 'Español', company: 'Nativo', description: '' },
+                    { title: 'Inglés', company: 'Profesional (C1)', description: '' }
+                ],
+                'projects-list': [
+                    { title: '🛡️ File Integrity Monitor', description: 'Herramienta de ciberseguridad en Python que supervisa directorios, calcula hashes SHA-256 y registra cambios en archivos.', link: 'https://github.com/Santiago-off/File-Integrity-Monitor' },
+                    { title: '🔐 Encryptador Web', description: 'Aplicación en React + Vite para encriptar y desencriptar texto localmente usando el cifrado de Vigenère.', link: 'https://github.com/Santiago-off/Encryptator' },
+                    { title: '🏦 Banco Simulado', description: 'Simulador de una aplicación bancaria web con funcionalidades de registro, login y transferencias, usando Firebase para la gestión de datos.', link: 'https://github.com/Santiago-off/Banco-Simulado' }
+                ]
             },
-            {
-                title: 'Experto Universitario en Cloud Computing. Arquitectura y Soluciones (AWS y Azure)',
-                company: 'UNIR (10/2023 – 01/2024) Madrid, España',
-                description: ''
-            },
-            {
-                title: 'Introducción a Ciberseguridad',
-                company: 'Cisco Networking Academy (04/2024 – Actual) Madrid, España',
-                description: ''
-            },
-            {
-                title: 'Fundamentos de IA con IBM SkillsBuild',
-                company: 'Cisco Networking Academy (11/2024 – Actual) Madrid, España',
-                description: ''
-            },
-            {
-                title: 'Fundamentos de Python 1',
-                company: 'Cisco Networking Academy (03/2024 – 11/2024) Madrid, España',
-                description: ''
-            },
-            {
-                title: 'CIBERSEGURIDAD PERSONAL',
-                company: 'BACKTRACK ACADEMY (12/2020 – 01/2021) Madrid, España',
-                description: ''
-            },
-            {
-                title: 'Google: Inteligencia Artificial y Productividad',
-                company: 'Santander Academy (04/05/2025) Madrid, España',
-                description: ''
-            },
-            {
-                title: 'Piloto De Drones (A1/A3, A2, STS01-STS02)',
-                company: 'AESA & Bai Escuela de drones (2025) Madrid, España',
-                description: ''
+            en: {
+                'page-title': 'Santiago Fernandez - Programmer & Cybersecurity Expert',
+                'header-name': 'Santiago Fernandez',
+                'fiverr-link': 'https://www.fiverr.com/s/NNyovjR',
+                'hero-title': 'Software Developer & Cybersecurity Expert',
+                'hero-subtitle': 'Creating secure, efficient, and scalable digital solutions in the cloud.',
+                'about-me-text': 'I am a microcomputer systems and networks technician, currently specializing in cybersecurity and cloud computing (AWS and Azure). My passion for technology drives me to constantly learn and apply new knowledge in programming, system security, and infrastructure administration. I am looking for opportunities to develop secure and efficient solutions, and to contribute my enthusiasm and skills to innovative projects.',
+                'contact-intro': 'I am available for freelance opportunities or to discuss technology and security. Feel free to contact me.',
+                'contact-email': 'santiagorfernandezcv@gmail.com',
+                'contact-phone': '+34 640365047',
+                'contact-location': '28939 Arroyomolinos, Spain',
+                'footer-text': 'Santiago Fernandez. All rights reserved.',
+                'experience-list': [
+                    { title: 'Performing Programmer tasks', company: 'Armonia (Mar 2025 – Jun 2025) Salerno, Italy', description: '' },
+                    { title: 'Hosting support (online)', company: '(May 2022 – Sep 2023) Madrid, Spain', description: '' }
+                ],
+                'education-list': [
+                    { title: 'Vocational Training in Microcomputer Systems and Networks', company: 'Santa Gema FP, Galgani (Sep 2023 – Jun 2025) Madrid, Spain', description: '' },
+                    { title: 'University Expert in Cloud Computing. Architecture and Solutions (AWS and Azure)', company: 'UNIR (Oct 2023 – Jan 2024) Madrid, Spain', description: '' },
+                    { title: 'Introduction to Cybersecurity', company: 'Cisco Networking Academy (Apr 2024 – Present) Madrid, Spain', description: '' },
+                    { title: 'AI Fundamentals with IBM SkillsBuild', company: 'Cisco Networking Academy (Nov 2024 – Present) Madrid, Spain', description: '' },
+                    { title: 'Python Essentials 1', company: 'Cisco Networking Academy (Mar 2024 – Nov 2024) Madrid, Spain', description: '' },
+                    { title: 'PERSONAL CYBERSECURITY', company: 'BACKTRACK ACADEMY (Dec 2020 – Jan 2021) Madrid, Spain', description: '' },
+                    { title: 'Google: Artificial Intelligence and Productivity', company: 'Santander Academy (May 4, 2025) Madrid, Spain', description: '' },
+                    { title: 'Drone Pilot (A1/A3, A2, STS01-STS02)', company: 'AESA & Bai Drone School (2025) Madrid, Spain', description: '' }
+                ],
+                'languages-list': [
+                    { title: 'Spanish', company: 'Native', description: '' },
+                    { title: 'English', company: 'Professional (C1)', description: '' }
+                ],
+                'projects-list': [
+                    { title: '🛡️ File Integrity Monitor', description: 'A cybersecurity tool in Python that monitors directories, calculates SHA-256 hashes, and logs file changes.', link: 'https://github.com/Santiago-off/File-Integrity-Monitor' },
+                    { title: '🔐 Web Encryptor', description: 'A React + Vite application to encrypt and decrypt text locally using the Vigenère cipher.', link: 'https://github.com/Santiago-off/Encryptator' },
+                    { title: '🏦 Simulated Bank', description: 'A web application simulator for a bank with registration, login, and transfer functionalities, using Firebase for data management.', link: 'https://github.com/Santiago-off/Banco-Simulado' }
+                ]
             }
-        ],
-        'languages-list': [
-            { title: 'Español', company: 'Nativo', description: '' },
-            { title: 'Inglés', company: 'Profesional (C1)', description: '' }
-        ],
-        'projects-list': [
-            {
-                title: '🛡️ File Integrity Monitor',
-                description: 'Herramienta de ciberseguridad en Python que supervisa directorios, calcula hashes SHA-256 y registra cambios en archivos.',
-                link: 'https://github.com/Santiago-off/File-Integrity-Monitor'
-            },
-            {
-                title: '🔐 Encryptador Web',
-                description: 'Aplicación en React + Vite para encriptar y desencriptar texto localmente usando el cifrado de Vigenère.',
-                link: 'https://github.com/Santiago-off/Encryptator'
-            },
-            {
-                title: '🏦 Banco Simulado',
-                description: 'Simulador de una aplicación bancaria web con funcionalidades de registro, login y transferencias, usando Firebase para la gestión de datos.',
-                link: 'https://github.com/Santiago-off/Banco-Simulado'
-            }
-        ]
+        }
     };
 
-    // Función para cargar datos desde localStorage o usar los iniciales
-    function getPortfolioData() {
-        const savedData = localStorage.getItem('portfolioData');
+    function getTranslations() {
+        const savedData = localStorage.getItem('portfolioContent');
         if (savedData) {
-            return JSON.parse(savedData);
+            // Combina los datos guardados con los textos fijos de la UI
+            return { ...initialTranslations, content: JSON.parse(savedData) };
         } else {
-            localStorage.setItem('portfolioData', JSON.stringify(initData));
-            return initData;
+            localStorage.setItem('portfolioContent', JSON.stringify(initialTranslations.content));
+            return initialTranslations;
         }
     }
 
-    const portfolioData = getPortfolioData();
+    const allTranslations = getTranslations();
+    let currentLang = localStorage.getItem('language') || 'es';
 
     // --- Renderizado de Contenido ---
-    function renderContent() {
+    function renderContent(lang) {
+        const content = allTranslations.content[lang];
+        const ui = allTranslations.ui[lang];
+
         // Renderizar textos simples
         document.querySelectorAll('[data-editable]').forEach(el => {
             const key = el.dataset.editable;
-            if (portfolioData[key]) {
+            if (content[key]) {
                 if (el.tagName === 'A') {
-                    el.href = portfolioData[key];
+                    el.href = content[key];
                 } else {
-                    el.textContent = portfolioData[key];
+                    el.textContent = content[key];
                 }
             }
         });
 
+        // Renderizar textos fijos de la UI
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.dataset.key;
+            if (ui[key]) el.textContent = ui[key];
+        });
+
+        // Renderizar placeholders
+        document.querySelectorAll('[data-key-placeholder]').forEach(el => {
+            const key = el.dataset.keyPlaceholder;
+            if (ui[key]) el.placeholder = ui[key];
+        });
+
         // Renderizar listas (Experiencia, Educación, etc.)
-        renderList('experience-list', (item) => `
+        renderList('experience-list', content, (item) => `
             <div class="timeline-item">
                 <h3>${item.title}</h3>
                 <h4>${item.company}</h4>
@@ -145,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `);
 
-        renderList('education-list', (item) => `
+        renderList('education-list', content, (item) => `
             <div class="timeline-item">
                 <h3>${item.title}</h3>
                 <h4>${item.company}</h4>
@@ -153,21 +179,21 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `);
 
-        renderList('languages-list', (item) => `
+        renderList('languages-list', content, (item) => `
             <div class="timeline-item">
                 <h3>${item.title}</h3>
                 <h4>${item.company}</h4>
             </div>
         `);
 
-        renderList('projects-list', (item) => `
+        renderList('projects-list', content, (item) => `
             <div class="project-card">
                 <div class="project-card-content">
                     <h3>${item.title}</h3>
                     <p>${item.description}</p>
                 </div>
                 <div class="project-card-footer">
-                    <a href="${item.link}" target="_blank" rel="noopener noreferrer">Ver en GitHub &rarr;</a>
+                    <a href="${item.link}" target="_blank" rel="noopener noreferrer">${ui['project-link']}</a>
                 </div>
             </div>
         `);
@@ -176,10 +202,25 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('current-year').textContent = new Date().getFullYear();
     }
 
-    function renderList(key, templateFn) {
+    function renderList(key, content, templateFn) {
         const container = document.querySelector(`[data-editable-list="${key}"]`);
-        if (container && portfolioData[key]) {
-            container.innerHTML = portfolioData[key].map(templateFn).join('');
+        if (container && content[key]) {
+            container.innerHTML = content[key].map(templateFn).join('');
+        }
+    }
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('language', lang);
+        document.documentElement.lang = lang; // Actualiza el atributo lang del HTML
+        renderContent(lang);
+
+        // Actualiza el botón activo
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        if (contactForm) {
+            contactForm.reset();
         }
     }
 
@@ -274,7 +315,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Ejecución Inicial ---
-    renderContent();
+    setLanguage(currentLang); // Renderiza con el idioma actual
     updateVisitCounter();
     checkAdminMode();
+
+    // Event Listeners para el selector de idioma
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+    });
 });

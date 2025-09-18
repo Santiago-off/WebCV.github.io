@@ -126,6 +126,24 @@ a, button {
     box-shadow: 0 4px 15px rgba(0, 173, 181, 0.4);
 }
 
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 1rem;
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: bold;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+.lang-btn.active, .lang-btn:hover { opacity: 1; }
+
 /* --- Secciones Principales --- */
 main {
     padding-top: 80px; /* Espacio para el header fijo */
@@ -373,6 +391,9 @@ main {
     .nav {
         margin: 1rem 0;
     }
+    .lang-switcher {
+        order: -1; /* Mueve el selector de idioma arriba en móvil */
+    }
     .hero-content h1 {
         font-size: 2.5rem;
     }
@@ -383,4 +404,3 @@ main {
         flex-direction: column;
     }
 }
-
