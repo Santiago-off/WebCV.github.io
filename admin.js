@@ -142,7 +142,7 @@ function generateSimpleFields(data, keys, containerId, textareaKeys = {}) {
         const isTextarea = textareaKeys[key] === 'area';
         // Para campos no traducibles como email, teléfono, etc.
         // Un campo es compartido si no existe en las propiedades 'es' o 'en' del objeto de datos.
-        const isShared = data.es && data.en && data.es[key] === undefined && data.en[key] === undefined;
+        const isShared = data.es && data.en && data.es[key] === undefined && data.en[key] === undefined && data[key] !== undefined;
         let values = data;
         if (isShared) {
             // Si es compartido, creamos una estructura temporal para que createBilingualField funcione.
