@@ -1,0 +1,6 @@
+<!-- logo.svg -->
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" fill="none"/>
+  <path d="M35 25 H 65 C 75 25 75 35 65 35 H 45 C 35 35 35 45 45 45 H 70" stroke="#00ADB5" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M65 75 H 35 C 25 75 25 65 35 65 H 55 C 65 65 65 55 55 55 H 30" stroke="#EEEEEE" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

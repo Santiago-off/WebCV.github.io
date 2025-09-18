@@ -1,249 +1,138 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  
-  <!-- ===== SEO BÁSICO ===== -->
-  <title>Santiago Reguero Fernández | Portafolio de Programación, Cloud y Drones</title>
-  <meta name="description" content="Portafolio profesional de Santiago Reguero Fernández. Estudiante de informática con experiencia en desarrollo, cloud computing, ciberseguridad y pilotaje de drones. Proyectos en Python, JavaScript, AWS y más.">
-  <meta name="keywords" content="programador, desarrollador web, python, javascript, cloud, aws, azure, drone, piloto de drones, portafolio, santiago reguero, informática, ciberseguridad, ia">
-  <meta name="author" content="Santiago Reguero Fernández">
-  <meta name="robots" content="index, follow">
-
-  <!-- ===== OPEN GRAPH (Facebook, LinkedIn, WhatsApp) ===== -->
-  <meta property="og:title" content="Santiago Reguero Fernández | Portafolio Profesional">
-  <meta property="og:description" content="Estudiante de informática especializado en desarrollo, cloud computing y pilotaje de drones. Conecta conmigo y revisa mis proyectos en Python, JavaScript y AWS.">
-  <meta property="og:image" content="https://santiagoreguero.github.io/mi-portafolio/assets/og-image.jpg">
-  <meta property="og:url" content="https://santiagoreguero.github.io/mi-portafolio/">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Santiago Reguero Fernández">
-
-  <!-- ===== TWITTER CARD ===== -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@Santiago-off">
-  <meta name="twitter:creator" content="@Santiago-off">
-  <meta name="twitter:title" content="Santiago Reguero Fernández | Portafolio de Tecnología">
-  <meta name="twitter:description" content="Desarrollador, piloto de drones y apasionado por la tecnología. Proyectos reales en Python, Cloud y seguridad.">
-  <meta name="twitter:image" content="https://santiagoreguero.github.io/mi-portafolio/assets/og-image.jpg">
-
-  <!-- ===== CANONICAL URL ===== -->
-  <link rel="canonical" href="https://santiagoreguero.github.io/mi-portafolio/">
-
-  <!-- ===== FAVICONS ===== -->
-  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
-  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
-
-  <!-- ===== PRELOAD Y PERFORMANCE ===== -->
-  <link rel="preload" href="css/style-index.css" as="style">
-  <link rel="preload" href="js/app.js" as="script">
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
-
-  <!-- ===== FONT AWESOME (iconos) ===== -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
-  <!-- ===== ESTILOS PRINCIPALES ===== -->
-  <link rel="stylesheet" href="css/style-index.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-editable="page-title">Santiago Fernandez - Programador y Experto en Ciberseguridad</title>
+    <meta name="description" content="Portafolio profesional de Santiago Fernandez, desarrollador de software y especialista en ciberseguridad con experiencia en AWS y Azure.">
+    <meta name="keywords" content="programador, ciberseguridad, portfolio, desarrollador, AWS, Azure, Python, JavaScript">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="logo.svg" type="image/svg+xml">
 </head>
 <body>
-  <!-- Selector de idioma (banderas) -->
-  <div class="language-switcher">
-    <button id="es-btn" class="lang-btn active">
-      <img src="https://flagcdn.com/es.svg" alt="Español" width="32" height="24">
-    </button>
-    <button id="en-btn" class="lang-btn">
-      <img src="https://flagcdn.com/us.svg" alt="English" width="32" height="24">
-    </button>
-  </div>
 
-  <div class="cursor-follower"></div>
-  <div class="color-bar"></div>
-  <div id="webgl-background"></div>
+    <!-- Cursor Personalizado -->
+    <div class="custom-cursor"></div>
 
-  <header id="home">
-    <h1><span class="text-animate">Santiago Reguero Fernández</span></h1>
-    <p><span class="typing-text"></span></p>
-  </header>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <img src="logo.svg" alt="Logo SF" class="logo-img">
+            <span data-editable="header-name">Santiago Fernandez</span>
+        </div>
+        <nav class="nav">
+            <a href="#about">Sobre mí</a>
+            <a href="#experience">Experiencia</a>
+            <a href="#projects">Proyectos</a>
+            <a href="#contact">Contacto</a>
+        </nav>
+        <a data-editable="fiverr-link" href="https://www.fiverr.com/s/NNyovjR" target="_blank" class="fiverr-btn">
+            <img src="https://img.icons8.com/ios-filled/50/eeeeee/fiverr.png" alt="Fiverr"/>
+            <span>Contrátame en Fiverr</span>
+        </a>
+    </header>
 
-  <nav id="main-nav">
-    <a href="#home" data-color="#00f5d4" data-es="Inicio" data-en="Home">Inicio</a>
-    <a href="#sobre-mi" data-color="#7b2cbf" data-es="Sobre Mí" data-en="About Me">Sobre Mí</a>
-    <a href="#proyectos" data-color="#e91e63" data-es="Proyectos" data-en="Projects">Proyectos</a>
-    <a href="#experiencia" data-color="#ff9500" data-es="Experiencia" data-en="Experience">Experiencia</a>
-    <a href="#educacion" data-color="#7ed957" data-es="Educación" data-en="Education">Educación</a>
-    <a href="#competencias-tecnicas" data-color="#6f42c1" data-es="Competencias" data-en="Skills">Competencias</a>
-    <a href="#competencias" data-color="#29c7c9" data-es="Idiomas" data-en="Languages">Idiomas</a>
-    <a href="#contacto" data-color="#f05454" data-es="Contacto" data-en="Contact">Contacto</a>
-    <a href="admin.html" class="btn-admin">🔐 Admin</a>
-  </nav>
-
-  <main>
-    <section id="sobre-mi">
-      <h2><span class="section-title" data-es="Sobre mí" data-en="About Me">Sobre mí</span></h2>
-      <p class="i18n" data-es="Estudiante de informática con habilidades en programación y análisis de datos. Con experiencia en proyectos de desarrollo en Cloud y en pilotaje de drones, además de capacidad para trabajar en equipo de manera eficiente y colaborativa." 
-         data-en="Computer science student with skills in programming and data analysis. Experienced in Cloud development and drone piloting, with strong teamwork and collaboration abilities."></p>
-      <p class="i18n" data-es="Mi pasión por la tecnología me ha llevado a formarme en diversas áreas como programación, inteligencia artificial, ciberseguridad, cloud computing y pilotaje de drones. Busco oportunidades para aplicar mis conocimientos y continuar desarrollándome profesionalmente." 
-         data-en="My passion for technology has led me to train in areas such as programming, artificial intelligence, cybersecurity, cloud computing, and drone piloting. I'm seeking opportunities to apply my knowledge and grow professionally."></p>
-    </section>
-
-    <section id="proyectos">
-      <h2><span class="section-title" data-es="Proyectos Destacados" data-en="Featured Projects">Proyectos Destacados</span></h2>
-      <div class="projects-grid">
-        <div class="project-card" data-github="https://github.com/Santiago-off/File-Integrity-Monitor.git">
-          <div class="card-content">
-            <h3>File-Integrity-Monitor</h3>
-            <p class="i18n" data-es="Monitor de integridad de archivos en Python. Detecta cambios en tiempo real con hashes SHA-256." 
-               data-en="File integrity monitor in Python. Detects real-time changes using SHA-256 hashes."></p>
-            <span class="tech">Python · SHA-256 · Watchdog · CLI</span>
-            <div class="project-footer">
-              <i class="fab fa-github"></i> <small class="i18n" data-es="Ver código" data-en="View Code"></small>
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero">
+            <div class="hero-content">
+                <h1 class="fade-in" data-editable="hero-title">Desarrollador de Software y Experto en Ciberseguridad</h1>
+                <p class="fade-in" data-editable="hero-subtitle">Creando soluciones digitales seguras, eficientes y escalables en la nube.</p>
+                <div class="hero-skills fade-in">
+                    <span>Python</span>
+                    <span>JavaScript</span>
+                    <span>AWS</span>
+                    <span>Azure</span>
+                    <span>Ciberseguridad</span>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="project-card" data-github="https://github.com/Santiago-off/Encryptator.git">
-          <div class="card-content">
-            <h3>Encryptator</h3>
-            <p class="i18n" data-es="Aplicación web para encriptar/desencriptar datos localmente con clave personalizada." 
-               data-en="Web app to encrypt/decrypt data locally with a custom key."></p>
-            <span class="tech">React · Vite · AES · JavaScript</span>
-            <div class="project-footer">
-              <i class="fab fa-github"></i> <small class="i18n" data-es="Ver código" data-en="View Code"></small>
+        </section>
+
+        <!-- About Me Section -->
+        <section id="about" class="content-section">
+            <h2 class="section-title">Sobre Mí</h2>
+            <p data-editable="about-me-text">
+                Soy un programador apasionado por la tecnología y la seguridad informática. Con una sólida experiencia en el desarrollo de aplicaciones y la gestión de infraestructuras en la nube (AWS, Azure), mi objetivo es construir software que no solo sea funcional, sino también robusto y seguro. Me especializo en la identificación de vulnerabilidades y la implementación de arquitecturas resilientes para proteger los activos digitales más críticos.
+            </p>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="content-section">
+            <h2 class="section-title">Experiencia Laboral</h2>
+            <div class="timeline" data-editable-list="experience-list">
+                <!-- El contenido se generará desde JS -->
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <section id="experiencia">
-      <h2><span class="section-title" data-es="Experiencia Laboral" data-en="Work Experience">Experiencia Laboral</span></h2>
-      <ul class="timeline">
-        <li><strong class="i18n" data-es="Soporte de hosting (online)" data-en="Hosting support (online)">Soporte de hosting (online)</strong> – 05/2022 – 09/2023 | Madrid, España</li>
-        <li><strong class="i18n" data-es="Armonia Salerno" data-en="Armonia Salerno">Armonia Salerno</strong> – 09/2023 – 06/2025 | Madrid, España</li>
-      </ul>
-    </section>
+        <!-- Education Section -->
+        <section id="education" class="content-section">
+            <h2 class="section-title">Educación y Formación</h2>
+            <div class="timeline" data-editable-list="education-list">
+                <!-- El contenido se generará desde JS -->
+            </div>
+        </section>
 
-    <section id="educacion">
-      <h2><span class="section-title" data-es="Educación y Formación" data-en="Education & Training">Educación y Formación</span></h2>
-      <ul class="education-list">
-        <li><strong class="i18n" data-es="Grado Medio Sistemas Microinformáticos y Redes" data-en="Vocational Degree in IT Systems">Grado Medio Sistemas Microinformáticos y Redes</strong> – Santa Gema FP</li>
-        <li><strong class="i18n" data-es="Experto en Cloud Computing (AWS y Azure)" data-en="Cloud Computing Expert (AWS & Azure)">Experto en Cloud Computing (AWS y Azure)</strong> – UNIR</li>
-        <li><strong class="i18n" data-es="Fundamentos de Python 1" data-en="Python Fundamentals 1">Fundamentos de Python 1</strong> – Cisco Networking Academy</li>
-        <li><strong class="i18n" data-es="Piloto de Drones A1/A3 y A2" data-en="Drone Pilot A1/A3 and A2">Piloto de Drones A1/A3 y A2</strong> – AESA / Bai Escuela</li>
-      </ul>
-    </section>
+        <!-- Languages Section -->
+        <section id="languages" class="content-section">
+            <h2 class="section-title">Competencias Lingüísticas</h2>
+            <div class="timeline" data-editable-list="languages-list">
+                <!-- El contenido se generará desde JS -->
+            </div>
+        </section>
 
-    <!-- NUEVA SECCIÓN: COMPETENCIAS TÉCNICAS -->
-    <section id="competencias-tecnicas">
-      <h2><span class="section-title" data-es="Competencias Técnicas" data-en="Technical Skills">Competencias Técnicas</span></h2>
-      <div class="skills-grid">
-        <div class="skill-item">
-          <i class="fab fa-python"></i>
-          <h3 class="i18n" data-es="Python" data-en="Python">Python</h3>
-        </div>
-        <div class="skill-item">
-          <i class="fab fa-html5"></i>
-          <h3 class="i18n" data-es="HTML" data-en="HTML">HTML</h3>
-        </div>
-        <div class="skill-item">
-          <i class="fab fa-css3-alt"></i>
-          <h3 class="i18n" data-es="CSS" data-en="CSS">CSS</h3>
-        </div>
-        <div class="skill-item">
-          <i class="fab fa-js"></i>
-          <h3 class="i18n" data-es="JavaScript" data-en="JavaScript">JavaScript</h3>
-        </div>
-        <div class="skill-item">
-          <i class="fas fa-database"></i>
-          <h3 class="i18n" data-es="SQL" data-en="SQL">SQL</h3>
-        </div>
-      </div>
-    </section>
+        <!-- Projects Section -->
+        <section id="projects" class="content-section">
+            <h2 class="section-title">Proyectos Destacados</h2>
+            <div class="project-grid" data-editable-list="projects-list">
+                <!-- Las tarjetas de proyecto se generarán desde JS -->
+            </div>
+        </section>
 
-    <!-- COMPETENCIAS LINGÜÍSTICAS (IDIOMAS) -->
-    <section id="competencias">
-      <h2><span class="section-title" data-es="Competencias Lingüísticas" data-en="Language Skills">Competencias Lingüísticas</span></h2>
-      <div class="language"><h3>Español</h3><p class="i18n" data-es="Lengua materna" data-en="Native language">Lengua materna</p></div>
-      <div class="language"><h3>Inglés</h3><p class="i18n" data-es="Nivel: A2 (Básico)" data-en="Level: A2 (Basic)">Nivel: A2 (Básico)</p></div>
-      <div class="language"><h3>Italiano</h3><p class="i18n" data-es="Nivel: A2 (Básico)" data-en="Level: A2 (Basic)">Nivel: A2 (Básico)</p></div>
-    </section>
+        <!-- Contact Section -->
+        <section id="contact" class="content-section">
+            <h2 class="section-title">Contacto</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Hablemos</h3>
+                    <p data-editable="contact-intro">Estoy disponible para oportunidades freelance o para discutir sobre tecnología y seguridad. No dudes en contactarme.</p>
+                    <ul>
+                        <li>
+                            <img src="https://img.icons8.com/ios-glyphs/30/00ADB5/new-post.png" alt="Email"/>
+                            <a data-editable="contact-email" href="mailto:santiagorfernandezcv@gmail.com">santiagorfernandezcv@gmail.com</a>
+                        </li>
+                        <li>
+                            <img src="https://img.icons8.com/ios-glyphs/30/00ADB5/phone--v1.png" alt="Phone"/>
+                            <span data-editable="contact-phone">+34 640365047</span>
+                        </li>
+                        <li>
+                            <img src="https://img.icons8.com/ios-glyphs/30/00ADB5/marker--v1.png" alt="Location"/>
+                            <span data-editable="contact-location">28939 Arroyomolinos, España</span>
+                        </li>
+                    </ul>
+                </div>
+                <form id="contact-form" class="contact-form">
+                    <h3>Envíame un mensaje</h3>
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" required placeholder="Tu Nombre">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" required placeholder="Tu Correo Electrónico">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" rows="5" required placeholder="Tu Mensaje"></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Enviar Mensaje</button>
+                    <div id="form-status"></div>
+                </form>
+            </div>
+        </section>
+    </main>
 
-    <section id="contacto">
-      <div class="contact-info">
-        <h2 class="i18n" data-es="Contacto" data-en="Contact">Contacto</h2>
-        <ul>
-          <li><i class="fas fa-map-marker-alt"></i> Arroyomolinos, España</li>
-          <li><i class="fas fa-envelope"></i> santiagorfernandezcv@gmail.com</li>
-          <li><i class="fas fa-phone"></i> (+34) 640365047</li>
-          <li><i class="fas fa-calendar"></i> 27/04/2007</li>
-        </ul>
-      </div>
-      <div class="contact-form">
-        <h3 class="i18n" data-es="Envíame un mensaje" data-en="Send me a message">Envíame un mensaje</h3>
-        <form id="contactForm">
-          <input type="text" id="name" placeholder="Nombre" required />
-          <input type="email" id="email" placeholder="Correo" required />
-          <textarea id="message" placeholder="Mensaje" required></textarea>
-          <button type="submit" class="i18n" data-es="Enviar" data-en="Send">Enviar</button>
-        </form>
-      </div>
-    </section>
-  </main>
+    <footer class="footer">
+        <p>&copy; <span id="current-year"></span> <span data-editable="footer-text">Santiago Fernandez. Todos los derechos reservados.</span></p>
+        <p>Visitas a la página: <span id="visit-counter">0</span></p>
+    </footer>
 
-  <footer><p>&copy; 2025 Santiago Reguero Fernández</p></footer>
-
-  <!-- ===== STRUCTURED DATA (Schema.org) ===== -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Santiago Reguero Fernández",
-    "url": "https://santiagoreguero.github.io/mi-portafolio/",
-    "sameAs": [
-      "https://github.com/Santiago-off",
-      "https://linkedin.com/in/santiago-reguero-fernandez"
-    ],
-    "jobTitle": "Estudiante de Informática",
-    "description": "Programador, especialista en Cloud, ciberseguridad y piloto de drones.",
-    "image": "https://santiagoreguero.github.io/mi-portafolio/assets/og-image.jpg",
-    "email": "santiagorfernandezcv@gmail.com",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Arroyomolinos, España"
-    },
-    "alumniOf": {
-      "@type": "EducationalOrganization",
-      "name": "Santa Gema FP"
-    },
-    "knowsAbout": [
-      "Python",
-      "JavaScript",
-      "HTML",
-      "CSS",
-      "SQL",
-      "Cloud Computing",
-      "Ciberseguridad",
-      "Drones"
-    ]
-  }
-  </script>
-
-  <!-- ===== FIREBASE SDK ===== -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDdSYZKLswQn9EROpZ8SekOvFtTWr3rYUQ",
-      authDomain: "mi-portafolio-admin.firebaseapp.com",
-      projectId: "mi-portafolio-admin",
-      storageBucket: "mi-portafolio-admin.firebasestorage.app",
-      messagingSenderId: "593564928013",
-      appId: "1:593564928013:web:3f7c3a9e0da743abaead44"
-    };
-    firebase.initializeApp(firebaseConfig);
-  </script>
-  <script src="js/app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

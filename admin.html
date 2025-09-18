@@ -1,111 +1,60 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🔐 Panel de Administración</title>
-  <link rel="stylesheet" href="css/style-admin.css" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="icon" href="logo.svg" type="image/svg+xml">
 </head>
 <body>
-  <div class="admin-container" id="loginForm">
-    <h2><i class="fas fa-user-shield"></i> Acceso al Panel</h2>
-    <input type="email" id="email" placeholder="Tu correo" />
-    <input type="password" id="password" placeholder="Contraseña" />
-    <button onclick="login()">Iniciar Sesión</button>
-    <p id="error" style="color: #f05454; display: none; margin-top: 10px;"></p>
-  </div>
-
-  <div class="admin-container" id="adminPanel" style="display: none;">
-    <h2>🛡️ Panel de Administración</h2>
-    <p>Bienvenido, Santiago. Control total del portafolio.</p>
-
-    <!-- PESTAÑAS -->
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="stats"><i class="fas fa-chart-line"></i> Estadísticas</button>
-      <button class="tab-btn" data-tab="messages"><i class="fas fa-envelope"></i> Mensajes</button>
-      <button class="tab-btn" data-tab="logs"><i class="fas fa-network-wired"></i> Registros IP</button>
-      <button class="tab-btn" data-tab="firewall"><i class="fas fa-shield-alt"></i> Firewall</button>
-      <button class="tab-btn" data-tab="config"><i class="fas fa-cog"></i> Configuración</button>
-      <button class="tab-btn" data-tab="export"><i class="fas fa-file-export"></i> Exportar</button>
-    </div>
-
-    <!-- CONTENIDO DE PESTAÑAS -->
-    <div id="tab-content">
-      <!-- ESTADÍSTICAS -->
-      <div class="tab-pane active" id="stats-pane">
-        <h3><i class="fas fa-eye"></i> Visitas</h3>
-        <p>Visitas totales: <strong id="visitCount">0</strong></p>
-        <p>Última visita: <span id="lastVisit">Nunca</span></p>
-      </div>
-
-      <!-- MENSAJES -->
-      <div class="tab-pane" id="messages-pane">
-        <h3><i class="fas fa-inbox"></i> Mensajes Recibidos</h3>
-        <div id="messagesList" class="log-list">
-          <em>Cargando mensajes...</em>
+    <header class="header">
+        <div class="logo">
+            <img src="logo.svg" alt="Logo SF" class="logo-img">
+            <span>Panel de Administración</span>
         </div>
-      </div>
+        <nav class="nav">
+            <a href="index.html" target="_blank">Ver Sitio</a>
+            <button id="logout-btn" class="logout-btn">Cerrar Sesión</button>
+        </nav>
+    </header>
 
-      <!-- REGISTROS IP -->
-      <div class="tab-pane" id="logs-pane">
-        <h3><i class="fas fa-list"></i> Historial de IPs</h3>
-        <div id="ipLog" class="log-list">
-          <em>Cargando registros...</em>
-        </div>
-      </div>
+    <main class="admin-main">
+        <h1>Editar Contenido del Portafolio</h1>
+        <form id="admin-form">
+            <!-- Los campos se generarán dinámicamente aquí -->
+            <fieldset>
+                <legend>Configuración General</legend>
+                <div id="general-fields" class="fields-container"></div>
+            </fieldset>
+            <fieldset>
+                <legend>Sección "Hero"</legend>
+                <div id="hero-fields" class="fields-container"></div>
+            </fieldset>
+            <fieldset>
+                <legend>Sección "Sobre Mí"</legend>
+                <div id="about-me-fields" class="fields-container"></div>
+            </fieldset>
+            <fieldset>
+                <legend>Listas (Experiencia, Educación, etc.)</legend>
+                <div id="list-fields" class="fields-container"></div>
+            </fieldset>
+            <fieldset>
+                <legend>Sección "Contacto"</legend>
+                <div id="contact-fields" class="fields-container"></div>
+            </fieldset>
+            <button type="submit" class="btn-save">Guardar Cambios</button>
+            <div id="save-status"></div>
+        </form>
 
-      <!-- FIREWALL -->
-      <div class="tab-pane" id="firewall-pane">
-        <h3><i class="fas fa-user-secret"></i> Seguridad de Acceso</h3>
-        <p>Intentos fallidos: <strong id="failedAttempts">0</strong></p>
-        <p>Intentos exitosos: <strong id="successAttempts">0</strong></p>
-        <p>IPs bloqueadas: <span id="blockedIPs">0</span></p>
-      </div>
+        <section id="messages-section">
+            <h2>Mensajes de Contacto Recibidos</h2>
+            <div id="messages-container"></div>
+        </section>
+    </main>
 
-      <!-- CONFIGURACIÓN -->
-      <div class="tab-pane" id="config-pane">
-        <h3><i class="fas fa-tools"></i> Estado del Sitio</h3>
-        <button id="maintenanceBtn" onclick="toggleMaintenance()">
-          <span id="maintenanceStatus">Cargando...</span>
-        </button>
-        <p id="maintenanceMsg" style="margin-top: 10px; font-size: 0.9em; color: #ccc;"></p>
-        <h4 style="margin-top: 20px;"><i class="fas fa-clock"></i> Tareas Programadas</h4>
-        <p>Próxima ejecución: <strong>Lunes a las 12:00 PM</strong></p>
-        <p><small>Backup semanal y limpieza de logs</small></p>
-      </div>
-
-      <!-- EXPORTAR -->
-      <div class="tab-pane" id="export-pane">
-        <h3><i class="fas fa-download"></i> Exportar Datos</h3>
-        <button onclick="exportAllData()">
-          <i class="fas fa-file-archive"></i> Exportar Todo (JSON)
-        </button>
-        <p style="margin-top: 8px; font-size: 0.9em; color: #aaa;">Incluye: CV, mensajes, logs, configuración</p>
-      </div>
-    </div>
-
-    <!-- BOTÓN DE CIERRE -->
-    <button onclick="logout()" style="width: 100%; margin-top: 20px; background: #f05454;">
-      <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-    </button>
-  </div>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDdSYZKLswQn9EROpZ8SekOvFtTWr3rYUQ",
-      authDomain: "mi-portafolio-admin.firebaseapp.com",
-      projectId: "mi-portafolio-admin",
-      storageBucket: "mi-portafolio-admin.firebasestorage.app",
-      messagingSenderId: "593564928013",
-      appId: "1:593564928013:web:3f7c3a9e0da743abaead44"
-    };
-    firebase.initializeApp(firebaseConfig);
-  </script>
-  <script src="js/admin.js"></script>
+    <script type="module" src="admin.js"></script>
 </body>
 </html>
+

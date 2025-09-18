@@ -1,0 +1,126 @@
+body {
+    cursor: default;
+}
+
+.admin-main {
+    max-width: 1100px;
+    margin: 120px auto 4rem auto;
+    padding: 2rem;
+    background-color: var(--medium-bg);
+    border-radius: 8px;
+}
+
+.admin-main h1, .admin-main h2 {
+    color: var(--accent-color);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logout-btn {
+    background: #E84545;
+    color: var(--text-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+fieldset {
+    border: 1px solid var(--accent-color);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 5px;
+}
+
+legend {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0 0.5rem;
+}
+
+.field-group {
+    margin-bottom: 1rem;
+}
+
+.field-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.field-group input,
+.field-group textarea {
+    width: 100%;
+    padding: 0.7rem;
+    background: var(--dark-bg);
+    border: 1px solid #555;
+    border-radius: 4px;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.field-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.list-item {
+    border: 1px dashed #555;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+.list-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.list-item-header h4 {
+    margin: 0;
+}
+
+.btn-remove, .btn-add {
+    background: #E84545;
+    color: white;
+    border: none;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-add {
+    background: #5C8D89;
+    display: block;
+    margin-top: 1rem;
+}
+
+.btn-save {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.2rem;
+    background: var(--accent-color);
+    color: var(--dark-bg);
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#save-status {
+    text-align: center;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+#messages-section {
+    margin-top: 4rem;
+}
+
+#messages-container .list-item {
+    background-color: #2a3038;
+}
