@@ -20,20 +20,22 @@ document.getElementById('logout-btn').addEventListener('click', () => {
 });
 
 function setupTabs() {
-    const tabLinks = document.querySelectorAll('.admin-tab-link');
+    const tabsContainer = document.querySelector('.admin-tabs');
     const tabContents = document.querySelectorAll('.admin-tab-content');
 
-    tabLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            const tabId = link.dataset.tab;
+    tabsContainer.addEventListener('click', (e) => {
+        const clickedTab = e.target.closest('.admin-tab-link');
+        if (!clickedTab) return;
 
-            // Ocultar todo
-            tabLinks.forEach(l => l.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
+        const tabId = clickedTab.dataset.tab;
 
-            // Mostrar el seleccionado
-            link.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
+        // Actualizar botones de pestañas
+        tabsContainer.querySelector('.active').classList.remove('active');
+        clickedTab.classList.add('active');
+
+        // Actualizar contenido de pestañas
+        tabContents.forEach(content => {
+            content.classList.toggle('active', content.id === tabId);
         });
     });
 }
@@ -263,6 +265,9 @@ function loadInfoTab() {
 
 function loadConfigTab() {
     const container = document.getElementById('config-container');
+    // Asegurarse de que el contenedor existe antes de continuar
+    if (!container) return;
+
     const settings = JSON.parse(localStorage.getItem('siteSettings')) || {};
     const isMaintenance = settings.maintenanceMode === 'on';
 

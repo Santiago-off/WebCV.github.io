@@ -189,8 +189,13 @@ input:checked + .slider:before { transform: translateX(26px); }
 .admin-tab-link { padding: 1rem 1.5rem; cursor: pointer; background: none; border: none; color: var(--text-color); font-size: 1.1rem; font-weight: 500; transition: background-color 0.2s, color 0.2s; }
 .admin-tab-link:hover { background-color: #4a515c; }
 .admin-tab-link.active { background-color: var(--accent-color); color: var(--dark-bg); font-weight: bold; }
-.admin-tab-content { display: none; }
+.admin-tab-content { 
+    display: none; 
+    animation: fadeIn 0.5s;
+}
 .admin-tab-content.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* Info Container */
 #info-container .message-item {
