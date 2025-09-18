@@ -66,6 +66,23 @@ legend {
     resize: vertical;
 }
 
+.bilingual-inputs, .bilingual-inputs-list {
+    display: flex;
+    gap: 1rem;
+}
+
+.bilingual-inputs > *, .lang-group {
+    flex: 1;
+}
+
+.lang-group {
+    border: 1px solid #444;
+    padding: 1rem;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+}
+
 .list-item {
     border: 1px dashed #555;
     padding: 1rem;
@@ -200,4 +217,8 @@ input:checked + .slider:before { transform: translateX(26px); }
 /* Info Container */
 #info-container .message-item {
     background-color: #2a3038;
+}
+
+.field-group-inner {
+    margin-bottom: 1rem;
 }

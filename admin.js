@@ -42,12 +42,20 @@ function setupTabs() {
 
 
 function getPortfolioData() {
-    const savedData = localStorage.getItem('portfolioContent');
-    if (!savedData) {
-        alert("No se encontraron datos del portafolio. Visita la página principal primero.");
+    const savedDataJSON = localStorage.getItem('portfolioContent');
+    if (!savedDataJSON) {
+        alert("No se encontraron datos del portafolio. Visita la página principal primero para generar los datos iniciales.");
         return null;
     }
-    return JSON.parse(savedData);
+    const savedData = JSON.parse(savedDataJSON);
+    // Comprueba si los datos están en el nuevo formato bilingüe
+    if (savedData.es && savedData.en) {
+        return savedData;
+    } else {
+        // Los datos están en un formato antiguo o corrupto.
+        alert("El formato de los datos guardados es obsoleto y está causando un error. \n\nPor favor, borra los datos de la aplicación y recarga la página: \n1. Presiona F12 para abrir las herramientas de desarrollador. \n2. Ve a la pestaña 'Aplicación' (o 'Application'). \n3. En el menú de la izquierda, busca 'Almacenamiento Local' y haz clic derecho para 'Borrar todo'. \n4. Recarga la página principal (index.html) y luego vuelve al panel de administración.");
+        return null; // Detiene la ejecución para prevenir más errores
+    }
 }
 
 function loadAdminPanel() {
@@ -108,16 +116,20 @@ function createBilingualField(key, values, isTextarea = false) {
     group.className = 'field-group';
     group.appendChild(label);
 
+    const inputsContainer = document.createElement('div');
+    inputsContainer.className = 'bilingual-inputs';
+
     ['es', 'en'].forEach(lang => {
         const inputType = isTextarea ? 'textarea' : 'input';
         const input = document.createElement(inputType);
         input.name = `${key}-${lang}`;
         input.placeholder = lang.toUpperCase();
-        input.value = values[lang][key] || '';
+        input.value = values[lang]?.[key] || '';
         if (!isTextarea) input.type = 'text';
-        group.appendChild(input);
+        inputsContainer.appendChild(input);
     });
 
+    group.appendChild(inputsContainer);
     return group;
 }
 
@@ -126,7 +138,7 @@ function generateSimpleFields(data, keys, containerId, textareaKeys = {}) {
     keys.forEach(key => {
         const isTextarea = textareaKeys[key] === 'area';
         // Para campos no traducibles como email, teléfono, etc.
-        const isShared = !data.es[key] && !data.en[key];
+        const isShared = data.es && data.en && !data.es[key] && !data.en[key];
         const values = isShared ? { es: { [key]: data[key] }, en: { [key]: data[key] } } : data;
         container.appendChild(createBilingualField(key, values, isTextarea));
     });
@@ -142,20 +154,21 @@ function generateListFields(data, listKey, fieldConfig) {
         itemDiv.className = 'list-item';
         itemDiv.dataset.index = index;
 
-        let fieldsHtml = '';
+        let fieldsHtml = '<div class="bilingual-inputs-list">';
         ['es', 'en'].forEach(lang => {
             fieldsHtml += `<div class="lang-group"><h4>${lang.toUpperCase()}</h4>`;
             for (const key in fieldConfig) {
                 const isTextarea = fieldConfig[key] === 'area';
                 const inputType = isTextarea ? 'textarea' : 'input';
                 fieldsHtml += `
-                    <div class="field-group"><label>${key.replace(/\b\w/g, l => l.toUpperCase())}</label>
+                    <div class="field-group-inner"><label>${key.replace(/\b\w/g, l => l.toUpperCase())}</label>
                     <${inputType} data-lang="${lang}" data-key="${key}" ${!isTextarea ? 'type="text"' : ''}>${item[lang]?.[key] || ''}</${inputType}></div>`;
             }
             // El link del proyecto es único, no bilingüe
-            if (fieldConfig.link && lang === 'es') fieldsHtml += `<div class="field-group"><label>Link</label><input type="text" data-key="link" value="${item.link || ''}"></div>`;
+            if (fieldConfig.link && lang === 'es') fieldsHtml += `<div class="field-group-inner"><label>Link</label><input type="text" data-key="link" value="${item.link || ''}"></div>`;
             fieldsHtml += `</div>`;
         }
+        fieldsHtml += '</div>';
 
         itemDiv.innerHTML = `
             <div class="list-item-header">
@@ -177,7 +190,7 @@ function generateListFields(data, listKey, fieldConfig) {
         const newItem = { es: {}, en: {} };
         data.es[listKey].push(newItem.es);
         data.en[listKey].push(newItem.en);
-        renderItem(newItem, data[listKey].length - 1);
+        renderItem(newItem, data.es[listKey].length - 1);
     });
 
     container.addEventListener('click', (e) => {
@@ -186,6 +199,7 @@ function generateListFields(data, listKey, fieldConfig) {
             const index = parseInt(itemDiv.dataset.index, 10);
             data.es[listKey].splice(index, 1);
             data.en[listKey].splice(index, 1);
+            itemDiv.remove();
             // Re-index remaining items
             Array.from(container.children).forEach((child, i) => {
                 child.dataset.index = i;
