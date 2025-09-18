@@ -56,6 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'contact-phone': '+34 640365047',
                 'contact-location': '28939 Arroyomolinos, España',
                 'footer-text': 'Santiago Fernandez. Todos los derechos reservados.',
+                'github-link': 'https://github.com/Santiago-off',
+                'linkedin-link': 'https://www.linkedin.com/in/tu-usuario/', // TODO: Añade tu URL de LinkedIn
                 'experience-list': [
                     { title: 'Realizando tareas de Programador', company: 'Armonia (18/03/2025 – 16/06/2025) Salerno, Italia', description: '' },
                     { title: 'Soporte de hosting (online)', company: '(05/2022 – 09/2023) Madrid, España', description: '' }
@@ -92,6 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'contact-phone': '+34 640365047',
                 'contact-location': '28939 Arroyomolinos, Spain',
                 'footer-text': 'Santiago Fernandez. All rights reserved.',
+                'github-link': 'https://github.com/Santiago-off',
+                'linkedin-link': 'https://www.linkedin.com/in/tu-usuario/', // TODO: Añade tu URL de LinkedIn
                 'experience-list': [
                     { title: 'Performing Programmer tasks', company: 'Armonia (Mar 2025 – Jun 2025) Salerno, Italy', description: '' },
                     { title: 'Hosting support (online)', company: '(May 2022 – Sep 2023) Madrid, Spain', description: '' }
@@ -162,6 +166,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (ui[key]) el.placeholder = ui[key];
         });
 
+        // Renderizar enlaces de redes sociales
+        const socialContainer = document.querySelector('.social-links');
+        if (socialContainer) {
+            socialContainer.innerHTML = `
+                <a href="${content['github-link']}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <img src="https://img.icons8.com/ios-filled/50/eeeeee/github.png" alt="GitHub" style="width:24px; height:24px;">
+                </a>
+                <a href="${content['linkedin-link']}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <img src="https://img.icons8.com/ios-filled/50/eeeeee/linkedin.png" alt="LinkedIn" style="width:24px; height:24px;">
+                </a>`;
+        }
+
         // Renderizar listas (Experiencia, Educación, etc.)
         renderList('experience-list', content, (item) => `
             <div class="timeline-item">
@@ -224,6 +240,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- Botón Volver Arriba ---
+    const backToTopButton = document.querySelector('.back-to-top');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTopButton.classList.add('visible');
+        } else {
+            backToTopButton.classList.remove('visible');
+        }
+    });
+
     // --- Contador de Visitas ---
     function updateVisitCounter() {
         let visits = localStorage.getItem('visitCounter') || 0;
@@ -270,6 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Formulario de Contacto ---
     const contactForm = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
+    const submitButton = contactForm.querySelector('.btn-submit');
 
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -282,6 +309,9 @@ document.addEventListener('DOMContentLoaded', () => {
             formStatus.style.color = '#ff6b6b';
             return;
         }
+
+        submitButton.disabled = true;
+        submitButton.textContent = 'Enviando...';
 
         const newMessage = {
             name,
@@ -299,6 +329,8 @@ document.addEventListener('DOMContentLoaded', () => {
         formStatus.style.color = '#00ADB5';
         contactForm.reset();
 
+        submitButton.disabled = false;
+        submitButton.textContent = allTranslations.ui[currentLang]['form-send-button'];
         setTimeout(() => {
             formStatus.textContent = '';
         }, 5000);
