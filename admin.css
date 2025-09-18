@@ -83,6 +83,10 @@ legend {
     flex-direction: column;
 }
 
+.field-group-inner {
+    margin-bottom: 1rem;
+}
+
 .list-item {
     border: 1px dashed #555;
     padding: 1rem;
@@ -217,8 +221,4 @@ input:checked + .slider:before { transform: translateX(26px); }
 /* Info Container */
 #info-container .message-item {
     background-color: #2a3038;
-}
-
-.field-group-inner {
-    margin-bottom: 1rem;
 }

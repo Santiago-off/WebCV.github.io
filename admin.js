@@ -42,19 +42,22 @@ function setupTabs() {
 
 
 function getPortfolioData() {
-    const savedDataJSON = localStorage.getItem('portfolioContent');
-    if (!savedDataJSON) {
-        alert("No se encontraron datos del portafolio. Visita la página principal primero para generar los datos iniciales.");
-        return null;
-    }
-    const savedData = JSON.parse(savedDataJSON);
-    // Comprueba si los datos están en el nuevo formato bilingüe
-    if (savedData.es && savedData.en) {
-        return savedData;
-    } else {
-        // Los datos están en un formato antiguo o corrupto.
-        alert("El formato de los datos guardados es obsoleto y está causando un error. \n\nPor favor, borra los datos de la aplicación y recarga la página: \n1. Presiona F12 para abrir las herramientas de desarrollador. \n2. Ve a la pestaña 'Aplicación' (o 'Application'). \n3. En el menú de la izquierda, busca 'Almacenamiento Local' y haz clic derecho para 'Borrar todo'. \n4. Recarga la página principal (index.html) y luego vuelve al panel de administración.");
-        return null; // Detiene la ejecución para prevenir más errores
+    try {
+        const savedDataJSON = localStorage.getItem('portfolioContent');
+        if (savedDataJSON) {
+            const savedData = JSON.parse(savedDataJSON);
+            // Comprueba si los datos están en el nuevo formato bilingüe
+            if (savedData.es && savedData.en) {
+                return savedData;
+            }
+        }
+        // Si no hay datos o están en formato antiguo, crea un objeto vacío con la estructura correcta.
+        // La página principal (script.js) se encargará de rellenarlo con valores por defecto si es necesario.
+        console.warn("No se encontraron datos válidos en localStorage. Se creará una estructura de datos por defecto.");
+        return { es: {}, en: {} };
+    } catch (error) {
+        console.error("Error al leer los datos del portafolio:", error);
+        return { es: {}, en: {} };
     }
 }
 
@@ -138,8 +141,13 @@ function generateSimpleFields(data, keys, containerId, textareaKeys = {}) {
     keys.forEach(key => {
         const isTextarea = textareaKeys[key] === 'area';
         // Para campos no traducibles como email, teléfono, etc.
-        const isShared = data.es && data.en && !data.es[key] && !data.en[key];
-        const values = isShared ? { es: { [key]: data[key] }, en: { [key]: data[key] } } : data;
+        // Un campo es compartido si no existe en las propiedades 'es' o 'en' del objeto de datos.
+        const isShared = data.es && data.en && data.es[key] === undefined && data.en[key] === undefined;
+        let values = data;
+        if (isShared) {
+            // Si es compartido, creamos una estructura temporal para que createBilingualField funcione.
+            values = { es: { [key]: data[key] }, en: { [key]: data[key] } };
+        }
         container.appendChild(createBilingualField(key, values, isTextarea));
     });
 }
@@ -148,11 +156,11 @@ function generateListFields(data, listKey, fieldConfig) {
     const section = document.querySelector(`[data-list-key="${listKey}"]`);
     const container = section.querySelector('.list-items-container');
     container.innerHTML = '';
-
-    const renderItem = (item, index) => {
+    
+    const renderList = () => {
+        container.innerHTML = ''; // Limpiar antes de renderizar
+        (data.es[listKey] || []).forEach((_, index) => {
         const itemDiv = document.createElement('div');
-        itemDiv.className = 'list-item';
-        itemDiv.dataset.index = index;
 
         let fieldsHtml = '<div class="bilingual-inputs-list">';
         ['es', 'en'].forEach(lang => {
@@ -162,50 +170,47 @@ function generateListFields(data, listKey, fieldConfig) {
                 const inputType = isTextarea ? 'textarea' : 'input';
                 fieldsHtml += `
                     <div class="field-group-inner"><label>${key.replace(/\b\w/g, l => l.toUpperCase())}</label>
-                    <${inputType} data-lang="${lang}" data-key="${key}" ${!isTextarea ? 'type="text"' : ''}>${item[lang]?.[key] || ''}</${inputType}></div>`;
+                    <${inputType} data-lang="${lang}" data-key="${key}" ${!isTextarea ? 'type="text"' : ''}>${data[lang][listKey]?.[index]?.[key] || ''}</${inputType}></div>`;
             }
             // El link del proyecto es único, no bilingüe
-            if (fieldConfig.link && lang === 'es') fieldsHtml += `<div class="field-group-inner"><label>Link</label><input type="text" data-key="link" value="${item.link || ''}"></div>`;
+            if (fieldConfig.link && lang === 'es') fieldsHtml += `<div class="field-group-inner"><label>Link</label><input type="text" data-key="link" value="${data.es[listKey]?.[index]?.link || ''}"></div>`;
             fieldsHtml += `</div>`;
         }
         fieldsHtml += '</div>';
 
+        itemDiv.className = 'list-item';
+        itemDiv.dataset.index = index;
         itemDiv.innerHTML = `
             <div class="list-item-header">
-                <h4>${item.es.title || item.en.title || `${listKey.replace('-list', '')} #${index + 1}`}</h4>
+                <h4>${data.es[listKey][index].title || data.en[listKey][index].title || `${listKey.replace('-list', '')} #${index + 1}`}</h4>
                 <button type="button" class="btn-remove">Eliminar</button>
             </div>
             ${fieldsHtml}
         `;
         container.appendChild(itemDiv);
-    };
-
-    // Asumimos que la lista en español es la principal para la longitud
-    (data.es[listKey] || []).forEach((_, index) => {
-        const item = { es: data.es[listKey][index], en: data.en[listKey][index], link: data.es[listKey][index].link };
-        renderItem(item, index);
-    });
+        });
+    }
 
     section.querySelector('.btn-add').addEventListener('click', () => {
-        const newItem = { es: {}, en: {} };
-        data.es[listKey].push(newItem.es);
-        data.en[listKey].push(newItem.en);
-        renderItem(newItem, data.es[listKey].length - 1);
+        if (!data.es[listKey]) data.es[listKey] = [];
+        if (!data.en[listKey]) data.en[listKey] = [];
+        data.es[listKey].push({});
+        data.en[listKey].push({});
+        renderList(); // Re-renderizar toda la lista
     });
 
     container.addEventListener('click', (e) => {
         if (e.target.classList.contains('btn-remove')) {
             const itemDiv = e.target.closest('.list-item');
             const index = parseInt(itemDiv.dataset.index, 10);
-            data.es[listKey].splice(index, 1);
-            data.en[listKey].splice(index, 1);
-            itemDiv.remove();
-            // Re-index remaining items
-            Array.from(container.children).forEach((child, i) => {
-                child.dataset.index = i;
-            });
+            if (data.es[listKey]) data.es[listKey].splice(index, 1);
+            if (data.en[listKey]) data.en[listKey].splice(index, 1);
+            renderList(); // Re-renderizar toda la lista
         }
     });
+
+    // Renderizado inicial
+    renderList();
 }
 
 document.getElementById('admin-form').addEventListener('submit', (e) => {
