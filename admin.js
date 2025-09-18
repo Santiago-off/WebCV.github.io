@@ -13,12 +13,6 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-document.getElementById('logout-btn').addEventListener('click', () => {
-    signOut(auth).then(() => {
-        window.location.href = 'login.html';
-    });
-});
-
 function setupTabs() {
     const tabsContainer = document.querySelector('.admin-tabs');
     const tabContents = document.querySelectorAll('.admin-tab-content');
@@ -67,6 +61,19 @@ function loadAdminPanel() {
     loadMessagesTab();
     loadInfoTab();
     loadConfigTab();
+
+    // Configurar el botón de logout
+    document.getElementById('logout-btn').addEventListener('click', () => {
+        signOut(auth).then(() => {
+            window.location.href = 'login.html';
+        });
+    });
+
+    // Configurar el formulario de guardado
+    const adminForm = document.getElementById('admin-form');
+    if (adminForm) {
+        adminForm.addEventListener('submit', handleFormSubmit);
+    }
 }
 
 function loadEditTab() {
@@ -214,57 +221,60 @@ function generateListFields(data, listKey, fieldConfig) {
     renderList();
 }
 
-document.getElementById('admin-form').addEventListener('submit', (e) => {
+function handleFormSubmit(e) {
     e.preventDefault();
     const statusDiv = document.getElementById('save-status');
-    const saveButton = e.target.querySelector('.btn-save');
-    const newData = { es: {}, en: {} };
-    const form = e.target;
+    const form = document.getElementById('admin-form');
 
-    saveButton.disabled = true;
-    statusDiv.textContent = 'Guardando...';
-    statusDiv.style.color = 'var(--text-color)';
+    if (form) {
+        const saveButton = form.querySelector('.btn-save');
+        const newData = { es: {}, en: {} };
 
-    // Guardar campos simples bilingües
-    form.querySelectorAll('input[type="text"], textarea').forEach(input => {
-        if (!input.closest('.list-item')) {
-            const [key, lang] = input.name.split('-');
-            if (lang) {
-                newData[lang][key] = input.value;
+        saveButton.disabled = true;
+        statusDiv.textContent = 'Guardando...';
+        statusDiv.style.color = 'var(--text-color)';
+
+        // Guardar campos simples bilingües
+        form.querySelectorAll('input[type="text"], textarea').forEach(input => {
+            if (!input.closest('.list-item')) {
+                const [key, lang] = input.name.split('-');
+                if (lang) {
+                    newData[lang][key] = input.value;
+                }
             }
-        }
-    });
-
-    // Guardar listas
-    form.querySelectorAll('.list-section').forEach(section => {
-        const listKey = section.dataset.listKey;
-        newData.es[listKey] = [];
-        newData.en[listKey] = [];
-        section.querySelectorAll('.list-item').forEach(itemDiv => {
-            const itemES = {};
-            const itemEN = {};
-            itemDiv.querySelectorAll('input, textarea').forEach(input => {
-                const lang = input.dataset.lang;
-                const key = input.dataset.key;
-                if (lang === 'es') itemES[key] = input.value;
-                if (lang === 'en') itemEN[key] = input.value;
-                if (!lang && key === 'link') { itemES.link = itemEN.link = input.value; }
-            });
-            newData.es[listKey].push(itemES);
-            newData.en[listKey].push(itemEN);
         });
-    });
 
-    localStorage.setItem('portfolioContent', JSON.stringify(newData));
+        // Guardar listas
+        form.querySelectorAll('.list-section').forEach(section => {
+            const listKey = section.dataset.listKey;
+            newData.es[listKey] = [];
+            newData.en[listKey] = [];
+            section.querySelectorAll('.list-item').forEach(itemDiv => {
+                const itemES = {};
+                const itemEN = {};
+                itemDiv.querySelectorAll('input, textarea').forEach(input => {
+                    const lang = input.dataset.lang;
+                    const key = input.dataset.key;
+                    if (lang === 'es') itemES[key] = input.value;
+                    if (lang === 'en') itemEN[key] = input.value;
+                    if (!lang && key === 'link') { itemES.link = itemEN.link = input.value; }
+                });
+                newData.es[listKey].push(itemES);
+                newData.en[listKey].push(itemEN);
+            });
+        });
 
-    // Simular un pequeño retardo para que el usuario vea el mensaje "Guardando..."
-    setTimeout(() => {
-        statusDiv.textContent = '¡Cambios guardados con éxito!';
-        statusDiv.style.color = 'var(--accent-color)';
-        saveButton.disabled = false;
-        setTimeout(() => statusDiv.textContent = '', 5000);
-    }, 500);
-});
+        localStorage.setItem('portfolioContent', JSON.stringify(newData));
+
+        // Simular un pequeño retardo para que el usuario vea el mensaje "Guardando..."
+        setTimeout(() => {
+            statusDiv.textContent = '¡Cambios guardados con éxito!';
+            statusDiv.style.color = 'var(--accent-color)';
+            saveButton.disabled = false;
+            setTimeout(() => statusDiv.textContent = '', 5000);
+        }, 500);
+    }
+}
 
 function loadMessagesTab() {
     const container = document.getElementById('messages-container');
