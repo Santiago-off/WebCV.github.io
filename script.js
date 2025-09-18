@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'fiverr-link': 'https://www.fiverr.com/s/NNyovjR',
         'hero-title': 'Desarrollador de Software y Experto en Ciberseguridad',
         'hero-subtitle': 'Creando soluciones digitales seguras, eficientes y escalables en la nube.',
-        'about-me-text': 'Soy un programador apasionado por la tecnología y la seguridad informática. Con una sólida experiencia en el desarrollo de aplicaciones y la gestión de infraestructuras en la nube (AWS, Azure), mi objetivo es construir software que no solo sea funcional, sino también robusto y seguro. Me especializo en la identificación de vulnerabilidades y la implementación de arquitecturas resilientes para proteger los activos digitales más críticos.',
+        'about-me-text': 'Soy un técnico en sistemas microinformáticos y redes, actualmente especializándome en ciberseguridad y cloud computing (AWS y Azure). Mi pasión por la tecnología me impulsa a aprender y aplicar constantemente nuevos conocimientos en programación, seguridad de sistemas y administración de infraestructuras. Busco oportunidades para desarrollar soluciones seguras y eficientes, y contribuir con mi entusiasmo y habilidades a proyectos innovadores.',
         'contact-intro': 'Estoy disponible para oportunidades freelance o para discutir sobre tecnología y seguridad. No dudes en contactarme.',
         'contact-email': 'santiagorfernandezcv@gmail.com',
         'contact-phone': '+34 640365047',
@@ -14,26 +14,56 @@ document.addEventListener('DOMContentLoaded', () => {
         'footer-text': 'Santiago Fernandez. Todos los derechos reservados.',
         'experience-list': [
             {
-                title: 'Cloud & Security Engineer',
-                company: 'Tech Solutions Inc.',
-                description: 'Gestión y securización de infraestructuras en AWS y Azure. Desarrollo de herramientas de automatización para monitorización de seguridad.'
+                title: 'Realizando tareas de Programador',
+                company: 'Armonia (18/03/2025 – 16/06/2025) Salerno, Italia',
+                description: ''
             },
             {
-                title: 'Desarrollador Python Backend',
-                company: 'Innovatech',
-                description: 'Desarrollo de APIs RESTful y microservicios para aplicaciones web de alto tráfico.'
+                title: 'Soporte de hosting (online)',
+                company: '(05/2022 – 09/2023) Madrid, España',
+                description: ''
             }
         ],
         'education-list': [
             {
-                title: 'Máster en Ciberseguridad',
-                company: 'Universidad Internacional',
-                description: 'Especialización en seguridad de redes, hacking ético y análisis forense.'
+                title: 'Grado Medio Sistemas Microinformáticos y Redes',
+                company: 'Santa Gema FP, Galgani (09/2023 – 06/2025) Madrid, España',
+                description: ''
             },
             {
-                title: 'Grado en Ingeniería Informática',
-                company: 'Universidad Politécnica',
-                description: 'Fundamentos de programación, algoritmos, y sistemas de software.'
+                title: 'Experto Universitario en Cloud Computing. Arquitectura y Soluciones (AWS y Azure)',
+                company: 'UNIR (10/2023 – 01/2024) Madrid, España',
+                description: ''
+            },
+            {
+                title: 'Introducción a Ciberseguridad',
+                company: 'Cisco Networking Academy (04/2024 – Actual) Madrid, España',
+                description: ''
+            },
+            {
+                title: 'Fundamentos de IA con IBM SkillsBuild',
+                company: 'Cisco Networking Academy (11/2024 – Actual) Madrid, España',
+                description: ''
+            },
+            {
+                title: 'Fundamentos de Python 1',
+                company: 'Cisco Networking Academy (03/2024 – 11/2024) Madrid, España',
+                description: ''
+            },
+            {
+                title: 'CIBERSEGURIDAD PERSONAL',
+                company: 'BACKTRACK ACADEMY (12/2020 – 01/2021) Madrid, España',
+                description: ''
+            },
+            {
+                title: 'Google: Inteligencia Artificial y Productividad',
+                company: 'Santander Academy (04/05/2025) Madrid, España',
+                description: ''
+            },
+            {
+                title: 'Piloto De Drones (A1/A3, A2, STS01-STS02)',
+                company: 'AESA & Bai Escuela de drones (2025) Madrid, España',
+                description: ''
             }
         ],
         'languages-list': [
