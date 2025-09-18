@@ -88,6 +88,7 @@ function loadEditTab() {
 
     // Generar campos de listas
     const listContainer = document.getElementById('list-fields');
+    if (!listContainer) return; // Salir si el contenedor no existe
     listContainer.innerHTML = `
         <div class="list-section" data-list-key="experience-list">
             <h3>Experiencia Laboral</h3>
@@ -148,14 +149,9 @@ function generateSimpleFields(data, keys, containerId, textareaKeys = {}) {
     keys.forEach(key => {
         const isTextarea = textareaKeys[key] === 'area';
         // Para campos no traducibles como email, teléfono, etc.
-        // Un campo es compartido si no existe en las propiedades 'es' o 'en' del objeto de datos.
-        const isShared = data.es && data.en && data.es[key] === undefined && data.en[key] === undefined && data[key] !== undefined;
-        let values = data;
-        if (isShared) {
-            // Si es compartido, creamos una estructura temporal para que createBilingualField funcione.
-            values = { es: { [key]: data[key] }, en: { [key]: data[key] } };
-        }
-        container.appendChild(createBilingualField(key, values, isTextarea));
+        // Todos los campos editables están dentro de 'es' o 'en', así que pasamos 'data' directamente.
+        // createBilingualField ya maneja si el valor existe o no para cada idioma.
+        container.appendChild(createBilingualField(key, data, isTextarea));
     });
 }
 
