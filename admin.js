@@ -159,7 +159,7 @@ function generateListFields(data, listKey, fieldConfig) {
 
         itemDiv.innerHTML = `
             <div class="list-item-header">
-                <h4>${item.title || `${listKey.replace('-list', '')} #${index + 1}`}</h4>
+                <h4>${item.es.title || item.en.title || `${listKey.replace('-list', '')} #${index + 1}`}</h4>
                 <button type="button" class="btn-remove">Eliminar</button>
             </div>
             ${fieldsHtml}
