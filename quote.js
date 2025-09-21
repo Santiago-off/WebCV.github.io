@@ -132,6 +132,28 @@ document.addEventListener('DOMContentLoaded', () => {
         renderSummary(); // Re-render summary with new language
     }
 
+    // --- Cursor Personalizado ---
+    const cursor = document.querySelector('.custom-cursor');
+    if (cursor) {
+        document.addEventListener('mousemove', e => {
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.left = e.clientX + 'px';
+        });
+
+        document.querySelectorAll('a, button, input, textarea, label').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.width = '40px';
+                cursor.style.height = '40px';
+                cursor.style.backgroundColor = 'rgba(0, 173, 181, 0.5)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.width = '20px';
+                cursor.style.height = '20px';
+                cursor.style.backgroundColor = 'transparent';
+            });
+        });
+    }
+
     // Form submission
     const quoteForm = document.getElementById('quote-form');
     quoteForm.addEventListener('submit', (e) => {
