@@ -84,6 +84,7 @@ function loadEditTab() {
     generateSimpleFields(portfolioData, ['page-title', 'header-name', 'fiverr-link', 'github-link', 'linkedin-link'], 'general-fields', { 'page-title': 'area' });
     generateSimpleFields(portfolioData, ['hero-title', 'hero-subtitle'], 'hero-fields');
     generateSimpleFields(portfolioData, ['about-me-text'], 'about-me-fields', { 'about-me-text': 'area' });
+    generateSimpleFields(portfolioData, ['services-intro'], 'services-fields', { 'services-intro': 'area' });
     generateSimpleFields(portfolioData, ['contact-intro', 'contact-email', 'contact-phone', 'contact-location', 'footer-text'], 'contact-fields', { 'contact-intro': 'area' });
 
     // Generar campos de listas

@@ -220,6 +220,22 @@ main {
     transform: translateX(-50%);
 }
 
+/* Botón de llamada a la acción (Call to Action) */
+.btn-cta {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.8rem 1.5rem;
+    background-color: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-cta:hover { color: var(--dark-bg); background-color: var(--accent-color); }
+
 /* --- Timeline (Experiencia y Educación) --- */
 .timeline {
     position: relative;

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios - Santiago Fernandez</title>
+    <base href="/MyCurriculum.github.io/">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="services.css">
+    <link rel="icon" href="logo.svg" type="image/svg+xml">
+</head>
+<body>
+
+    <!-- Cursor Personalizado -->
+    <div class="custom-cursor"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <img src="logo.svg" alt="Logo SF" class="logo-img">
+            <span>Santiago Fernandez</span>
+        </div>
+        <nav class="nav">
+            <a href="index.html">Inicio</a>
+        </nav>
+        <div class="lang-switcher">
+            <button data-lang="es" class="lang-btn active">ES</button>
+            <span>|</span>
+            <button data-lang="en" class="lang-btn">EN</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section services-detail-page">
+            <h1 class="section-title" data-translate="services-title">Mis Servicios</h1>
+            <p class="services-intro" data-translate="services-page-intro">Soluciones a medida para tus necesidades tecnológicas. A continuación, detallo las áreas en las que puedo ayudarte a llevar tu proyecto al siguiente nivel.</p>
+
+            <div class="services-grid">
+                <!-- Servicio 1 -->
+                <div class="service-card">
+                    <h3 data-translate="service-1-title">Desarrollo Web Frontend</h3>
+                    <p data-translate="service-1-desc">Creación de interfaces de usuario interactivas y responsivas con tecnologías modernas como HTML5, CSS3 y JavaScript (React, Vite).</p>
+                </div>
+
+                <!-- Servicio 2 -->
+                <div class="service-card">
+                    <h3 data-translate="service-2-title">Configuración Cloud (AWS/Azure)</h3>
+                    <p data-translate="service-2-desc">Diseño y configuración de infraestructuras en la nube seguras, escalables y eficientes para alojar tus aplicaciones y servicios.</p>
+                </div>
+
+                <!-- Servicio 3 -->
+                <div class="service-card">
+                    <h3 data-translate="service-3-title">Auditoría de Seguridad Básica</h3>
+                    <p data-translate="service-3-desc">Análisis de vulnerabilidades y revisión de configuraciones para fortalecer la seguridad de tus sistemas y aplicaciones web.</p>
+                </div>
+
+                <!-- Servicio 4 -->
+                <div class="service-card">
+                    <h3 data-translate="service-4-title">Scripts y Automatización con Python</h3>
+                    <p data-translate="service-4-desc">Desarrollo de scripts personalizados para automatizar tareas repetitivas, monitorización de sistemas o procesamiento de datos.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; <span id="current-year"></span> Santiago Fernandez. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="services.js"></script>
+</body>
+</html>
