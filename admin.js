@@ -162,25 +162,36 @@ function generateListFields(data, listKey, fieldConfig) {
     const container = section.querySelector('.list-items-container');
     
     const renderList = () => {
-        container.innerHTML = ''; // Limpiar antes de renderizar
+        container.innerHTML = ''; // Limpiar antes de renderizar.
+        // Usamos la lista en español como referencia para la longitud. Ambas deben estar sincronizadas.
         (data.es[listKey] || []).forEach((_, index) => {
-        const itemDiv = document.createElement('div');
+            const itemDiv = document.createElement('div');
+            const itemDataES = data.es[listKey]?.[index] || {};
+            const itemDataEN = data.en[listKey]?.[index] || {};
 
-        let fieldsHtml = '<div class="bilingual-inputs-list">';
-        ['es', 'en'].forEach(lang => {
-            fieldsHtml += `<div class="lang-group"><h4>${lang.toUpperCase()}</h4>`;
-            for (const key in fieldConfig) {
-                const isTextarea = fieldConfig[key] === 'area';
-                const inputType = isTextarea ? 'textarea' : 'input';
-                fieldsHtml += `
-                    <div class="field-group-inner"><label>${key.replace(/\b\w/g, l => l.toUpperCase())}</label>
-                    <${inputType} data-lang="${lang}" data-key="${key}" ${!isTextarea ? 'type="text"' : ''}>${data[lang][listKey]?.[index]?.[key] || ''}</` + inputType + `></div>`;
-            }
-            // El link del proyecto es único, no bilingüe
-            if (fieldConfig.link && lang === 'es') fieldsHtml += `<div class="field-group-inner"><label>Link</label><input type="text" data-key="link" value="${data.es[listKey]?.[index]?.link || ''}"></div>`;
+            let fieldsHtml = '<div class="bilingual-inputs-list">';
+            
+            // Grupo para Español
+            fieldsHtml += `<div class="lang-group"><h4>ES</h4>`;
+            Object.keys(fieldConfig).forEach(key => {
+                if (key === 'link') return; // El link se maneja por separado
+                fieldsHtml += createFieldHTML(key, 'es', fieldConfig[key], itemDataES[key] || '');
+            });
             fieldsHtml += `</div>`;
-        }
-        fieldsHtml += '</div>';
+
+            // Grupo para Inglés
+            fieldsHtml += `<div class="lang-group"><h4>EN</h4>`;
+             Object.keys(fieldConfig).forEach(key => {
+                if (key === 'link') return;
+                fieldsHtml += createFieldHTML(key, 'en', fieldConfig[key], itemDataEN[key] || '');
+            });
+            fieldsHtml += `</div>`;
+            fieldsHtml += '</div>'; // Cierre de bilingual-inputs-list
+
+            // Campo de enlace (no bilingüe), si aplica
+            if (fieldConfig.link) {
+                fieldsHtml += `<div class="field-group-inner"><label>Link</label><input type="text" data-key="link" value="${itemDataES.link || ''}"></div>`;
+            }
 
         itemDiv.className = 'list-item';
         itemDiv.dataset.index = index;
@@ -215,6 +226,15 @@ function generateListFields(data, listKey, fieldConfig) {
 
     // Renderizado inicial
     renderList();
+}
+
+function createFieldHTML(key, lang, type, value) {
+    const isTextarea = type === 'area';
+    const inputType = isTextarea ? 'textarea' : 'input';
+    const label = key.replace(/\b\w/g, l => l.toUpperCase());
+    // Escapar el valor para evitar problemas con caracteres especiales en el HTML
+    const escapedValue = value.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return `<div class="field-group-inner"><label>${label}</label><${inputType} data-lang="${lang}" data-key="${key}" ${!isTextarea ? `type="text" value="${escapedValue}"` : ''}>${isTextarea ? escapedValue : ''}</${inputType}></div>`;
 }
 
 function handleFormSubmit(e) {
@@ -253,7 +273,10 @@ function handleFormSubmit(e) {
                     const key = input.dataset.key;
                     if (lang === 'es') itemES[key] = input.value;
                     if (lang === 'en') itemEN[key] = input.value;
-                    if (!lang && key === 'link') { itemES.link = itemEN.link = input.value; }
+                    // Asignar el link a ambas versiones del objeto
+                    if (!lang && key === 'link') { 
+                        itemES.link = itemEN.link = input.value; 
+                    }
                 });
                 newData.es[listKey].push(itemES);
                 newData.en[listKey].push(itemEN);
