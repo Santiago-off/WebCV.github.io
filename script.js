@@ -129,8 +129,19 @@ document.addEventListener('DOMContentLoaded', () => {
     function getTranslations() {
         const savedData = localStorage.getItem('portfolioContent');
         if (savedData) {
-            // Combina los datos guardados con los textos fijos de la UI
-            return { ...initialTranslations, content: JSON.parse(savedData) };
+            try {
+                const parsedContent = JSON.parse(savedData);
+                // Fusión profunda para asegurar que tanto 'ui' como 'content' estén presentes.
+                return {
+                    ui: initialTranslations.ui,
+                    content: parsedContent
+                };
+            } catch (e) {
+                console.error("Error parsing portfolioContent from localStorage, falling back to default.", e);
+                // Si hay un error, usa los datos iniciales y resetea el localStorage.
+                localStorage.setItem('portfolioContent', JSON.stringify(initialTranslations.content));
+                return initialTranslations;
+            }
         } else {
             localStorage.setItem('portfolioContent', JSON.stringify(initialTranslations.content));
             return initialTranslations;
@@ -341,4 +352,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Ejecución inicial de funciones
     updateVisitCounter();
+
+    // Renderiza el contenido inicial y configura los botones de idioma
+    setLanguage(currentLang);
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+    });
 });

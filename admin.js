@@ -175,6 +175,9 @@ function generateListFields(data, listKey, fieldConfig) {
         ['es', 'en'].forEach(lang => {
             fieldsHtml += `<div class="lang-group"><h4>${lang.toUpperCase()}</h4>`;
             for (const key in fieldConfig) {
+                // El campo 'link' es único y no bilingüe, se maneja fuera de este bucle.
+                if (key === 'link') continue;
+
                 const isTextarea = fieldConfig[key] === 'area';
                 const value = data[lang][listKey]?.[index]?.[key] || '';
                 const escapedValue = value.replace(/"/g, '&quot;');
