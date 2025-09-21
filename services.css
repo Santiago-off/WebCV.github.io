@@ -57,6 +57,70 @@ main {
     margin-bottom: 2.5rem;
 }
 
+.pricing-table-container {
+    overflow-x: auto; /* Permite scroll horizontal en pantallas pequeñas */
+    padding-bottom: 1rem;
+}
+
+.pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Evita que la tabla se comprima demasiado */
+    background-color: var(--dark-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.pricing-table th, .pricing-table td {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--medium-bg);
+}
+
+.pricing-table thead th {
+    background-color: #2a3038;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+}
+
+.pricing-table tbody td:first-child {
+    text-align: left;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.pricing-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.pricing-table .featured-col {
+    background-color: rgba(0, 173, 181, 0.1);
+    border-left: 2px solid var(--accent-color);
+    border-right: 2px solid var(--accent-color);
+}
+
+.pricing-table thead .featured-col {
+    color: #fff;
+    transform: scale(1.05);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.pricing-table .btn-cta {
+    margin-top: 0;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--accent-color);
+    color: var(--dark-bg);
+    border-color: var(--accent-color);
+    animation: none;
+}
+
+.pricing-table .btn-cta:hover {
+    background-color: #00c1cb;
+    border-color: #00c1cb;
+}
+
 .pricing-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

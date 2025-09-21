@@ -43,89 +43,127 @@
         <!-- Desarrollo Web (Frontend y Backend) -->
         <section class="service-category">
             <h2 data-translate="web-dev-title">Desarrollo Web Completo</h2>
-            <div class="pricing-grid">
-                <!-- Plan Básico -->
-                <div class="pricing-card">
-                    <h3 data-translate="web-dev-plan1-title">Básico (Landing Page)</h3>
-                    <div class="price" data-translate="web-dev-plan1-price">Desde 350€</div>
-                    <ul>
-                        <li data-translate="web-dev-plan1-feat1">✓ Página única estática</li>
-                        <li data-translate="web-dev-plan1-feat2">✓ Diseño responsivo</li>
-                        <li data-translate="web-dev-plan1-feat3">✓ Formulario de contacto</li>
-                        <li data-translate="web-dev-plan1-feat4">✗ Panel de administración</li>
-                    </ul>
-                    <a href="#contact" class="btn-cta" data-translate="contact-btn">Contactar</a>
-                </div>
-                <!-- Plan Profesional -->
-                <div class="pricing-card featured">
-                    <h3 data-translate="web-dev-plan2-title">Profesional (Sitio Corporativo)</h3>
-                    <div class="price" data-translate="web-dev-plan2-price">Desde 900€</div>
-                    <ul>
-                        <li data-translate="web-dev-plan2-feat1">✓ Hasta 5 páginas</li>
-                        <li data-translate="web-dev-plan2-feat2">✓ Diseño personalizado</li>
-                        <li data-translate="web-dev-plan2-feat3">✓ Integración con CMS (opcional)</li>
-                        <li data-translate="web-dev-plan2-feat4">✓ Optimización SEO básica</li>
-                    </ul>
-                    <a href="#contact" class="btn-cta" data-translate="contact-btn">Contactar</a>
-                </div>
-                <!-- Plan Premium -->
-                <div class="pricing-card">
-                    <h3 data-translate="web-dev-plan3-title">Premium (Aplicación Web)</h3>
-                    <div class="price" data-translate="web-dev-plan3-price">Desde 2,500€</div>
-                    <ul>
-                        <li data-translate="web-dev-plan3-feat1">✓ Funcionalidades a medida (JS/Python)</li>
-                        <li data-translate="web-dev-plan3-feat2">✓ Backend y base de datos</li>
-                        <li data-translate="web-dev-plan3-feat3">✓ Panel de administración completo</li>
-                        <li data-translate="web-dev-plan3-feat4">✓ Despliegue en la nube</li>
-                    </ul>
-                    <a href="#contact" class="btn-cta" data-translate="contact-btn">Contactar</a>
-                </div>
+            <div class="pricing-table-container">
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th data-translate="feature-header">Característica</th>
+                            <th data-translate="web-dev-plan1-title">Básico (Landing Page)</th>
+                            <th class="featured-col" data-translate="web-dev-plan2-title">Profesional (Sitio Corporativo)</th>
+                            <th data-translate="web-dev-plan3-title">Premium (Aplicación Web)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-translate="price-header">Precio</td>
+                            <td data-translate="web-dev-plan1-price">Desde 350€</td>
+                            <td class="featured-col" data-translate="web-dev-plan2-price">Desde 900€</td>
+                            <td data-translate="web-dev-plan3-price">Desde 2,500€</td>
+                        </tr>
+                        <tr>
+                            <td data-translate="web-dev-feat-pages">Número de Páginas</td>
+                            <td data-translate="web-dev-plan1-feat1">Página única estática</td>
+                            <td class="featured-col" data-translate="web-dev-plan2-feat1">Hasta 5 páginas</td>
+                            <td data-translate="web-dev-plan3-feat1">Funcionalidades a medida</td>
+                        </tr>
+                        <tr>
+                            <td data-translate="web-dev-feat-design">Diseño</td>
+                            <td data-translate="web-dev-plan1-feat2">Diseño responsivo</td>
+                            <td class="featured-col" data-translate="web-dev-plan2-feat2">Diseño personalizado</td>
+                            <td data-translate="web-dev-plan3-feat2">Backend y base de datos</td>
+                        </tr>
+                        <tr>
+                            <td data-translate="web-dev-feat-admin">Panel de Administración</td>
+                            <td data-translate="web-dev-plan1-feat4">✗</td>
+                            <td class="featured-col" data-translate="web-dev-plan2-feat3">Integración con CMS (opcional)</td>
+                            <td data-translate="web-dev-plan3-feat3">Panel de administración completo</td>
+                        </tr>
+                        <tr>
+                            <td data-translate="web-dev-feat-seo">SEO y Despliegue</td>
+                            <td data-translate="web-dev-plan1-feat3">Formulario de contacto</td>
+                            <td class="featured-col" data-translate="web-dev-plan2-feat4">Optimización SEO básica</td>
+                            <td data-translate="web-dev-plan3-feat4">Despliegue en la nube</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><a href="#contact" class="btn-cta" data-translate="contact-btn">Contactar</a></td>
+                            <td class="featured-col"><a href="#contact" class="btn-cta" data-translate="contact-btn">Contactar</a></td>
+                            <td><a href="#contact" class="btn-cta" data-translate="contact-btn">Contactar</a></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
         
         <!-- Mantenimiento Web -->
         <section class="service-category">
             <h2 data-translate="maintenance-title">Mantenimiento Web (Suscripción)</h2>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3 data-translate="maintenance-plan1-title">Básico</h3>
-                    <div class="price" data-translate="maintenance-plan1-price">50€ / mes</div>
-                    <ul>
-                        <li data-translate="maintenance-plan1-feat1">✓ Actualizaciones de seguridad</li>
-                        <li data-translate="maintenance-plan1-feat2">✓ Copias de seguridad mensuales</li>
-                        <li data-translate="maintenance-plan1-feat3">✓ Soporte por email</li>
-                    </ul>
-                    <a href="#contact" class="btn-cta" data-translate="contact-btn">Contratar</a>
-                </div>
-                <div class="pricing-card featured">
-                    <h3 data-translate="maintenance-plan2-title">Avanzado</h3>
-                    <div class="price" data-translate="maintenance-plan2-price">120€ / mes</div>
-                    <ul>
-                        <li data-translate="maintenance-plan2-feat1">✓ Todo lo del plan Básico</li>
-                        <li data-translate="maintenance-plan2-feat2">✓ 2h/mes para cambios menores</li>
-                        <li data-translate="maintenance-plan2-feat3">✓ Monitorización de rendimiento</li>
-                    </ul>
-                    <a href="#contact" class="btn-cta" data-translate="contact-btn">Contratar</a>
-                </div>
+            <div class="pricing-table-container">
+                <table class="pricing-table">
+                     <thead>
+                        <tr>
+                            <th data-translate="feature-header">Característica</th>
+                            <th data-translate="maintenance-plan1-title">Básico</th>
+                            <th class="featured-col" data-translate="maintenance-plan2-title">Avanzado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-translate="price-header">Precio</td>
+                            <td data-translate="maintenance-plan1-price">50€ / mes</td>
+                            <td class="featured-col" data-translate="maintenance-plan2-price">120€ / mes</td>
+                        </tr>
+                        <tr>
+                            <td data-translate="maintenance-feat-security">Seguridad y Backups</td>
+                            <td data-translate="maintenance-plan1-feat1">Actualizaciones y copias mensuales</td>
+                            <td class="featured-col" data-translate="maintenance-plan2-feat1">Todo lo del plan Básico</td>
+                        </tr>
+                        <tr>
+                            <td data-translate="maintenance-feat-support">Soporte y Cambios</td>
+                            <td data-translate="maintenance-plan1-feat3">Soporte por email</td>
+                            <td class="featured-col" data-translate="maintenance-plan2-feat2">2h/mes para cambios menores</td>
+                        </tr>
+                        <tr>
+                            <td data-translate="maintenance-feat-monitoring">Monitorización</td>
+                            <td>✗</td>
+                            <td class="featured-col" data-translate="maintenance-plan2-feat3">Monitorización de rendimiento</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><a href="#contact" class="btn-cta" data-translate="contact-btn">Contratar</a></td>
+                            <td class="featured-col"><a href="#contact" class="btn-cta" data-translate="contact-btn">Contratar</a></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
         
         <!-- SQL y Bases de Datos -->
         <section class="service-category">
             <h2 data-translate="db-title">Servicios SQL y Bases de Datos</h2>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3 data-translate="db-plan1-title">Consultas y Scripts</h3>
-                    <div class="price" data-translate="db-plan1-price">Desde 80€</div>
-                    <p data-translate="db-plan1-desc">Creación de scripts SQL para informes, migraciones o análisis de datos.</p>
-                    <a href="#contact" class="btn-cta" data-translate="contact-btn">Consultar</a>
-                </div>
-                <div class="pricing-card">
-                    <h3 data-translate="db-plan2-title">Diseño y Optimización</h3>
-                    <div class="price" data-translate="db-plan2-price">Desde 400€</div>
-                    <p data-translate="db-plan2-desc">Diseño de esquemas de bases de datos relacionales (SQL) y no relacionales (NoSQL) y optimización de rendimiento.</p>
-                    <a href="#contact" class="btn-cta" data-translate="contact-btn">Consultar</a>
-                </div>
+            <div class="pricing-table-container">
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th data-translate="db-plan1-title">Consultas y Scripts</th>
+                            <th data-translate="db-plan2-title">Diseño y Optimización</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-translate="db-plan1-desc">Creación de scripts SQL para informes, migraciones o análisis de datos.</td>
+                            <td data-translate="db-plan2-desc">Diseño de esquemas de bases de datos relacionales (SQL) y no relacionales (NoSQL) y optimización de rendimiento.</td>
+                        </tr>
+                        <tr>
+                            <td data-translate="db-plan1-price">Desde 80€</td>
+                            <td data-translate="db-plan2-price">Desde 400€</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#contact" class="btn-cta" data-translate="contact-btn">Consultar</a></td>
+                            <td><a href="#contact" class="btn-cta" data-translate="contact-btn">Consultar</a></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
     </main>

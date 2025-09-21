@@ -301,35 +301,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const formStatus = document.getElementById('form-status');
     const submitButton = contactForm.querySelector('.btn-submit');
 
-    // NOTA: El envío de formularios en un sitio estático requiere un servicio externo.
-    // El siguiente código simula el envío y guarda una copia en localStorage como respaldo,
-    // pero no envía un correo electrónico real. Para ello, configura el 'action' del formulario
-    // a un servicio como Formspree, Netlify Forms, etc.
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        // Aquí iría la lógica para enviar el formulario a través de AJAX a tu servicio.
-        // Por ahora, solo mostraremos un mensaje de éxito y lo guardaremos localmente.
-        // Para una implementación real, reemplaza este bloque.
-        alert("Funcionalidad de formulario en desarrollo. ¡Gracias por tu interés!");
-        contactForm.reset();
-    });
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
 
-    // --- Comprobación de modo Admin ---
-    function checkAdminMode() {
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('admin') === 'true') {
-            // En un escenario real, esto debería estar protegido.
-            // Simplemente redirigimos al login. No es necesario el parámetro.
-            window.location.href = 'login.html';
+        if (!name || !email || !message) {
+            formStatus.textContent = 'Por favor, completa todos los campos.';
+            formStatus.style.color = '#ff6b6b';
+            return;
         }
-    }
 
-    // --- Ejecución Inicial ---
-    setLanguage(currentLang); // Renderiza con el idioma actual
-    updateVisitCounter();
+        submitButton.disabled = true;
+        submitButton.textContent = 'Enviando...';
 
-    // Event Listeners para el selector de idioma
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+        const newMessage = {
+            name,
+            email,
+            message,
+            date: new Date().toISOString()
+        };
+
+        // Guardar mensaje en localStorage
+        let messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
+        messages.push(newMessage);
+        localStorage.setItem('contactMessages', JSON.stringify(messages));
+
+        formStatus.textContent = '¡Mensaje enviado con éxito! Gracias por contactarme.';
+        formStatus.style.color = '#00ADB5';
+        contactForm.reset();
+
+        submitButton.disabled = false;
+        submitButton.textContent = allTranslations.ui[currentLang]['form-send-button'];
+        setTimeout(() => {
+            formStatus.textContent = '';
+        }, 5000);
     });
 });
