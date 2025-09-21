@@ -194,7 +194,7 @@ function generateListFields(data, listKey, fieldConfig) {
             }
 
             fieldsHtml += `</div>`;
-        }
+        })
         fieldsHtml += '</div>';
 
         itemDiv.className = 'list-item';
