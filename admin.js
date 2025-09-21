@@ -164,32 +164,30 @@ function generateListFields(data, listKey, fieldConfig) {
     const container = section.querySelector('.list-items-container');
     
     const renderList = () => {
-        container.innerHTML = ''; // Limpiar antes de renderizar
-        // Usamos la lista en español como referencia para la longitud. Ambas deben estar sincronizadas.
-        (data.es[listKey] || []).forEach((_, index) => {
+        container.innerHTML = '';
+        // Aseguramos que ambas listas existan para evitar errores
+        const listES = data.es[listKey] || [];
+        const listEN = data.en[listKey] || [];
+        const maxLength = Math.max(listES.length, listEN.length);
+
+        for (let index = 0; index < maxLength; index++) {
             const itemDiv = document.createElement('div');
-            const itemDataES = data.es[listKey]?.[index] || {};
-            const itemDataEN = data.en[listKey]?.[index] || {};
 
         let fieldsHtml = '<div class="bilingual-inputs-list">';
         ['es', 'en'].forEach(lang => {
             fieldsHtml += `<div class="lang-group"><h4>${lang.toUpperCase()}</h4>`;
             for (const key in fieldConfig) {
-                // El campo 'link' es único y no bilingüe, se maneja fuera de este bucle.
                 if (key === 'link') continue;
 
                 const isTextarea = fieldConfig[key] === 'area';
                 const value = data[lang][listKey]?.[index]?.[key] || '';
                 const escapedValue = value.replace(/"/g, '&quot;');
 
-                let inputHtml = '';
                 if (isTextarea) {
-                    inputHtml = `<textarea data-lang="${lang}" data-key="${key}">${value}</textarea>`;
+                    fieldsHtml += `<div class="field-group-inner"><label>${key.replace(/\b\w/g, l => l.toUpperCase())}</label><textarea data-lang="${lang}" data-key="${key}">${value}</textarea></div>`;
                 } else {
-                    inputHtml = `<input type="text" data-lang="${lang}" data-key="${key}" value="${escapedValue}">`;
+                    fieldsHtml += `<div class="field-group-inner"><label>${key.replace(/\b\w/g, l => l.toUpperCase())}</label><input type="text" data-lang="${lang}" data-key="${key}" value="${escapedValue}"></div>`;
                 }
-
-                fieldsHtml += `<div class="field-group-inner"><label>${key.replace(/\b\w/g, l => l.toUpperCase())}</label>${inputHtml}</div>`;
             }
 
             fieldsHtml += `</div>`;
@@ -200,18 +198,18 @@ function generateListFields(data, listKey, fieldConfig) {
         itemDiv.dataset.index = index;
         itemDiv.innerHTML = `
             <div class="list-item-header">
-                <h4>${data.es[listKey][index].title || data.en[listKey][index].title || `${listKey.replace('-list', '')} #${index + 1}`}</h4>
+                <h4>${listES[index]?.title || listEN[index]?.title || `${listKey.replace('-list', '')} #${index + 1}`}</h4>
                 <button type="button" class="btn-remove">Eliminar</button>
             </div>
-            ${fieldsHtml}` +
-            // El link del proyecto es único, no bilingüe, lo añadimos fuera del bucle de idiomas
-            (fieldConfig.link ? `
-            <div class="field-group-inner single-field"><label>Link</label>
-            <input type="text" data-key="link" value="${(data.es[listKey]?.[index]?.link || '').replace(/"/g, '&quot;')}">
-            </div>` : '') + `
+            ${fieldsHtml}
+            ${/* El link del proyecto es único, no bilingüe, lo añadimos fuera del bucle de idiomas */''}
+            ${fieldConfig.link ? `
+                <div class="field-group-inner single-field"><label>Link</label>
+                <input type="text" data-key="link" value="${(data.es[listKey]?.[index]?.link || '').replace(/"/g, '&quot;')}">
+                </div>` : ''}
         `;
         container.appendChild(itemDiv);
-        });
+        }
     }
 
     section.querySelector('.btn-add').addEventListener('click', () => {
@@ -219,7 +217,7 @@ function generateListFields(data, listKey, fieldConfig) {
         if (!data.en[listKey]) data.en[listKey] = [];
         data.es[listKey].push({});
         data.en[listKey].push({});
-        renderList(); // Re-renderizar toda la lista
+        renderList();
     });
 
     container.addEventListener('click', (e) => {
@@ -228,7 +226,7 @@ function generateListFields(data, listKey, fieldConfig) {
             const index = parseInt(itemDiv.dataset.index, 10);
             if (data.es[listKey]) data.es[listKey].splice(index, 1);
             if (data.en[listKey]) data.en[listKey].splice(index, 1);
-            renderList(); // Re-renderizar toda la lista
+            renderList();
         }
     });
 
@@ -273,13 +271,16 @@ function handleFormSubmit(e) {
             section.querySelectorAll('.list-item').forEach(itemDiv => {
                 const itemES = {};
                 const itemEN = {};
-                itemDiv.querySelectorAll('input, textarea').forEach(input => {
+                // Procesar inputs y textareas por separado para asegurar la captura correcta
+                itemDiv.querySelectorAll('input[data-key], textarea[data-key]').forEach(input => {
                     const lang = input.dataset.lang;
                     const key = input.dataset.key;
-                    if (lang === 'es') itemES[key] = input.value;
-                    else if (lang === 'en') itemEN[key] = input.value;
-                    else if (!lang && key === 'link') { // Campo único como el link
-                        itemES.link = itemEN.link = input.value; 
+                    if (key) {
+                        if (lang === 'es') itemES[key] = input.value;
+                        else if (lang === 'en') itemEN[key] = input.value;
+                        else if (!lang && key === 'link') { // Campo único como el link
+                            itemES.link = itemEN.link = input.value; 
+                        }
                     }
                 });
                 newData.es[listKey].push(itemES);
