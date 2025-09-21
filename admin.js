@@ -59,6 +59,7 @@ function loadAdminPanel() {
     setupTabs();
     loadEditTab();
     loadMessagesTab();
+    loadQuotesTab();
     loadInfoTab();
     loadConfigTab();
 
@@ -296,6 +297,36 @@ function loadMessagesTab() {
             <p>${msg.message.replace(/\n/g, '<br>')}</p>
         `;
         container.appendChild(msgDiv);
+    });
+}
+
+function loadQuotesTab() {
+    const container = document.getElementById('quotes-container');
+    if (!container) return;
+
+    const quotes = JSON.parse(localStorage.getItem('quoteRequests')) || [];
+    container.innerHTML = '';
+
+    if (quotes.length === 0) {
+        container.innerHTML = '<p>No se han recibido solicitudes de presupuesto.</p>';
+        return;
+    }
+
+    quotes.reverse().forEach(quote => {
+        const quoteDiv = document.createElement('div');
+        quoteDiv.className = 'message-item'; // Reutilizamos el estilo de los mensajes
+        quoteDiv.innerHTML = `
+            <div class="message-header">
+                <h4>De: ${quote.name} (<a href="mailto:${quote.email}">${quote.email}</a>)</h4>
+                <span>${new Date(quote.date).toLocaleString()}</span>
+            </div>
+            <p><strong>Servicio:</strong> ${quote.service}</p>
+            <p><strong>Plan:</strong> ${quote.plan} (${quote.price})</p>
+            <p><strong>Método de Pago:</strong> ${quote.paymentMethod}</p>
+            <p><strong>Notas:</strong></p>
+            <p>${quote.message ? quote.message.replace(/\n/g, '<br>') : '<em>Sin notas adicionales.</em>'}</p>
+        `;
+        container.appendChild(quoteDiv);
     });
 }
 

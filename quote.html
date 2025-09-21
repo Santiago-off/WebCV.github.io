@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="quote-title">Solicitar Presupuesto - Santiago Fernandez</title>
+    <base href="/MyCurriculum.github.io/">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="quote.css">
+    <link rel="icon" href="logo.svg" type="image/svg+xml">
+</head>
+<body>
+    <!-- Cursor Personalizado -->
+    <div class="custom-cursor"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <img src="logo.svg" alt="Logo SF" class="logo-img">
+            <span>Santiago Fernandez</span>
+        </div>
+        <nav class="nav">
+            <a href="index.html" data-translate="nav-home">Inicio</a>
+            <a href="services.html" data-translate="nav-services">Servicios</a>
+        </nav>
+        <div class="lang-switcher">
+            <button data-lang="es" class="lang-btn active">ES</button>
+            <span>|</span>
+            <button data-lang="en" class="lang-btn">EN</button>
+        </div>
+    </header>
+
+    <main class="quote-main">
+        <h1 data-translate="quote-main-title">Finalizar Solicitud de Presupuesto</h1>
+        <div class="quote-container">
+            <!-- Columna del formulario -->
+            <div class="quote-form-section">
+                <form id="quote-form">
+                    <h2 data-translate="contact-details-title">Tus Datos de Contacto</h2>
+                    <div class="form-group">
+                        <label for="name" data-translate="form-label-name">Nombre Completo</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" data-translate="form-label-email">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <h2 data-translate="payment-method-title">Método de Pago Preferido</h2>
+                    <p class="form-note" data-translate="payment-method-note">
+                        Esto no es un pago real. Es para saber tu preferencia y agilizar el proceso.
+                    </p>
+                    <div class="form-group-radio">
+                        <label><input type="radio" name="payment" value="transfer" checked> <span data-translate="payment-transfer">Transferencia Bancaria</span></label>
+                        <label><input type="radio" name="payment" value="paypal"> <span data-translate="payment-paypal">PayPal</span></label>
+                        <label><input type="radio" name="payment" value="other"> <span data-translate="payment-other">Otro / A discutir</span></label>
+                    </div>
+
+                    <h2 data-translate="notes-title">Notas Adicionales</h2>
+                    <div class="form-group">
+                        <textarea id="message" name="message" rows="4" data-translate-placeholder="notes-placeholder"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit" data-translate="submit-quote-btn">Enviar Solicitud</button>
+                    <div id="form-status"></div>
+                </form>
+            </div>
+
+            <!-- Columna del resumen -->
+            <div class="quote-summary-section">
+                <div class="summary-card">
+                    <h2 data-translate="summary-title">Resumen del Pedido</h2>
+                    <div id="summary-content">
+                        <p data-translate="loading-summary">Cargando...</p>
+                    </div>
+                    <div class="summary-footer">
+                        <p data-translate="summary-footer-note">Recibirás una respuesta con el presupuesto detallado y los siguientes pasos en menos de 24 horas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; <span id="current-year"></span> Santiago Fernandez. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="quote.js"></script>
+</body>
+</html>

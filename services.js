@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
         es: {
             'services-title': 'Mis Servicios',
             'services-page-intro': 'Soluciones tecnológicas a medida. Explora mis planes y descubre cómo puedo ayudarte a construir, mantener y optimizar tus proyectos digitales.',
-            'services-page-note': 'Nota: Los precios son estimaciones y pueden variar según la complejidad del proyecto. ¡Contáctame para un presupuesto personalizado!',
-            'contact-btn': 'Contactar',
+            'services-page-note': 'Nota: Los precios son estimaciones y pueden variar según la complejidad del proyecto. Haz clic en "Solicitar Presupuesto" para obtener una cotización personalizada.',
+            'quote-btn': 'Solicitar Presupuesto',
             'feature-header': 'Característica',
             'price-header': 'Precio',
 
@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
         en: {
             'services-title': 'My Services',
             'services-page-intro': 'Custom tech solutions. Explore my plans and discover how I can help you build, maintain, and optimize your digital projects.',
-            'services-page-note': 'Note: Prices are estimates and may vary depending on project complexity. Contact me for a custom quote!',
-            'contact-btn': 'Contact',
+            'services-page-note': 'Note: Prices are estimates and may vary depending on project complexity. Click "Request Quote" for a custom quotation.',
+            'quote-btn': 'Request Quote',
             'feature-header': 'Feature',
             'price-header': 'Price',
 
