@@ -2,17 +2,31 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebas
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { firebaseConfig } from "./firebase-config.js";
 
+// --- INICIALIZACIÓN DE FIREBASE Y AUTENTICACIÓN ---
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// Redirige al login si el usuario no está autenticado.
 onAuthStateChanged(auth, (user) => {
-    if (!user) {
-        window.location.href = 'login.html';
+    if (user) {
+        main(); // Inicia la lógica del panel si el usuario está logueado
     } else {
-        loadAdminPanel();
+        window.location.href = 'login.html';
     }
 });
 
+// --- FUNCIÓN PRINCIPAL ---
+function main() {
+    setupTabs();
+    setupLogout();
+    loadEditTab();
+    loadMessagesTab();
+    loadQuotesTab();
+    loadInfoTab();
+    loadConfigTab();
+}
+
+// --- LÓGICA DE PESTAÑAS ---
 function setupTabs() {
     const tabsContainer = document.querySelector('.admin-tabs');
     const tabContents = document.querySelectorAll('.admin-tab-content');
@@ -21,33 +35,25 @@ function setupTabs() {
         const clickedTab = e.target.closest('.admin-tab-link');
         if (!clickedTab) return;
 
-        const tabId = clickedTab.dataset.tab;
-
-        // Actualizar botones de pestañas
         tabsContainer.querySelector('.active').classList.remove('active');
         clickedTab.classList.add('active');
 
-        // Actualizar contenido de pestañas
         tabContents.forEach(content => {
-            content.classList.toggle('active', content.id === tabId);
+            content.classList.toggle('active', content.id === clickedTab.dataset.tab);
         });
     });
 }
 
-
+// --- LÓGICA DE DATOS (LocalStorage) ---
 function getPortfolioData() {
     try {
         const savedDataJSON = localStorage.getItem('portfolioContent');
         if (savedDataJSON) {
             const savedData = JSON.parse(savedDataJSON);
-            // Comprueba si los datos están en el nuevo formato bilingüe
-            if (savedData.es && savedData.en) {
-                return savedData;
-            }
+            if (savedData.es && savedData.en) return savedData;
         }
-        // Si no hay datos o están en formato antiguo, crea un objeto vacío con la estructura correcta.
-        // La página principal (script.js) se encargará de rellenarlo con valores por defecto si es necesario.
-        console.warn("No se encontraron datos válidos en localStorage. Se creará una estructura de datos por defecto.");
+        // Si no hay datos o el formato es incorrecto, devuelve una estructura vacía.
+        // script.js se encargará de crear los datos por defecto si es necesario.
         return { es: {}, en: {} };
     } catch (error) {
         console.error("Error al leer los datos del portafolio:", error);
@@ -55,167 +61,193 @@ function getPortfolioData() {
     }
 }
 
-function loadAdminPanel() {
-    setupTabs();
-    loadEditTab();
-    loadMessagesTab();
-    loadQuotesTab();
-    loadInfoTab();
-    loadConfigTab();
-
-    // Configurar el botón de logout
-    document.getElementById('logout-btn').addEventListener('click', () => {
-        signOut(auth).then(() => {
-            window.location.href = 'login.html';
-        });
-    });
-
-    // Configurar el formulario de guardado
-    const adminForm = document.getElementById('admin-form');
-    if (adminForm) {
-        adminForm.addEventListener('submit', handleFormSubmit);
-    }
-}
+// --- PESTAÑA DE EDICIÓN ---
 
 function loadEditTab() {
-    const portfolioData = getPortfolioData();
-    if (!portfolioData) return;
+    const data = getPortfolioData();
+    const formContainer = document.getElementById('form-content-container');
+    formContainer.innerHTML = ''; // Limpiar contenedor
 
-    // Generar campos simples
-    generateSimpleFields(portfolioData, ['page-title', 'header-name', 'fiverr-link', 'github-link', 'linkedin-link'], 'general-fields', { 'page-title': 'area' });
-    generateSimpleFields(portfolioData, ['hero-title', 'hero-subtitle'], 'hero-fields');
-    generateSimpleFields(portfolioData, ['about-me-text'], 'about-me-fields', { 'about-me-text': 'area' });
-    generateSimpleFields(portfolioData, ['services-intro'], 'services-fields', { 'services-intro': 'area' });
-    generateSimpleFields(portfolioData, ['contact-intro', 'contact-email', 'contact-phone', 'contact-location', 'footer-text'], 'contact-fields', { 'contact-intro': 'area' });
+    // Definir la estructura del formulario
+    const formStructure = {
+        general: {
+            legend: 'Configuración General',
+            fields: {
+                'page-title': { type: 'text' },
+                'header-name': { type: 'text' },
+                'fiverr-link': { type: 'text' },
+                'github-link': { type: 'text' },
+                'linkedin-link': { type: 'text' }
+            }
+        },
+        hero: {
+            legend: 'Sección "Hero"',
+            fields: {
+                'hero-title': { type: 'text' },
+                'hero-subtitle': { type: 'textarea' }
+            }
+        },
+        about: {
+            legend: 'Sección "Sobre Mí"',
+            fields: { 'about-me-text': { type: 'textarea' } }
+        },
+        services: {
+            legend: 'Sección "Servicios"',
+            fields: { 'services-intro': { type: 'textarea' } }
+        },
+        contact: {
+            legend: 'Sección "Contacto"',
+            fields: {
+                'contact-intro': { type: 'textarea' },
+                'contact-email': { type: 'text' },
+                'contact-phone': { type: 'text' },
+                'contact-location': { type: 'text' },
+                'footer-text': { type: 'text' }
+            }
+        },
+        lists: {
+            legend: 'Listas Editables',
+            lists: {
+                'experience-list': {
+                    title: 'Experiencia Laboral',
+                    fields: { title: { type: 'text' }, company: { type: 'text' }, description: { type: 'textarea' } }
+                },
+                'education-list': {
+                    title: 'Educación',
+                    fields: { title: { type: 'text' }, company: { type: 'text' }, description: { type: 'textarea' } }
+                },
+                'languages-list': {
+                    title: 'Idiomas',
+                    fields: { title: { type: 'text' }, company: { type: 'text' } }
+                },
+                'projects-list': {
+                    title: 'Proyectos',
+                    fields: { title: { type: 'text' }, description: { type: 'textarea' }, link: { type: 'text', isUnique: true } }
+                }
+            }
+        }
+    };
 
-    // Generar campos de listas
-    const listContainer = document.getElementById('list-fields');
-    if (!listContainer) return; // Salir si el contenedor no existe
-    listContainer.innerHTML = `
-        <div class="list-section" data-list-key="experience-list">
-            <h3>Experiencia Laboral</h3>
-            <div class="list-items-container"></div>
-            <button type="button" class="btn-add">Añadir Experiencia</button>
-        </div>
-        <div class="list-section" data-list-key="education-list">
-            <h3>Educación</h3>
-            <div class="list-items-container"></div>
-            <button type="button" class="btn-add">Añadir Educación</button>
-        </div>
-        <div class="list-section" data-list-key="languages-list">
-            <h3>Idiomas</h3>
-            <div class="list-items-container"></div>
-            <button type="button" class="btn-add">Añadir Idioma</button>
-        </div>
-        <div class="list-section" data-list-key="projects-list">
-            <h3>Proyectos</h3>
-            <div class="list-items-container"></div>
-            <button type="button" class="btn-add">Añadir Proyecto</button>
-        </div>
-    `;
+    // Generar el HTML del formulario a partir de la estructura
+    for (const sectionKey in formStructure) {
+        const section = formStructure[sectionKey];
+        const fieldset = document.createElement('fieldset');
+        const legend = document.createElement('legend');
+        legend.textContent = section.legend;
+        fieldset.appendChild(legend);
 
-    generateListFields(portfolioData, 'experience-list', { title: 'texto', company: 'texto', description: 'area' });
-    generateListFields(portfolioData, 'education-list', { title: 'texto', company: 'texto', description: 'area' });
-    generateListFields(portfolioData, 'languages-list', { title: 'texto', company: 'texto' });
-    generateListFields(portfolioData, 'projects-list', { title: 'texto', description: 'area', link: 'texto' });
+        if (section.fields) {
+            for (const key in section.fields) {
+                const fieldConfig = section.fields[key];
+                const values = { es: data.es?.[key] || '', en: data.en?.[key] || '' };
+                const fieldElement = createBilingualField(key, fieldConfig.type === 'textarea', values);
+                fieldset.appendChild(fieldElement);
+            }
+        }
 
+        if (section.lists) {
+            for (const key in section.lists) {
+                const listConfig = section.lists[key];
+                const listElement = createListSection(key, listConfig.title, listConfig.fields, data);
+                fieldset.appendChild(listElement);
+            }
+        }
+        formContainer.appendChild(fieldset);
+    }
+
+    // Añadir el event listener al formulario para guardar
+    document.getElementById('admin-form').addEventListener('submit', handleFormSubmit);
 }
 
-function createBilingualField(key, values, isTextarea = false) {
-    const label = document.createElement('label');
-    label.textContent = key.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-
+function createBilingualField(key, isTextarea, values) {
     const group = document.createElement('div');
     group.className = 'field-group';
+    
+    const label = document.createElement('label');
+    label.textContent = key.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     group.appendChild(label);
 
     const inputsContainer = document.createElement('div');
     inputsContainer.className = 'bilingual-inputs';
 
     ['es', 'en'].forEach(lang => {
-        const inputType = isTextarea ? 'textarea' : 'input';
-        const input = document.createElement(inputType);
+        const input = isTextarea ? document.createElement('textarea') : document.createElement('input');
+        if (!isTextarea) input.type = 'text';
         input.name = `${key}-${lang}`;
         input.placeholder = lang.toUpperCase();
-        input.value = values[lang]?.[key] || '';
-        if (!isTextarea) input.type = 'text';
+        input.value = values[lang] || '';
         inputsContainer.appendChild(input);
     });
 
-    group.appendChild(inputsContainer); // Se añade el contenedor de inputs al grupo
-    return group; // Se devuelve el grupo completo para ser añadido al DOM
+    group.appendChild(inputsContainer);
+    return group;
 }
 
-function generateSimpleFields(data, keys, containerId, textareaKeys = {}) {
-    const container = document.getElementById(containerId);
-    keys.forEach(key => {
-        const isTextarea = !!textareaKeys[key];
-        // Extraemos los valores para cada idioma y los pasamos en el formato correcto.
-        const values = {
-            es: data.es?.[key] || '',
-            en: data.en?.[key] || ''
-        };
-        const field = createBilingualField(key, values, isTextarea);
-        container.appendChild(field);
-    });
-}
+function createListSection(listKey, title, fieldConfig, data) {
+    const sectionDiv = document.createElement('div');
+    sectionDiv.className = 'list-section';
+    sectionDiv.dataset.listKey = listKey;
+    sectionDiv.innerHTML = `
+        <h3>${title}</h3>
+        <div class="list-items-container"></div>
+        <button type="button" class="btn-add">Añadir Elemento</button>
+    `;
 
-function generateListFields(data, listKey, fieldConfig) {
-    const section = document.querySelector(`.list-section[data-list-key="${listKey}"]`);
-    if (!section) return; // Si la sección no existe, no continuamos.
+    const container = sectionDiv.querySelector('.list-items-container');
 
-    const container = section.querySelector('.list-items-container');
-    
     const renderList = () => {
         container.innerHTML = '';
-        // Aseguramos que ambas listas existan para evitar errores
-        const listES = data.es[listKey] || [];
-        const listEN = data.en[listKey] || [];
+        const listES = data.es?.[listKey] || [];
+        const listEN = data.en?.[listKey] || [];
         const maxLength = Math.max(listES.length, listEN.length);
 
         for (let index = 0; index < maxLength; index++) {
             const itemDiv = document.createElement('div');
+            itemDiv.className = 'list-item';
+            itemDiv.dataset.index = index;
 
-        let fieldsHtml = '<div class="bilingual-inputs-list">';
-        ['es', 'en'].forEach(lang => {
-            fieldsHtml += `<div class="lang-group"><h4>${lang.toUpperCase()}</h4>`;
+            let fieldsHtml = '<div class="bilingual-inputs-list">';
+            let uniqueFieldHtml = '';
+
+            // Renderizar campos bilingües
+            ['es', 'en'].forEach(lang => {
+                fieldsHtml += `<div class="lang-group"><h4>${lang.toUpperCase()}</h4>`;
+                for (const key in fieldConfig) {
+                    if (fieldConfig[key].isUnique) continue;
+                    const value = data[lang]?.[listKey]?.[index]?.[key] || '';
+                    const labelText = key.replace(/\b\w/g, l => l.toUpperCase());
+                    if (fieldConfig[key].type === 'textarea') {
+                        fieldsHtml += `<div class="field-group-inner"><label>${labelText}</label><textarea data-lang="${lang}" data-key="${key}">${value}</textarea></div>`;
+                    } else {
+                        fieldsHtml += `<div class="field-group-inner"><label>${labelText}</label><input type="text" data-lang="${lang}" data-key="${key}" value="${value.replace(/"/g, '&quot;')}"></div>`;
+                    }
+                }
+                fieldsHtml += `</div>`;
+            });
+            fieldsHtml += '</div>';
+
+            // Renderizar campos únicos (como 'link')
             for (const key in fieldConfig) {
-                if (key === 'link') continue;
-
-                const isTextarea = fieldConfig[key] === 'area';
-                const value = data[lang][listKey]?.[index]?.[key] || '';
-                const escapedValue = value.replace(/"/g, '&quot;');
-
-                if (isTextarea) {
-                    fieldsHtml += `<div class="field-group-inner"><label>${key.replace(/\b\w/g, l => l.toUpperCase())}</label><textarea data-lang="${lang}" data-key="${key}">${value}</textarea></div>`;
-                } else {
-                    fieldsHtml += `<div class="field-group-inner"><label>${key.replace(/\b\w/g, l => l.toUpperCase())}</label><input type="text" data-lang="${lang}" data-key="${key}" value="${escapedValue}"></div>`;
+                if (fieldConfig[key].isUnique) {
+                    const value = listES[index]?.[key] || listEN[index]?.[key] || '';
+                    const labelText = key.replace(/\b\w/g, l => l.toUpperCase());
+                    uniqueFieldHtml += `<div class="field-group-inner single-field"><label>${labelText}</label><input type="text" data-key="${key}" value="${value.replace(/"/g, '&quot;')}"></div>`;
                 }
             }
 
-            fieldsHtml += `</div>`;
-        })
-        fieldsHtml += '</div>';
-
-        itemDiv.className = 'list-item';
-        itemDiv.dataset.index = index;
-        itemDiv.innerHTML = `
-            <div class="list-item-header">
-                <h4>${listES[index]?.title || listEN[index]?.title || `${listKey.replace('-list', '')} #${index + 1}`}</h4>
-                <button type="button" class="btn-remove">Eliminar</button>
-            </div>
-            ${fieldsHtml}
-            ${/* El link del proyecto es único, no bilingüe, lo añadimos fuera del bucle de idiomas */''}
-            ${fieldConfig.link ? `
-                <div class="field-group-inner single-field"><label>Link</label>
-                <input type="text" data-key="link" value="${(data.es[listKey]?.[index]?.link || '').replace(/"/g, '&quot;')}">
-                </div>` : ''}
-        `;
-        container.appendChild(itemDiv);
+            itemDiv.innerHTML = `
+                <div class="list-item-header">
+                    <h4>${listES[index]?.title || listEN[index]?.title || `Elemento #${index + 1}`}</h4>
+                    <button type="button" class="btn-remove">Eliminar</button>
+                </div>
+                ${fieldsHtml}
+                ${uniqueFieldHtml}
+            `;
+            container.appendChild(itemDiv);
         }
-    }
+    };
 
-    section.querySelector('.btn-add').addEventListener('click', () => {
+    sectionDiv.querySelector('.btn-add').addEventListener('click', () => {
         if (!data.es[listKey]) data.es[listKey] = [];
         if (!data.en[listKey]) data.en[listKey] = [];
         data.es[listKey].push({});
@@ -227,157 +259,118 @@ function generateListFields(data, listKey, fieldConfig) {
         if (e.target.classList.contains('btn-remove')) {
             const itemDiv = e.target.closest('.list-item');
             const index = parseInt(itemDiv.dataset.index, 10);
-            if (data.es[listKey]) data.es[listKey].splice(index, 1);
-            if (data.en[listKey]) data.en[listKey].splice(index, 1);
+            data.es[listKey]?.splice(index, 1);
+            data.en[listKey]?.splice(index, 1);
             renderList();
         }
     });
 
-    // Renderizado inicial
     renderList();
+    return sectionDiv;
 }
 
 function handleFormSubmit(e) {
     e.preventDefault();
+    const form = e.target;
     const statusDiv = document.getElementById('save-status');
-    const form = document.getElementById('admin-form');
+    const saveButton = form.querySelector('.btn-save');
+    const newData = { es: {}, en: {} };
 
-    if (form) {
-        const saveButton = form.querySelector('.btn-save');
-        const newData = { es: {}, en: {} };
+    saveButton.disabled = true;
+    statusDiv.textContent = 'Guardando...';
+    statusDiv.style.color = 'var(--text-color)';
 
-        saveButton.disabled = true;
-        statusDiv.textContent = 'Guardando...';
-        statusDiv.style.color = 'var(--text-color)';
+    // Guardar campos simples
+    form.querySelectorAll('input[name], textarea[name]').forEach(input => {
+        const nameParts = input.name.split('-');
+        const lang = nameParts.pop();
+        const key = nameParts.join('-');
+        if (newData[lang] && key) {
+            newData[lang][key] = input.value;
+        }
+    });
 
-        // Guardar campos simples bilingües
-        form.querySelectorAll('.fields-container input[name], .fields-container textarea[name]').forEach(input => {
-            if (!input.closest('.list-item')) {
-                // Corregir la división del nombre del campo.
-                // El nombre es "key-lang", por lo que necesitamos dividir por el último guion.
-                const nameParts = input.name.split('-');
-                const lang = nameParts.pop(); // 'es' o 'en'
-                const key = nameParts.join('-'); // 'page-title', 'header-name', etc.
-                
-                // Asegurarse de que el objeto de idioma y la clave existan
-                if (newData[lang] && key) {
-                    newData[lang][key] = input.value;
+    // Guardar listas
+    form.querySelectorAll('.list-section').forEach(section => {
+        const listKey = section.dataset.listKey;
+        newData.es[listKey] = [];
+        newData.en[listKey] = [];
+        section.querySelectorAll('.list-item').forEach(itemDiv => {
+            const itemES = {};
+            const itemEN = {};
+            itemDiv.querySelectorAll('[data-key]').forEach(input => {
+                const key = input.dataset.key;
+                const lang = input.dataset.lang;
+                if (lang === 'es') itemES[key] = input.value;
+                else if (lang === 'en') itemEN[key] = input.value;
+                else { // Campo único
+                    itemES[key] = input.value;
+                    itemEN[key] = input.value;
                 }
-            }
-        });
-
-        // Guardar listas
-        form.querySelectorAll('.list-section').forEach(section => {
-            const listKey = section.dataset.listKey;
-            newData.es[listKey] = [];
-            newData.en[listKey] = [];
-            section.querySelectorAll('.list-item').forEach(itemDiv => {
-                const itemES = {};
-                const itemEN = {};
-                // Procesar inputs y textareas por separado para asegurar la captura correcta
-                itemDiv.querySelectorAll('input[data-key], textarea[data-key]').forEach(input => {
-                    const lang = input.dataset.lang;
-                    const key = input.dataset.key;
-                    if (key) {
-                        if (lang === 'es') itemES[key] = input.value;
-                        else if (lang === 'en') itemEN[key] = input.value;
-                        else if (!lang && key === 'link') { // Campo único como el link
-                            itemES.link = itemEN.link = input.value; 
-                        }
-                    }
-                });
-                newData.es[listKey].push(itemES);
-                newData.en[listKey].push(itemEN);
             });
+            newData.es[listKey].push(itemES);
+            newData.en[listKey].push(itemEN);
         });
+    });
 
-        localStorage.setItem('portfolioContent', JSON.stringify(newData));
+    localStorage.setItem('portfolioContent', JSON.stringify(newData));
 
-        // Simular un pequeño retardo para que el usuario vea el mensaje "Guardando..."
-        setTimeout(() => {
-            statusDiv.textContent = '¡Cambios guardados con éxito!';
-            statusDiv.style.color = 'var(--accent-color)';
-            saveButton.disabled = false;
-            setTimeout(() => statusDiv.textContent = '', 5000);
-        }, 500);
-    }
+    setTimeout(() => {
+        statusDiv.textContent = '¡Cambios guardados con éxito!';
+        statusDiv.style.color = 'var(--accent-color)';
+        saveButton.disabled = false;
+        setTimeout(() => statusDiv.textContent = '', 5000);
+    }, 500);
 }
+
+
+// --- OTRAS PESTAÑAS (Mensajes, Presupuestos, etc.) ---
 
 function loadMessagesTab() {
     const container = document.getElementById('messages-container');
     const messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
-    container.innerHTML = '';
-
-    if (messages.length === 0) {
-        container.innerHTML = '<p>No se han recibido mensajes.</p>';
-        return;
-    }
-
-    messages.reverse().forEach(msg => {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'message-item';
-        msgDiv.innerHTML = `
-            <h4>De: ${msg.name} (${msg.email})</h4>
-            <p><strong>Fecha:</strong> ${new Date(msg.date).toLocaleString()}</p>
-            <p><strong>Mensaje:</strong></p>
-            <p>${msg.message.replace(/\n/g, '<br>')}</p>
-        `;
-        container.appendChild(msgDiv);
-    });
+    container.innerHTML = (messages.length === 0)
+        ? '<p>No se han recibido mensajes.</p>'
+        : messages.reverse().map(msg => `
+            <div class="message-item">
+                <h4>De: ${msg.name} (${msg.email})</h4>
+                <p><strong>Fecha:</strong> ${new Date(msg.date).toLocaleString()}</p>
+                <p><strong>Mensaje:</strong></p>
+                <p>${msg.message.replace(/\n/g, '<br>')}</p>
+            </div>
+        `).join('');
 }
 
 function loadQuotesTab() {
     const container = document.getElementById('quotes-container');
-    if (!container) return;
-
     const quotes = JSON.parse(localStorage.getItem('quoteRequests')) || [];
-    container.innerHTML = '';
-
-    if (quotes.length === 0) {
-        container.innerHTML = '<p>No se han recibido solicitudes de presupuesto.</p>';
-        return;
-    }
-
-    quotes.reverse().forEach(quote => {
-        const quoteDiv = document.createElement('div');
-        quoteDiv.className = 'message-item'; // Reutilizamos el estilo de los mensajes
-        quoteDiv.innerHTML = `
-            <div class="message-header">
+    container.innerHTML = (quotes.length === 0)
+        ? '<p>No se han recibido solicitudes de presupuesto.</p>'
+        : quotes.reverse().map(quote => `
+            <div class="message-item">
                 <h4>De: ${quote.name} (<a href="mailto:${quote.email}">${quote.email}</a>)</h4>
                 <span>${new Date(quote.date).toLocaleString()}</span>
+                <p><strong>Servicio:</strong> ${quote.service}</p>
+                <p><strong>Plan:</strong> ${quote.plan} (${quote.price})</p>
+                <p><strong>Método de Pago:</strong> ${quote.paymentMethod}</p>
+                <p><strong>Notas:</strong> ${quote.message ? quote.message.replace(/\n/g, '<br>') : '<em>Sin notas.</em>'}</p>
             </div>
-            <p><strong>Servicio:</strong> ${quote.service}</p>
-            <p><strong>Plan:</strong> ${quote.plan} (${quote.price})</p>
-            <p><strong>Método de Pago:</strong> ${quote.paymentMethod}</p>
-            <p><strong>Notas:</strong></p>
-            <p>${quote.message ? quote.message.replace(/\n/g, '<br>') : '<em>Sin notas adicionales.</em>'}</p>
-        `;
-        container.appendChild(quoteDiv);
-    });
+        `).join('');
 }
 
 function loadInfoTab() {
     const container = document.getElementById('info-container');
     const visits = localStorage.getItem('visitCounter') || 0;
-
     container.innerHTML = `
         <div class="message-item">
             <h3>Visitas Totales</h3>
             <p style="font-size: 2rem; font-weight: bold;">${visits}</p>
-        </div>
-        <div class="message-item">
-            <h3>Seguimiento de Visitantes</h3>
-            <p><strong>Nota importante:</strong> Este sitio es una página estática alojada en GitHub Pages. Por limitaciones técnicas y de privacidad, no es posible registrar direcciones IP o datos detallados de los visitantes sin un servidor backend.</p>
-            <p>Para un análisis avanzado, se recomienda integrar herramientas externas como Google Analytics.</p>
         </div>
     `;
 }
 
 function loadConfigTab() {
     const container = document.getElementById('config-container');
-    // Asegurarse de que el contenedor existe antes de continuar
-    if (!container) return;
-
     const settings = JSON.parse(localStorage.getItem('siteSettings')) || {};
     const isMaintenance = settings.maintenanceMode === 'on';
 
@@ -395,7 +388,7 @@ function loadConfigTab() {
         <div class="setting-item">
             <div>
                 <p>Exportar Datos</p>
-                <small>Guarda una copia de seguridad de todo el contenido editable en un archivo XML.</small>
+                <small>Guarda una copia de seguridad del contenido en un archivo XML.</small>
             </div>
             <button id="export-btn" class="btn-action">Exportar a XML</button>
         </div>
@@ -412,10 +405,7 @@ function loadConfigTab() {
 
 function exportDataToXML() {
     const data = getPortfolioData();
-    if (!data) return;
-
     let xmlString = '<?xml version="1.0" encoding="UTF-8"?>\n<portfolio>\n';
-
     const toXML = (obj, name) => {
         if (Array.isArray(obj)) {
             return obj.map(item => toXML(item, name.slice(0, -1))).join('');
@@ -424,22 +414,21 @@ function exportDataToXML() {
             let content = Object.entries(obj).map(([key, val]) => toXML(val, key)).join('');
             return `<${name}>${content}</${name}>\n`;
         }
-        return `<${name}>${obj}</${name}>\n`;
+        return `<${name}>${String(obj).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</${name}>\n`;
     };
-
-    for (const key in data) {
-        xmlString += toXML(data[key], key);
-    }
-
+    xmlString += toXML(data, 'content');
     xmlString += '</portfolio>';
 
     const blob = new Blob([xmlString], { type: 'application/xml' });
-    const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = 'portfolio_backup.xml';
-    document.body.appendChild(a);
+    a.href = URL.createObjectURL(blob);
+    a.download = `portfolio_backup_${new Date().toISOString().split('T')[0]}.xml`;
     a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    URL.revokeObjectURL(a.href);
+}
+
+function setupLogout() {
+    document.getElementById('logout-btn').addEventListener('click', () => {
+        signOut(auth).catch(error => console.error('Error al cerrar sesión:', error));
+    });
 }
