@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Traducciones para la página de servicios ---
     const translations = {
         es: {
             'services-title': 'Mis Servicios',
@@ -174,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Animación de fondo Vanta.js ---
     if (window.VANTA) {
         VANTA.GLOBE({
             el: "#vanta-bg",
@@ -185,24 +183,20 @@ document.addEventListener('DOMContentLoaded', () => {
             minWidth: 200.00,
             scale: 1.00,
             scaleMobile: 1.00,
-            color: 0x00adb5,      // Color principal de los continentes
-            color2: 0xffffff,     // No se usa en el efecto globo
-            backgroundColor: 0x222831, // Color del océano
+            color: 0x00adb5,
+            color2: 0xffffff,
+            backgroundColor: 0x222831,
             size: 1.20
         });
     }
 
-    // --- Cursor Personalizado ---
     const cursor = document.querySelector('.custom-cursor');
     if (cursor) {
         document.addEventListener('mousemove', e => {
-            // Usamos clientX/clientY que son relativos a la ventana,
-            // lo cual es correcto para un elemento con 'position: fixed'.
             cursor.style.top = e.clientY + 'px';
             cursor.style.left = e.clientX + 'px';
         });
 
-        // Se unifican los selectores de ambos bloques de código duplicados
         document.querySelectorAll('a, button, .pricing-table .btn-cta').forEach(el => {
             el.addEventListener('mouseenter', () => {
                 cursor.style.width = '40px';
@@ -217,7 +211,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Animaciones al hacer Scroll ---
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -226,12 +219,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.service-category').forEach(card => { // Reutilizamos la clase para la animación
+    document.querySelectorAll('.service-category').forEach(card => {
         observer.observe(card);
     });
 
-
-    // --- Ejecución Inicial ---
     setLanguage(currentLang);
 
     document.querySelectorAll('.lang-btn').forEach(btn => {

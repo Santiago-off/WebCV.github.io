@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    // --- Comprobación de Modo Mantenimiento ---
     const siteSettings = JSON.parse(localStorage.getItem('siteSettings')) || {};
     if (siteSettings.maintenanceMode === 'on') {
         document.body.innerHTML = `
@@ -14,19 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>Estamos realizando algunas actualizaciones. Volveremos pronto.</p>
             </div>
         `;
-        // Detiene la ejecución del resto del script
         return;
     }
 
-
-    // --- Inicialización de Datos y Contenido (si no está en mantenimiento) ---
     const initialTranslations = {
-        // Textos fijos de la interfaz
         ui: {
             es: {
                 'nav-about': 'Sobre mí', 'nav-services': 'Servicios', 'nav-experience': 'Experiencia', 'nav-projects': 'Proyectos', 'nav-contact': 'Contacto',
-                'fiverr-btn': 'Contrátame en Fiverr',
-                'title-about': 'Sobre Mí', 'title-services': 'Mis Servicios', 'title-experience': 'Experiencia Laboral', 'title-education': 'Educación y Formación', 'title-languages': 'Competencias Lingüísticas', 'title-projects': 'Proyectos Destacados', 'title-contact': 'Contacto',
+                'fiverr-btn': 'Contrátame en Fiverr', 'title-about': 'Sobre Mí', 'title-skills': 'Tecnologías', 'title-prog-lang': 'Lenguajes de Programación', 'title-frameworks': 'Frameworks & Librerías', 'title-tools': 'Herramientas', 'title-services': 'Mis Servicios', 'title-experience': 'Experiencia Laboral', 'title-education': 'Educación y Formación', 'title-languages': 'Competencias Lingüísticas', 'title-projects': 'Proyectos Destacados', 'title-contact': 'Contacto',
                 'contact-lets-talk': 'Hablemos', 'contact-send-message': 'Envíame un mensaje',
                 'form-placeholder-name': 'Tu Nombre', 'form-placeholder-email': 'Tu Correo Electrónico', 'form-placeholder-message': 'Tu Mensaje',
                 'form-send-button': 'Enviar Mensaje',
@@ -35,15 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             en: {
                 'nav-about': 'About Me', 'nav-services': 'Services', 'nav-experience': 'Experience', 'nav-projects': 'Projects', 'nav-contact': 'Contact',
-                'fiverr-btn': 'Hire me on Fiverr',
-                'title-about': 'About Me', 'title-services': 'My Services', 'title-experience': 'Work Experience', 'title-education': 'Education & Training', 'title-languages': 'Language Skills', 'title-projects': 'Featured Projects', 'title-contact': 'Contact',
+                'fiverr-btn': 'Hire me on Fiverr', 'title-about': 'About Me', 'title-skills': 'Technologies', 'title-prog-lang': 'Programming Languages', 'title-frameworks': 'Frameworks & Libraries', 'title-tools': 'Tools', 'title-services': 'My Services', 'title-experience': 'Work Experience', 'title-education': 'Education & Training', 'title-languages': 'Language Skills', 'title-projects': 'Featured Projects', 'title-contact': 'Contact',
                 'contact-lets-talk': "Let's Talk", 'contact-send-message': 'Send me a message',
                 'form-placeholder-name': 'Your Name', 'form-placeholder-email': 'Your Email', 'form-placeholder-message': 'Your Message',
                 'form-send-button': 'Send Message',
-                'project-link': 'View on GitHub →'
+                'project-link': 'View on GitHub →',
+                'services-button': 'View all services →'
             }
         },
-        // Contenido editable
         content: {
             es: {
                 'page-title': 'Santiago Fernandez - Programador y Experto en Ciberseguridad',
@@ -59,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'contact-location': '28939 Arroyomolinos, España',
                 'footer-text': 'Santiago Fernandez. Todos los derechos reservados.',
                 'github-link': 'https://github.com/Santiago-off',
-                'linkedin-link': 'https://www.linkedin.com/in/tu-usuario/', // TODO: Añade tu URL de LinkedIn
+                'linkedin-link': 'https://www.linkedin.com/in/tu-usuario/',
                 'experience-list': [
                     { title: 'Realizando tareas de Programador', company: 'Armonia (18/03/2025 – 16/06/2025) Salerno, Italia', description: '' },
                     { title: 'Soporte de hosting (online)', company: '(05/2022 – 09/2023) Madrid, España', description: '' }
@@ -82,6 +74,34 @@ document.addEventListener('DOMContentLoaded', () => {
                     { title: '🛡️ File Integrity Monitor', description: 'Herramienta de ciberseguridad en Python que supervisa directorios, calcula hashes SHA-256 y registra cambios en archivos.', link: 'https://github.com/Santiago-off/File-Integrity-Monitor' },
                     { title: '🔐 Encryptador Web', description: 'Aplicación en React + Vite para encriptar y desencriptar texto localmente usando el cifrado de Vigenère.', link: 'https://github.com/Santiago-off/Encryptator' },
                     { title: '🏦 Banco Simulado', description: 'Simulador de una aplicación bancaria web con funcionalidades de registro, login y transferencias, usando Firebase para la gestión de datos.', link: 'https://github.com/Santiago-off/Banco-Simulado' }
+                ],
+                'languages_programming_list': [
+                    { name: 'HTML5', icon: 'https://img.icons8.com/color/48/html-5--v1.png' },
+                    { name: 'CSS3', icon: 'https://img.icons8.com/color/48/css3.png' },
+                    { name: 'JavaScript', icon: 'https://img.icons8.com/fluency/48/javascript.png' },
+                    { name: 'Python', icon: 'https://img.icons8.com/fluency/48/python.png' },
+                    { name: 'Java', icon: 'https://img.icons8.com/color/48/java-coffee-cup-logo--v1.png' },
+                    { name: 'C#', icon: 'https://img.icons8.com/color/48/c-sharp-logo.png' },
+                    { name: 'MySQL', icon: 'https://img.icons8.com/color/48/mysql-logo.png' }
+                ],
+                'frameworks_list': [
+                    { name: 'React', icon: 'https://img.icons8.com/fluency/48/react-native.png' },
+                    { name: 'Node.js', icon: 'https://img.icons8.com/fluency/48/node-js.png' },
+                    { name: 'Tailwind CSS', icon: 'https://img.icons8.com/color/48/tailwind_css.png' },
+                    { name: 'WordPress', icon: 'https://img.icons8.com/fluency/48/wordpress.png' },
+                    { name: 'WooCommerce', icon: 'https://img.icons8.com/color/48/woocommerce.png' }
+                ],
+                'tools_list': [
+                    { name: 'Git', icon: 'https://img.icons8.com/color/48/git.png' },
+                    { name: 'GitHub', icon: 'https://img.icons8.com/color/48/github--v1.png' },
+                    { name: 'VS Code', icon: 'https://img.icons8.com/fluency/48/visual-studio-code-2019.png' },
+                    { name: 'Docker', icon: 'https://img.icons8.com/fluency/48/docker.png' },
+                    { name: 'AWS', icon: 'https://img.icons8.com/color/48/amazon-web-services.png' },
+                    { name: 'Azure', icon: 'https://img.icons8.com/fluency/48/azure-1.png' },
+                    { name: 'Firebase', icon: 'https://img.icons8.com/color/48/firebase.png' },
+                    { name: 'XAMPP', icon: 'https://img.icons8.com/color/48/xampp.png' },
+                    { name: 'Postman', icon: 'https://img.icons8.com/external-tal-revivo-color-tal-revivo/48/external-postman-is-the-only-complete-api-development-environment-logo-color-tal-revivo.png' },
+                    { name: 'n8n', icon: 'https://img.icons8.com/color/48/n8n.png' }
                 ]
             },
             en: {
@@ -98,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'contact-location': '28939 Arroyomolinos, Spain',
                 'footer-text': 'Santiago Fernandez. All rights reserved.',
                 'github-link': 'https://github.com/Santiago-off',
-                'linkedin-link': 'https://www.linkedin.com/in/tu-usuario/', // TODO: Añade tu URL de LinkedIn
+                'linkedin-link': 'https://www.linkedin.com/in/tu-usuario/',
                 'experience-list': [
                     { title: 'Performing Programmer tasks', company: 'Armonia (Mar 2025 – Jun 2025) Salerno, Italy', description: '' },
                     { title: 'Hosting support (online)', company: '(May 2022 – Sep 2023) Madrid, Spain', description: '' }
@@ -121,6 +141,34 @@ document.addEventListener('DOMContentLoaded', () => {
                     { title: '🛡️ File Integrity Monitor', description: 'A cybersecurity tool in Python that monitors directories, calculates SHA-256 hashes, and logs file changes.', link: 'https://github.com/Santiago-off/File-Integrity-Monitor' },
                     { title: '🔐 Web Encryptor', description: 'A React + Vite application to encrypt and decrypt text locally using the Vigenère cipher.', link: 'https://github.com/Santiago-off/Encryptator' },
                     { title: '🏦 Simulated Bank', description: 'A web application simulator for a bank with registration, login, and transfer functionalities, using Firebase for data management.', link: 'https://github.com/Santiago-off/Banco-Simulado' }
+                ],
+                'languages_programming_list': [
+                    { name: 'HTML5', icon: 'https://img.icons8.com/color/48/html-5--v1.png' },
+                    { name: 'CSS3', icon: 'https://img.icons8.com/color/48/css3.png' },
+                    { name: 'JavaScript', icon: 'https://img.icons8.com/fluency/48/javascript.png' },
+                    { name: 'Python', icon: 'https://img.icons8.com/fluency/48/python.png' },
+                    { name: 'Java', icon: 'https://img.icons8.com/color/48/java-coffee-cup-logo--v1.png' },
+                    { name: 'C#', icon: 'https://img.icons8.com/color/48/c-sharp-logo.png' },
+                    { name: 'MySQL', icon: 'https://img.icons8.com/color/48/mysql-logo.png' }
+                ],
+                'frameworks_list': [
+                    { name: 'React', icon: 'https://img.icons8.com/fluency/48/react-native.png' },
+                    { name: 'Node.js', icon: 'https://img.icons8.com/fluency/48/node-js.png' },
+                    { name: 'Tailwind CSS', icon: 'https://img.icons8.com/color/48/tailwind_css.png' },
+                    { name: 'WordPress', icon: 'https://img.icons8.com/fluency/48/wordpress.png' },
+                    { name: 'WooCommerce', icon: 'https://img.icons8.com/color/48/woocommerce.png' }
+                ],
+                'tools_list': [
+                    { name: 'Git', icon: 'https://img.icons8.com/color/48/git.png' },
+                    { name: 'GitHub', icon: 'https://img.icons8.com/color/48/github--v1.png' },
+                    { name: 'VS Code', icon: 'https://img.icons8.com/fluency/48/visual-studio-code-2019.png' },
+                    { name: 'Docker', icon: 'https://img.icons8.com/fluency/48/docker.png' },
+                    { name: 'AWS', icon: 'https://img.icons8.com/color/48/amazon-web-services.png' },
+                    { name: 'Azure', icon: 'https://img.icons8.com/fluency/48/azure-1.png' },
+                    { name: 'Firebase', icon: 'https://img.icons8.com/color/48/firebase.png' },
+                    { name: 'XAMPP', icon: 'https://img.icons8.com/color/48/xampp.png' },
+                    { name: 'Postman', icon: 'https://img.icons8.com/external-tal-revivo-color-tal-revivo/48/external-postman-is-the-only-complete-api-development-environment-logo-color-tal-revivo.png' },
+                    { name: 'n8n', icon: 'https://img.icons8.com/color/48/n8n.png' }
                 ]
             }
         }
@@ -131,14 +179,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (savedData) {
             try {
                 const parsedContent = JSON.parse(savedData);
-                // Fusión profunda para asegurar que tanto 'ui' como 'content' estén presentes.
                 return {
                     ui: initialTranslations.ui,
                     content: parsedContent
                 };
             } catch (e) {
                 console.error("Error parsing portfolioContent from localStorage, falling back to default.", e);
-                // Si hay un error, usa los datos iniciales y resetea el localStorage.
                 localStorage.setItem('portfolioContent', JSON.stringify(initialTranslations.content));
                 return initialTranslations;
             }
@@ -151,12 +197,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const allTranslations = getTranslations();
     let currentLang = localStorage.getItem('language') || 'es';
 
-    // --- Renderizado de Contenido ---
     function renderContent(lang) {
         const content = allTranslations.content[lang];
         const ui = allTranslations.ui[lang];
 
-        // Renderizar textos simples
         document.querySelectorAll('[data-editable]').forEach(el => {
             const key = el.dataset.editable;
             if (content[key]) {
@@ -168,19 +212,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Renderizar textos fijos de la UI
         document.querySelectorAll('[data-key]').forEach(el => {
             const key = el.dataset.key;
             if (ui[key]) el.textContent = ui[key];
         });
 
-        // Renderizar placeholders
         document.querySelectorAll('[data-key-placeholder]').forEach(el => {
             const key = el.dataset.keyPlaceholder;
             if (ui[key]) el.placeholder = ui[key];
         });
 
-        // Renderizar enlaces de redes sociales
         const socialContainer = document.querySelector('.social-links');
         if (socialContainer) {
             socialContainer.innerHTML = `
@@ -192,7 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </a>`;
         }
 
-        // Renderizar listas (Experiencia, Educación, etc.)
         renderList('experience-list', content, (item) => `
             <div class="timeline-item">
                 <h3>${item.title}</h3>
@@ -228,13 +268,23 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `);
 
-        // Actualizar año en el footer
+        const skillTemplate = (item) => `
+            <div class="skill-card">
+                <img src="${item.icon}" alt="${item.name}" loading="lazy">
+                <span>${item.name}</span>
+            </div>
+        `;
+
+        renderList('languages_programming_list', content, skillTemplate);
+        renderList('frameworks_list', content, skillTemplate);
+        renderList('tools_list', content, skillTemplate);
+
         document.getElementById('current-year').textContent = new Date().getFullYear();
     }
 
     function renderList(key, content, templateFn) {
         const container = document.querySelector(`[data-editable-list="${key}"]`);
-        if (container && content[key]) {
+        if (container && content[key] && Array.isArray(content[key])) {
             container.innerHTML = content[key].map(templateFn).join('');
         }
     }
@@ -242,10 +292,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function setLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('language', lang);
-        document.documentElement.lang = lang; // Actualiza el atributo lang del HTML
+        document.documentElement.lang = lang;
         renderContent(lang);
 
-        // Actualiza el botón activo
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.lang === lang);
         });
@@ -254,7 +303,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Botón Volver Arriba ---
     const backToTopButton = document.querySelector('.back-to-top');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
@@ -264,7 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Contador de Visitas ---
     function updateVisitCounter() {
         let visits = localStorage.getItem('visitCounter') || 0;
         visits = parseInt(visits) + 1;
@@ -272,11 +319,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('visit-counter').textContent = visits;
     }
 
-    // --- Cursor Personalizado ---
     const cursor = document.querySelector('.custom-cursor');
     document.addEventListener('mousemove', e => {
-        // Usamos clientX/clientY que son relativos a la ventana,
-        // lo cual es correcto para un elemento con 'position: fixed'.
         cursor.style.top = e.clientY + 'px';
         cursor.style.left = e.clientX + 'px';
     });
@@ -294,7 +338,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Animaciones al hacer Scroll ---
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -307,7 +350,6 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(section);
     });
 
-    // --- Formulario de Contacto ---
     const contactForm = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
     const submitButton = contactForm.querySelector('.btn-submit');
@@ -334,7 +376,6 @@ document.addEventListener('DOMContentLoaded', () => {
             date: new Date().toISOString()
         };
 
-        // Guardar mensaje en localStorage
         let messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
         messages.push(newMessage);
         localStorage.setItem('contactMessages', JSON.stringify(messages));
@@ -350,10 +391,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000); 
     });
 
-    // Ejecución inicial de funciones
     updateVisitCounter();
 
-    // Renderiza el contenido inicial y configura los botones de idioma
     setLanguage(currentLang);
 
     document.querySelectorAll('.lang-btn').forEach(btn => {

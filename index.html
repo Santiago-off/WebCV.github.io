@@ -7,24 +7,18 @@
     <meta name="description" content="Portafolio profesional de Santiago Fernandez, desarrollador de software y especialista en ciberseguridad con experiencia en AWS y Azure.">
     <meta name="keywords" content="programador, ciberseguridad, portfolio, desarrollador, AWS, Azure, Python, JavaScript">
     <base href="/MyCurriculum.github.io/">
-    <!-- TODO: Cambia la URL por la URL final de tu página de GitHub Pages -->
     <link rel="canonical" href="https://santiago-off.github.io/MyCurriculum.github.io/">
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://santiago-off.github.io/MyCurriculum.github.io/">
     <meta property="og:title" content="Santiago Fernandez - Portafolio Profesional">
     <meta property="og:description" content="Portafolio de Santiago Fernandez, programador y experto en ciberseguridad.">
-    <meta property="og:image" content="https://santiago-off.github.io/MyCurriculum.github.io/og-image.png"> <!-- TODO: Crea y sube una imagen de 1200x630px -->
-
-    <!-- Twitter -->
+    <meta property="og:image" content="https://santiago-off.github.io/MyCurriculum.github.io/og-image.png">
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://santiago-off.github.io/MyCurriculum.github.io/">
     <meta property="twitter:title" content="Santiago Fernandez - Portafolio Profesional">
     <meta property="twitter:description" content="Portafolio de Santiago Fernandez, programador y experto en ciberseguridad.">
-    <meta property="twitter:image" content="https://santiago-off.github.io/MyCurriculum.github.io/og-image.png"> <!-- TODO: Usa la misma imagen que en OG -->
-
-    <!-- Google tag (gtag.js) -->
+    <meta property="twitter:image" content="https://santiago-off.github.io/MyCurriculum.github.io/og-image.png">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DEPS90R9NZ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -36,7 +30,6 @@
     
     <script id="usercentrics-cmp" src="https://app.usercentrics.eu/browser-ui/latest/loader.js" data-ruleset-id="7fkUYH0Z2fwxNe" async></script>
 
-    <!-- Schema.org for Google -->
     <script type="application/ld+json">
     {
       "@context": "http://schema.org",
@@ -56,10 +49,8 @@
 </head>
 <body>
 
-    <!-- Cursor Personalizado -->
     <div class="custom-cursor"></div>
 
-    <!-- Header -->
     <header class="header">
         <div class="logo">
             <img src="logo.svg" alt="Logo SF" class="logo-img">
@@ -84,9 +75,7 @@
     </header>
 
     <main>
-        <!-- Hero Section -->
         <section id="hero" class="hero">
-            <!-- TODO: Para optimizar el rendimiento, descarga esta imagen, comprímela y sírvela localmente -->
             <div class="hero-content">
                 <h1 class="fade-in" data-editable="hero-title">Desarrollador de Software y Experto en Ciberseguridad</h1>
                 <p class="fade-in" data-editable="hero-subtitle">Creando soluciones digitales seguras, eficientes y escalables en la nube.</p>
@@ -100,7 +89,6 @@
             </div>
         </section>
 
-        <!-- About Me Section -->
         <section id="about" class="content-section">
             <h2 class="section-title" data-key="title-about">Sobre Mí</h2>
             <p data-editable="about-me-text">
@@ -108,7 +96,22 @@
             </p>
         </section>
 
-        <!-- Services Section -->
+        <section id="skills" class="content-section">
+            <h2 class="section-title" data-key="title-skills">Tecnologías</h2>
+            
+            <h3 class="subsection-title" data-key="title-prog-lang">Lenguajes de Programación</h3>
+            <div class="skill-grid" data-editable-list="languages_programming_list">
+            </div>
+
+            <h3 class="subsection-title" data-key="title-frameworks">Frameworks & Librerías</h3>
+            <div class="skill-grid" data-editable-list="frameworks_list">
+            </div>
+
+            <h3 class="subsection-title" data-key="title-tools">Herramientas</h3>
+            <div class="skill-grid" data-editable-list="tools_list">
+            </div>
+        </section>
+
         <section id="services" class="content-section">
             <h2 class="section-title" data-key="title-services">Mis Servicios</h2>
             <p data-editable="services-intro">
@@ -117,39 +120,30 @@
             <a href="services.html" class="btn-cta" data-key="services-button">Ver todos los servicios →</a>
         </section>
 
-        <!-- Experience Section -->
         <section id="experience" class="content-section">
             <h2 class="section-title" data-key="title-experience">Experiencia Laboral</h2>
             <div class="timeline" data-editable-list="experience-list">
-                <!-- El contenido se generará desde JS -->
             </div>
         </section>
 
-        <!-- Education Section -->
         <section id="education" class="content-section">
             <h2 class="section-title" data-key="title-education">Educación y Formación</h2>
             <div class="timeline" data-editable-list="education-list">
-                <!-- El contenido se generará desde JS -->
             </div>
         </section>
 
-        <!-- Languages Section -->
         <section id="languages" class="content-section">
             <h2 class="section-title" data-key="title-languages">Competencias Lingüísticas</h2>
             <div class="timeline" data-editable-list="languages-list">
-                <!-- El contenido se generará desde JS -->
             </div>
         </section>
 
-        <!-- Projects Section -->
         <section id="projects" class="content-section">
             <h2 class="section-title" data-key="title-projects">Proyectos Destacados</h2>
             <div class="project-grid" data-editable-list="projects-list">
-                <!-- Las tarjetas de proyecto se generarán desde JS -->
             </div>
         </section>
 
-        <!-- Contact Section -->
         <section id="contact" class="content-section">
             <h2 class="section-title" data-key="title-contact">Contacto</h2>
             <div class="contact-container">
@@ -192,12 +186,10 @@
     <footer class="footer">
         <p>&copy; <span id="current-year"></span> <span data-editable="footer-text">Santiago Fernandez. Todos los derechos reservados.</span></p>
         <div class="social-links" data-editable-list="social-links">
-            <!-- Los enlaces a redes sociales se generarán desde JS -->
         </div>
         <p>Visitas a la página: <span id="visit-counter">0</span></p>
     </footer>
 
-    <!-- Botón para volver arriba -->
     <a href="#" class="back-to-top" aria-label="Volver arriba">
         &#8679;
     </a>

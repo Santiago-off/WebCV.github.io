@@ -1,11 +1,9 @@
-/* services.css */
-
 body {
-    background-color: transparent; /* Hacemos el fondo del body transparente */
+    background-color: transparent;
 }
 
 main {
-    background-color: rgba(34, 40, 49, 0.8); /* Fondo semi-transparente para el contenido */
+    background-color: rgba(34, 40, 49, 0.8);
     backdrop-filter: blur(5px);
     position: relative;
     z-index: 2;
@@ -58,14 +56,14 @@ main {
 }
 
 .pricing-table-container {
-    overflow-x: auto; /* Permite scroll horizontal en pantallas pequeñas */
+    overflow-x: auto;
     padding-bottom: 1rem;
 }
 
 .pricing-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px; /* Evita que la tabla se comprima demasiado */
+    min-width: 600px;
     background-color: var(--dark-bg);
     border-radius: 8px;
     overflow: hidden;
@@ -125,7 +123,6 @@ main {
     border-color: #00c1cb;
 }
 
-/* Ajustes para el footer en esta página */
 .footer {
     position: relative;
     z-index: 2;

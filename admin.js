@@ -2,20 +2,17 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebas
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { firebaseConfig } from "./firebase-config.js";
 
-// --- INICIALIZACIÓN DE FIREBASE Y AUTENTICACIÓN ---
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Redirige al login si el usuario no está autenticado.
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        main(); // Inicia la lógica del panel si el usuario está logueado
+        main();
     } else {
         window.location.href = 'login.html';
     }
 });
 
-// --- FUNCIÓN PRINCIPAL ---
 function main() {
     setupTabs();
     setupLogout();
@@ -26,7 +23,6 @@ function main() {
     loadConfigTab();
 }
 
-// --- LÓGICA DE PESTAÑAS ---
 function setupTabs() {
     const tabsContainer = document.querySelector('.admin-tabs');
     const tabContents = document.querySelectorAll('.admin-tab-content');
@@ -44,7 +40,6 @@ function setupTabs() {
     });
 }
 
-// --- LÓGICA DE DATOS (LocalStorage) ---
 function getPortfolioData() {
     try {
         const savedDataJSON = localStorage.getItem('portfolioContent');
@@ -52,8 +47,6 @@ function getPortfolioData() {
             const savedData = JSON.parse(savedDataJSON);
             if (savedData.es && savedData.en) return savedData;
         }
-        // Si no hay datos o el formato es incorrecto, devuelve una estructura vacía.
-        // script.js se encargará de crear los datos por defecto si es necesario.
         return { es: {}, en: {} };
     } catch (error) {
         console.error("Error al leer los datos del portafolio:", error);
@@ -61,14 +54,11 @@ function getPortfolioData() {
     }
 }
 
-// --- PESTAÑA DE EDICIÓN ---
-
 function loadEditTab() {
     const data = getPortfolioData();
     const formContainer = document.getElementById('form-content-container');
-    formContainer.innerHTML = ''; // Limpiar contenedor
+    formContainer.innerHTML = '';
 
-    // Definir la estructura del formulario
     const formStructure = {
         general: {
             legend: 'Configuración General',
@@ -128,7 +118,6 @@ function loadEditTab() {
         }
     };
 
-    // Generar el HTML del formulario a partir de la estructura
     for (const sectionKey in formStructure) {
         const section = formStructure[sectionKey];
         const fieldset = document.createElement('fieldset');
@@ -155,7 +144,6 @@ function loadEditTab() {
         formContainer.appendChild(fieldset);
     }
 
-    // Añadir el event listener al formulario para guardar
     document.getElementById('admin-form').addEventListener('submit', handleFormSubmit);
 }
 
@@ -209,7 +197,6 @@ function createListSection(listKey, title, fieldConfig, data) {
             let fieldsHtml = '<div class="bilingual-inputs-list">';
             let uniqueFieldHtml = '';
 
-            // Renderizar campos bilingües
             ['es', 'en'].forEach(lang => {
                 fieldsHtml += `<div class="lang-group"><h4>${lang.toUpperCase()}</h4>`;
                 for (const key in fieldConfig) {
@@ -226,7 +213,6 @@ function createListSection(listKey, title, fieldConfig, data) {
             });
             fieldsHtml += '</div>';
 
-            // Renderizar campos únicos (como 'link')
             for (const key in fieldConfig) {
                 if (fieldConfig[key].isUnique) {
                     const value = listES[index]?.[key] || listEN[index]?.[key] || '';
@@ -280,7 +266,6 @@ function handleFormSubmit(e) {
     statusDiv.textContent = 'Guardando...';
     statusDiv.style.color = 'var(--text-color)';
 
-    // Guardar campos simples
     form.querySelectorAll('input[name], textarea[name]').forEach(input => {
         const nameParts = input.name.split('-');
         const lang = nameParts.pop();
@@ -290,7 +275,6 @@ function handleFormSubmit(e) {
         }
     });
 
-    // Guardar listas
     form.querySelectorAll('.list-section').forEach(section => {
         const listKey = section.dataset.listKey;
         newData.es[listKey] = [];
@@ -303,7 +287,7 @@ function handleFormSubmit(e) {
                 const lang = input.dataset.lang;
                 if (lang === 'es') itemES[key] = input.value;
                 else if (lang === 'en') itemEN[key] = input.value;
-                else { // Campo único
+                else {
                     itemES[key] = input.value;
                     itemEN[key] = input.value;
                 }
@@ -322,9 +306,6 @@ function handleFormSubmit(e) {
         setTimeout(() => statusDiv.textContent = '', 5000);
     }, 500);
 }
-
-
-// --- OTRAS PESTAÑAS (Mensajes, Presupuestos, etc.) ---
 
 function loadMessagesTab() {
     const container = document.getElementById('messages-container');

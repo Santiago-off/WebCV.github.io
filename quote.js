@@ -157,10 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.toggle('active', btn.dataset.lang === lang);
         });
 
-        renderSummary(); // Re-render summary with new language
+        renderSummary();
     }
 
-    // --- Cursor Personalizado ---
     const cursor = document.querySelector('.custom-cursor');
     if (cursor) {
         document.addEventListener('mousemove', e => {
@@ -182,7 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Form submission
     const quoteForm = document.getElementById('quote-form');
     quoteForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -219,7 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => window.location.href = 'services.html', 3000);
     });
 
-    // Initial Load
     document.getElementById('current-year').textContent = new Date().getFullYear();
     setLanguage(currentLang);
     document.querySelectorAll('.lang-btn').forEach(btn => {
