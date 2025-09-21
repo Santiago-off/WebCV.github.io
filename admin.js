@@ -250,14 +250,16 @@ function handleFormSubmit(e) {
         statusDiv.style.color = 'var(--text-color)';
 
         // Guardar campos simples bilingües
-        form.querySelectorAll('input[type="text"], textarea').forEach(input => {
+        form.querySelectorAll('.fields-container input[name], .fields-container textarea[name]').forEach(input => {
             if (!input.closest('.list-item')) {
                 // Corregir la división del nombre del campo.
                 // El nombre es "key-lang", por lo que necesitamos dividir por el último guion.
                 const nameParts = input.name.split('-');
                 const lang = nameParts.pop(); // 'es' o 'en'
                 const key = nameParts.join('-'); // 'page-title', 'header-name', etc.
-                if (newData[lang]) {
+                
+                // Asegurarse de que el objeto de idioma y la clave existan
+                if (newData[lang] && key) {
                     newData[lang][key] = input.value;
                 }
             }
