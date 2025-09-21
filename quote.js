@@ -9,23 +9,37 @@ document.addEventListener('DOMContentLoaded', () => {
             'web-dev': { 
                 title: 'Desarrollo Web Completo',
                 plans: {
-                    'basic': { name: 'Básico (Landing Page)', price: 'Desde 350€' },
-                    'professional': { name: 'Profesional (Sitio Corporativo)', price: 'Desde 900€' },
-                    'premium': { name: 'Premium (Aplicación Web)', price: 'Desde 2,500€' }
+                    'basic': { name: 'Básico (Landing Page)', price: 'Desde 400€' },
+                    'professional': { name: 'Profesional (Sitio Corporativo)', price: 'Desde 1,200€' },
+                    'premium': { name: 'Premium (Aplicación Web)', price: 'Desde 3,000€' }
+                }
+            },
+            'cyber': {
+                title: 'Servicios de Ciberseguridad',
+                plans: {
+                    'audit': { name: 'Auditoría de Seguridad', price: 'Desde 500€' },
+                    'pentesting': { name: 'Pentesting Web', price: 'Desde 1,500€' }
+                }
+            },
+            'cloud': {
+                title: 'Cloud & DevOps',
+                plans: {
+                    'deploy': { name: 'Despliegue de Infraestructura', price: 'Desde 600€' },
+                    'automation': { name: 'Automatización CI/CD', price: 'Desde 950€' }
                 }
             },
             'maintenance': {
                 title: 'Mantenimiento Web',
                 plans: {
-                    'basic': { name: 'Básico', price: '50€ / mes' },
-                    'advanced': { name: 'Avanzado', price: '120€ / mes' }
+                    'basic': { name: 'Básico', price: '75€ / mes' },
+                    'advanced': { name: 'Avanzado', price: '150€ / mes' }
                 }
             },
             'db': {
-                title: 'Servicios SQL y Bases de Datos',
+                title: 'Servicios de Bases de Datos',
                 plans: {
-                    'consultas': { name: 'Consultas y Scripts', price: 'Desde 80€' },
-                    'diseno': { name: 'Diseño y Optimización', price: 'Desde 400€' }
+                    'design': { name: 'Diseño y Creación', price: 'Desde 450€' },
+                    'management': { name: 'Gestión y Optimización', price: 'Desde 250€' }
                 }
             }
         },
@@ -33,23 +47,37 @@ document.addEventListener('DOMContentLoaded', () => {
             'web-dev': { 
                 title: 'Full Web Development',
                 plans: {
-                    'basic': { name: 'Basic (Landing Page)', price: 'From €350' },
-                    'professional': { name: 'Professional (Corporate Site)', price: 'From €900' },
-                    'premium': { name: 'Premium (Web Application)', price: 'From €2,500' }
+                    'basic': { name: 'Basic (Landing Page)', price: 'From €400' },
+                    'professional': { name: 'Professional (Corporate Site)', price: 'From €1,200' },
+                    'premium': { name: 'Premium (Web Application)', price: 'From €3,000' }
+                }
+            },
+            'cyber': {
+                title: 'Cybersecurity Services',
+                plans: {
+                    'audit': { name: 'Security Audit', price: 'From €500' },
+                    'pentesting': { name: 'Web Pentesting', price: 'From €1,500' }
+                }
+            },
+            'cloud': {
+                title: 'Cloud & DevOps',
+                plans: {
+                    'deploy': { name: 'Infrastructure Deployment', price: 'From €600' },
+                    'automation': { name: 'CI/CD Automation', price: 'From €950' }
                 }
             },
             'maintenance': {
                 title: 'Web Maintenance',
                 plans: {
-                    'basic': { name: 'Basic', price: '€50 / month' },
-                    'advanced': { name: 'Advanced', price: '€120 / month' }
+                    'basic': { name: 'Basic', price: '€75 / month' },
+                    'advanced': { name: 'Advanced', price: '€150 / month' }
                 }
             },
             'db': {
-                title: 'SQL & Database Services',
+                title: 'Database Services',
                 plans: {
-                    'consultas': { name: 'Queries & Scripts', price: 'From €80' },
-                    'diseno': { name: 'Design & Optimization', price: 'From €400' }
+                    'design': { name: 'Design & Creation', price: 'From €450' },
+                    'management': { name: 'Management & Optimization', price: 'From €250' }
                 }
             }
         }
