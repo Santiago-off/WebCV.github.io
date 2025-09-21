@@ -336,6 +336,9 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton.textContent = allTranslations.ui[currentLang]['form-send-button'];
         setTimeout(() => {
             formStatus.textContent = '';
-        }, 5000);
+        }, 5000); 
     });
+
+    // Ejecución inicial de funciones
+    updateVisitCounter();
 });

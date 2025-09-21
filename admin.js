@@ -176,13 +176,19 @@ function generateListFields(data, listKey, fieldConfig) {
             fieldsHtml += `<div class="lang-group"><h4>${lang.toUpperCase()}</h4>`;
             for (const key in fieldConfig) {
                 const isTextarea = fieldConfig[key] === 'area';
-                const inputType = isTextarea ? 'textarea' : 'input';
-                fieldsHtml += `
-                    <div class="field-group-inner"><label>${key.replace(/\b\w/g, l => l.toUpperCase())}</label>
-                    <${inputType} data-lang="${lang}" data-key="${key}" ${!isTextarea ? 'type="text"' : ''}>${data[lang][listKey]?.[index]?.[key] || ''}</` + inputType + `></div>`;
+                const value = data[lang][listKey]?.[index]?.[key] || '';
+                const escapedValue = value.replace(/"/g, '&quot;');
+
+                let inputHtml = '';
+                if (isTextarea) {
+                    inputHtml = `<textarea data-lang="${lang}" data-key="${key}">${value}</textarea>`;
+                } else {
+                    inputHtml = `<input type="text" data-lang="${lang}" data-key="${key}" value="${escapedValue}">`;
+                }
+
+                fieldsHtml += `<div class="field-group-inner"><label>${key.replace(/\b\w/g, l => l.toUpperCase())}</label>${inputHtml}</div>`;
             }
-            // El link del proyecto es único, no bilingüe
-            if (fieldConfig.link && lang === 'es') fieldsHtml += `<div class="field-group-inner"><label>Link</label><input type="text" data-key="link" value="${data.es[listKey]?.[index]?.link || ''}"></div>`;
+
             fieldsHtml += `</div>`;
         }
         fieldsHtml += '</div>';
@@ -194,7 +200,12 @@ function generateListFields(data, listKey, fieldConfig) {
                 <h4>${data.es[listKey][index].title || data.en[listKey][index].title || `${listKey.replace('-list', '')} #${index + 1}`}</h4>
                 <button type="button" class="btn-remove">Eliminar</button>
             </div>
-            ${fieldsHtml}
+            ${fieldsHtml}` +
+            // El link del proyecto es único, no bilingüe, lo añadimos fuera del bucle de idiomas
+            (fieldConfig.link ? `
+            <div class="field-group-inner single-field"><label>Link</label>
+            <input type="text" data-key="link" value="${(data.es[listKey]?.[index]?.link || '').replace(/"/g, '&quot;')}">
+            </div>` : '') + `
         `;
         container.appendChild(itemDiv);
         });
@@ -257,8 +268,10 @@ function handleFormSubmit(e) {
                     const lang = input.dataset.lang;
                     const key = input.dataset.key;
                     if (lang === 'es') itemES[key] = input.value;
-                    if (lang === 'en') itemEN[key] = input.value;
-                    if (!lang && key === 'link') { itemES.link = itemEN.link = input.value; }
+                    else if (lang === 'en') itemEN[key] = input.value;
+                    else if (!lang && key === 'link') { // Campo único como el link
+                        itemES.link = itemEN.link = input.value; 
+                    }
                 });
                 newData.es[listKey].push(itemES);
                 newData.en[listKey].push(itemEN);
