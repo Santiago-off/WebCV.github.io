@@ -142,8 +142,8 @@ function createBilingualField(key, values, isTextarea = false) {
         inputsContainer.appendChild(input);
     });
 
-    group.appendChild(inputsContainer);
-    return group;
+    group.appendChild(inputsContainer); // Se añade el contenedor de inputs al grupo
+    return group; // Se devuelve el grupo completo para ser añadido al DOM
 }
 
 function generateSimpleFields(data, keys, containerId, textareaKeys = {}) {
