@@ -149,11 +149,14 @@ function createBilingualField(key, values, isTextarea = false) {
 function generateSimpleFields(data, keys, containerId, textareaKeys = {}) {
     const container = document.getElementById(containerId);
     keys.forEach(key => {
-        const isTextarea = textareaKeys[key] === 'area';
-        // Para campos no traducibles como email, teléfono, etc.
-        // Todos los campos editables están dentro de 'es' o 'en', así que pasamos 'data' directamente.
-        // createBilingualField ya maneja si el valor existe o no para cada idioma.
-        container.appendChild(createBilingualField(key, data, isTextarea));
+        const isTextarea = !!textareaKeys[key];
+        // Extraemos los valores para cada idioma y los pasamos en el formato correcto.
+        const values = {
+            es: data.es?.[key] || '',
+            en: data.en?.[key] || ''
+        };
+        const field = createBilingualField(key, values, isTextarea);
+        container.appendChild(field);
     });
 }
 
