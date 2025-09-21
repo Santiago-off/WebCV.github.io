@@ -1,42 +1,146 @@
 /* services.css */
 
-.services-detail-page {
-    opacity: 1; /* Hacemos la sección visible por defecto */
-    transform: none;
+body {
+    background-color: transparent; /* Hacemos el fondo del body transparente */
 }
 
-.services-detail-page .section-title {
-    font-size: 3rem;
+main {
+    background-color: rgba(34, 40, 49, 0.8); /* Fondo semi-transparente para el contenido */
+    backdrop-filter: blur(5px);
+    position: relative;
+    z-index: 2;
+}
+
+#vanta-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.services-hero {
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.services-hero .section-title {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
 }
 
 .services-intro {
     text-align: center;
-    max-width: 700px;
-    margin: 0 auto 3rem auto;
+    max-width: 800px;
+    margin: 0 auto 1rem auto;
     font-size: 1.1rem;
     color: #ccc;
 }
 
-.services-grid {
+.services-intro-note {
+    font-size: 0.9rem;
+    color: #aaa;
+    font-style: italic;
+}
+
+.service-category {
+    max-width: 1200px;
+    margin: 0 auto 4rem auto;
+    padding: 2rem;
+}
+
+.service-category h2 {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.pricing-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
 }
 
-.service-card {
+.pricing-card {
     background: var(--dark-bg);
-    padding: 2rem;
+    padding: 2.5rem 2rem;
     border-radius: 8px;
-    border: 1px solid #444;
-    transition: transform 0.3s, box-shadow 0.3s;
+    border: 2px solid #444;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
 }
 
-.service-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 173, 181, 0.1);
+.pricing-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-.service-card h3 {
+.pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 25px rgba(0, 173, 181, 0.15);
+}
+
+.pricing-card.featured {
+    border-color: var(--accent-color);
+    transform: scale(1.05);
+}
+
+.pricing-card.featured:hover {
+    transform: scale(1.1) translateY(-5px);
+}
+
+.pricing-card h3 {
     color: var(--accent-color);
     margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.pricing-card .price {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.pricing-card ul {
+    list-style: none;
+    margin-bottom: 2rem;
+    text-align: left;
+    padding-left: 1rem;
+    flex-grow: 1;
+}
+
+.pricing-card li {
+    margin-bottom: 0.8rem;
+}
+
+.pricing-card p {
+    flex-grow: 1;
+    margin-bottom: 2rem;
+    color: #ccc;
+}
+
+.pricing-card .btn-cta {
+    margin-top: auto; /* Empuja el botón al final */
+    background-color: var(--accent-color);
+    color: var(--dark-bg);
+    border-color: var(--accent-color);
+    animation: none; /* Quitamos la animación de pulso aquí */
+}
+
+.pricing-card .btn-cta:hover {
+    background-color: #00c1cb;
+    border-color: #00c1cb;
+}
+
+/* Ajustes para el footer en esta página */
+.footer {
+    position: relative;
+    z-index: 2;
 }

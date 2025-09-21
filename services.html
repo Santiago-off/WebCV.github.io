@@ -11,6 +11,9 @@
 </head>
 <body>
 
+    <!-- Contenedor para el fondo animado -->
+    <div id="vanta-bg"></div>
+
     <!-- Cursor Personalizado -->
     <div class="custom-cursor"></div>
 
@@ -31,42 +34,108 @@
     </header>
 
     <main>
-        <section class="content-section services-detail-page">
+        <section class="services-hero">
             <h1 class="section-title" data-translate="services-title">Mis Servicios</h1>
-            <p class="services-intro" data-translate="services-page-intro">Soluciones a medida para tus necesidades tecnológicas. A continuación, detallo las áreas en las que puedo ayudarte a llevar tu proyecto al siguiente nivel.</p>
+            <p class="services-intro" data-translate="services-page-intro">Soluciones tecnológicas a medida. Explora mis planes y descubre cómo puedo ayudarte a construir, mantener y optimizar tus proyectos digitales.</p>
+            <p class="services-intro-note" data-translate="services-page-note"><strong>Nota:</strong> Los precios son estimaciones y pueden variar según la complejidad del proyecto. ¡Contáctame para un presupuesto personalizado!</p>
+        </section>
 
-            <div class="services-grid">
-                <!-- Servicio 1 -->
-                <div class="service-card">
-                    <h3 data-translate="service-1-title">Desarrollo Web Frontend</h3>
-                    <p data-translate="service-1-desc">Creación de interfaces de usuario interactivas y responsivas con tecnologías modernas como HTML5, CSS3 y JavaScript (React, Vite).</p>
+        <!-- Desarrollo Web (Frontend y Backend) -->
+        <section class="service-category">
+            <h2 data-translate="web-dev-title">Desarrollo Web Completo</h2>
+            <div class="pricing-grid">
+                <!-- Plan Básico -->
+                <div class="pricing-card">
+                    <h3 data-translate="web-dev-plan1-title">Básico (Landing Page)</h3>
+                    <div class="price" data-translate="web-dev-plan1-price">Desde 350€</div>
+                    <ul>
+                        <li data-translate="web-dev-plan1-feat1">✓ Página única estática</li>
+                        <li data-translate="web-dev-plan1-feat2">✓ Diseño responsivo</li>
+                        <li data-translate="web-dev-plan1-feat3">✓ Formulario de contacto</li>
+                        <li data-translate="web-dev-plan1-feat4">✗ Panel de administración</li>
+                    </ul>
+                    <a href="#contact" class="btn-cta" data-translate="contact-btn">Contactar</a>
                 </div>
-
-                <!-- Servicio 2 -->
-                <div class="service-card">
-                    <h3 data-translate="service-2-title">Configuración Cloud (AWS/Azure)</h3>
-                    <p data-translate="service-2-desc">Diseño y configuración de infraestructuras en la nube seguras, escalables y eficientes para alojar tus aplicaciones y servicios.</p>
+                <!-- Plan Profesional -->
+                <div class="pricing-card featured">
+                    <h3 data-translate="web-dev-plan2-title">Profesional (Sitio Corporativo)</h3>
+                    <div class="price" data-translate="web-dev-plan2-price">Desde 900€</div>
+                    <ul>
+                        <li data-translate="web-dev-plan2-feat1">✓ Hasta 5 páginas</li>
+                        <li data-translate="web-dev-plan2-feat2">✓ Diseño personalizado</li>
+                        <li data-translate="web-dev-plan2-feat3">✓ Integración con CMS (opcional)</li>
+                        <li data-translate="web-dev-plan2-feat4">✓ Optimización SEO básica</li>
+                    </ul>
+                    <a href="#contact" class="btn-cta" data-translate="contact-btn">Contactar</a>
                 </div>
-
-                <!-- Servicio 3 -->
-                <div class="service-card">
-                    <h3 data-translate="service-3-title">Auditoría de Seguridad Básica</h3>
-                    <p data-translate="service-3-desc">Análisis de vulnerabilidades y revisión de configuraciones para fortalecer la seguridad de tus sistemas y aplicaciones web.</p>
+                <!-- Plan Premium -->
+                <div class="pricing-card">
+                    <h3 data-translate="web-dev-plan3-title">Premium (Aplicación Web)</h3>
+                    <div class="price" data-translate="web-dev-plan3-price">Desde 2,500€</div>
+                    <ul>
+                        <li data-translate="web-dev-plan3-feat1">✓ Funcionalidades a medida (JS/Python)</li>
+                        <li data-translate="web-dev-plan3-feat2">✓ Backend y base de datos</li>
+                        <li data-translate="web-dev-plan3-feat3">✓ Panel de administración completo</li>
+                        <li data-translate="web-dev-plan3-feat4">✓ Despliegue en la nube</li>
+                    </ul>
+                    <a href="#contact" class="btn-cta" data-translate="contact-btn">Contactar</a>
                 </div>
-
-                <!-- Servicio 4 -->
-                <div class="service-card">
-                    <h3 data-translate="service-4-title">Scripts y Automatización con Python</h3>
-                    <p data-translate="service-4-desc">Desarrollo de scripts personalizados para automatizar tareas repetitivas, monitorización de sistemas o procesamiento de datos.</p>
+            </div>
+        </section>
+        
+        <!-- Mantenimiento Web -->
+        <section class="service-category">
+            <h2 data-translate="maintenance-title">Mantenimiento Web (Suscripción)</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3 data-translate="maintenance-plan1-title">Básico</h3>
+                    <div class="price" data-translate="maintenance-plan1-price">50€ / mes</div>
+                    <ul>
+                        <li data-translate="maintenance-plan1-feat1">✓ Actualizaciones de seguridad</li>
+                        <li data-translate="maintenance-plan1-feat2">✓ Copias de seguridad mensuales</li>
+                        <li data-translate="maintenance-plan1-feat3">✓ Soporte por email</li>
+                    </ul>
+                    <a href="#contact" class="btn-cta" data-translate="contact-btn">Contratar</a>
+                </div>
+                <div class="pricing-card featured">
+                    <h3 data-translate="maintenance-plan2-title">Avanzado</h3>
+                    <div class="price" data-translate="maintenance-plan2-price">120€ / mes</div>
+                    <ul>
+                        <li data-translate="maintenance-plan2-feat1">✓ Todo lo del plan Básico</li>
+                        <li data-translate="maintenance-plan2-feat2">✓ 2h/mes para cambios menores</li>
+                        <li data-translate="maintenance-plan2-feat3">✓ Monitorización de rendimiento</li>
+                    </ul>
+                    <a href="#contact" class="btn-cta" data-translate="contact-btn">Contratar</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SQL y Bases de Datos -->
+        <section class="service-category">
+            <h2 data-translate="db-title">Servicios SQL y Bases de Datos</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3 data-translate="db-plan1-title">Consultas y Scripts</h3>
+                    <div class="price" data-translate="db-plan1-price">Desde 80€</div>
+                    <p data-translate="db-plan1-desc">Creación de scripts SQL para informes, migraciones o análisis de datos.</p>
+                    <a href="#contact" class="btn-cta" data-translate="contact-btn">Consultar</a>
+                </div>
+                <div class="pricing-card">
+                    <h3 data-translate="db-plan2-title">Diseño y Optimización</h3>
+                    <div class="price" data-translate="db-plan2-price">Desde 400€</div>
+                    <p data-translate="db-plan2-desc">Diseño de esquemas de bases de datos relacionales (SQL) y no relacionales (NoSQL) y optimización de rendimiento.</p>
+                    <a href="#contact" class="btn-cta" data-translate="contact-btn">Consultar</a>
                 </div>
             </div>
         </section>
     </main>
 
     <footer class="footer">
-        <p>&copy; <span id="current-year"></span> Santiago Fernandez. Todos los derechos reservados.</p>
+        <p id="contact">&copy; <span id="current-year"></span> Santiago Fernandez. Todos los derechos reservados.</p>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
     <script src="services.js"></script>
 </body>
 </html>
