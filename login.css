@@ -64,3 +64,12 @@ body {
     font-weight: bold;
     min-height: 1.2em;
 }
+
+/* Estilos para el selector de idioma en la página de login */
+.lang-switcher-login {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}

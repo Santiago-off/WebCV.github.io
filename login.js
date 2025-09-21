@@ -2,6 +2,41 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebas
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { firebaseConfig } from "./firebase-config.js";
 
+// --- Traducciones ---
+const translations = {
+    es: {
+        'login-title': 'Acceso al Panel',
+        'login-email-placeholder': 'Correo Electrónico',
+        'login-password-placeholder': 'Contraseña',
+        'login-button': 'Iniciar Sesión',
+        'login-error-incorrect': 'Error: Credenciales incorrectas.'
+    },
+    en: {
+        'login-title': 'Panel Access',
+        'login-email-placeholder': 'Email Address',
+        'login-password-placeholder': 'Password',
+        'login-button': 'Log In',
+        'login-error-incorrect': 'Error: Incorrect credentials.'
+    }
+};
+
+let currentLang = localStorage.getItem('language') || 'es';
+
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('language', lang);
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-translate], [data-translate-placeholder]').forEach(el => {
+        const key = el.dataset.translate || el.dataset.translatePlaceholder;
+        if (translations[lang][key]) {
+            el.dataset.translatePlaceholder ? (el.placeholder = translations[lang][key]) : (el.textContent = translations[lang][key]);
+        }
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+}
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
@@ -28,6 +63,14 @@ loginForm.addEventListener('submit', (e) => {
         })
         .catch((error) => {
             // Si hay un error, muestra un mensaje al usuario.
-            loginError.textContent = "Error: Credenciales incorrectas.";
+            loginError.textContent = translations[currentLang]['login-error-incorrect'];
         });
+});
+
+// --- Ejecución Inicial ---
+document.addEventListener('DOMContentLoaded', () => {
+    setLanguage(currentLang);
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+    });
 });
