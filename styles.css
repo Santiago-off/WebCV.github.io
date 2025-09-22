@@ -467,3 +467,62 @@ main {
     transform: scale(1.1); 
     background-color: #00c1cb;
 }
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    html {
+        cursor: auto; /* Restaurar cursor por defecto en móvil */
+    }
+    .custom-cursor {
+        display: none; /* Ocultar cursor personalizado en móvil */
+    }
+    a, button {
+        cursor: auto;
+    }
+
+    /* --- Header y Navegación --- */
+    .header {
+        position: static; /* Dejar de fijar el header en móvil */
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .nav {
+        order: 1;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem 1rem;
+    }
+    .nav a {
+        margin: 0;
+    }
+
+    /* --- Secciones Principales --- */
+    main {
+        padding-top: 1rem; /* Reducir padding ya que el header no es fijo */
+    }
+
+    .hero {
+        height: auto;
+        padding: 4rem 1rem;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+    }
+
+    .content-section {
+        margin: 2rem 1rem;
+        padding: 1.5rem;
+    }
+
+    /* --- Contacto --- */
+    .contact-container {
+        flex-direction: column;
+    }
+}

@@ -127,3 +127,18 @@ main {
     position: relative;
     z-index: 2;
 }
+
+@media (max-width: 768px) {
+    .services-hero {
+        padding: 2rem 1rem;
+    }
+    .services-hero .section-title {
+        font-size: 2.5rem;
+    }
+    .service-category {
+        padding: 1rem;
+    }
+    .service-category h2 {
+        font-size: 2rem;
+    }
+}

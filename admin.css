@@ -227,3 +227,25 @@ input:checked + .slider:before { transform: translateX(26px); }
 #info-container .message-item {
     background-color: #2a3038;
 }
+
+@media (max-width: 768px) {
+    .admin-main {
+        margin: 1rem;
+        padding: 1rem;
+    }
+    .admin-tabs {
+        flex-wrap: wrap;
+    }
+    .admin-tab-link {
+        flex-grow: 1;
+        text-align: center;
+    }
+    .bilingual-inputs, .bilingual-inputs-list {
+        flex-direction: column;
+    }
+    .setting-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
