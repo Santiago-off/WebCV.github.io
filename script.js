@@ -1,3 +1,7 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { firebaseConfig } from './firebase-config.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const siteSettings = JSON.parse(localStorage.getItem('siteSettings')) || {};
     if (siteSettings.maintenanceMode === 'on') {
@@ -19,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ui: {
             es: {
                 'nav-about': 'Sobre mí', 'nav-services': 'Servicios', 'nav-experience': 'Experiencia', 'nav-projects': 'Proyectos', 'nav-contact': 'Contacto',
-                'fiverr-btn': 'Contrátame en Fiverr', 'title-about': 'Sobre Mí', 'title-services': 'Mis Servicios', 'title-experience': 'Experiencia Laboral', 'title-education': 'Educación y Formación', 'title-languages': 'Competencias Lingüísticas', 'title-projects': 'Proyectos Destacados', 'title-contact': 'Contacto',
+                'nav-technologies': 'Tecnologías', 'fiverr-btn': 'Contrátame en Fiverr', 'title-about': 'Sobre Mí', 'title-services': 'Mis Servicios', 'title-experience': 'Experiencia Laboral', 'title-education': 'Educación y Formación', 'title-languages': 'Competencias Lingüísticas', 'title-technologies': 'Tecnologías', 'title-projects': 'Proyectos Destacados', 'title-contact': 'Contacto',
                 'contact-lets-talk': 'Hablemos', 'contact-send-message': 'Envíame un mensaje',
                 'form-placeholder-name': 'Tu Nombre', 'form-placeholder-email': 'Tu Correo Electrónico', 'form-placeholder-message': 'Tu Mensaje',
                 'form-send-button': 'Enviar Mensaje',
@@ -28,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             en: {
                 'nav-about': 'About Me', 'nav-services': 'Services', 'nav-experience': 'Experience', 'nav-projects': 'Projects', 'nav-contact': 'Contact',
-                'fiverr-btn': 'Hire me on Fiverr', 'title-about': 'About Me', 'title-services': 'My Services', 'title-experience': 'Work Experience', 'title-education': 'Education & Training', 'title-languages': 'Language Skills', 'title-projects': 'Featured Projects', 'title-contact': 'Contact',
+                'nav-technologies': 'Technologies', 'fiverr-btn': 'Hire me on Fiverr', 'title-about': 'About Me', 'title-services': 'My Services', 'title-experience': 'Work Experience', 'title-education': 'Education & Training', 'title-languages': 'Language Skills', 'title-technologies': 'Technologies', 'title-projects': 'Featured Projects', 'title-contact': 'Contact',
                 'contact-lets-talk': "Let's Talk", 'contact-send-message': 'Send me a message',
                 'form-placeholder-name': 'Your Name', 'form-placeholder-email': 'Your Email', 'form-placeholder-message': 'Your Message',
                 'form-send-button': 'Send Message',
@@ -70,6 +74,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     { title: 'Español', company: 'Nativo', description: '' },
                     { title: 'Inglés', company: 'Profesional (C1)', description: '' }
                 ],
+                'technologies-list': [
+                    { name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
+                    { name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
+                    { name: 'HTML5', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
+                    { name: 'CSS3', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
+                    { name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
+                    { name: 'Firebase', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg' },
+                    { name: 'Amazon Web Services', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg' },
+                    { name: 'Azure', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg' },
+                    { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
+                    { name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' }
+                ],
                 'projects-list': [
                     { title: '🛡️ File Integrity Monitor', description: 'Herramienta de ciberseguridad en Python que supervisa directorios, calcula hashes SHA-256 y registra cambios en archivos.', link: 'https://github.com/Santiago-off/File-Integrity-Monitor' },
                     { title: '🔐 Encryptador Web', description: 'Aplicación en React + Vite para encriptar y desencriptar texto localmente usando el cifrado de Vigenère.', link: 'https://github.com/Santiago-off/Encryptator' },
@@ -108,6 +124,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 'languages-list': [
                     { title: 'Spanish', company: 'Native', description: '' },
                     { title: 'English', company: 'Professional (C1)', description: '' }
+                ],
+                'technologies-list': [
+                    { name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
+                    { name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
+                    { name: 'HTML5', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
+                    { name: 'CSS3', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
+                    { name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
+                    { name: 'Firebase', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg' },
+                    { name: 'Amazon Web Services', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg' },
+                    { name: 'Azure', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg' },
+                    { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
+                    { name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' }
                 ],
                 'projects-list': [
                     { title: '🛡️ File Integrity Monitor', description: 'A cybersecurity tool in Python that monitors directories, calculates SHA-256 hashes, and logs file changes.', link: 'https://github.com/Santiago-off/File-Integrity-Monitor' },
@@ -200,6 +228,13 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `);
 
+        renderList('technologies-list', content, (item) => `
+            <div class="tech-card">
+                <img src="${item.icon}" alt="${item.name}" class="tech-icon">
+                <span>${item.name}</span>
+            </div>
+        `);
+
         renderList('projects-list', content, (item) => `
             <div class="project-card">
                 <div class="project-card-content">
@@ -283,6 +318,10 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(section);
     });
 
+    // Inicializar Firebase y Firestore
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
     const contactForm = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
     const submitButton = contactForm.querySelector('.btn-submit');
@@ -309,19 +348,25 @@ document.addEventListener('DOMContentLoaded', () => {
             date: new Date().toISOString()
         };
 
-        let messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
-        messages.push(newMessage);
-        localStorage.setItem('contactMessages', JSON.stringify(messages));
-
-        formStatus.textContent = '¡Mensaje enviado con éxito! Gracias por contactarme.';
-        formStatus.style.color = '#00ADB5';
-        contactForm.reset();
-
-        submitButton.disabled = false;
-        submitButton.textContent = allTranslations.ui[currentLang]['form-send-button'];
-        setTimeout(() => {
-            formStatus.textContent = '';
-        }, 5000); 
+        // Guardar en Firestore en lugar de localStorage
+        addDoc(collection(db, "messages"), newMessage)
+            .then(() => {
+                formStatus.textContent = '¡Mensaje enviado con éxito! Gracias por contactarme.';
+                formStatus.style.color = '#00ADB5';
+                contactForm.reset();
+            })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+                formStatus.textContent = 'Error al enviar el mensaje. Inténtalo de nuevo.';
+                formStatus.style.color = '#ff6b6b';
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                submitButton.textContent = allTranslations.ui[currentLang]['form-send-button'];
+                setTimeout(() => {
+                    formStatus.textContent = '';
+                }, 5000);
+            });
     });
 
     updateVisitCounter();

@@ -1,9 +1,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import { firebaseConfig } from "./firebase-config.js";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -109,6 +111,10 @@ function loadEditTab() {
                 'languages-list': {
                     title: 'Idiomas',
                     fields: { title: { type: 'text' }, company: { type: 'text' } }
+                },
+                'technologies-list': {
+                    title: 'Tecnologías',
+                    fields: { name: { type: 'text' }, icon: { type: 'text' } }
                 },
                 'projects-list': {
                     title: 'Proyectos',
@@ -307,36 +313,54 @@ function handleFormSubmit(e) {
     }, 500);
 }
 
-function loadMessagesTab() {
+async function loadMessagesTab() {
     const container = document.getElementById('messages-container');
-    const messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
-    container.innerHTML = (messages.length === 0)
-        ? '<p>No se han recibido mensajes.</p>'
-        : messages.reverse().map(msg => `
-            <div class="message-item">
-                <h4>De: ${msg.name} (${msg.email})</h4>
-                <p><strong>Fecha:</strong> ${new Date(msg.date).toLocaleString()}</p>
-                <p><strong>Mensaje:</strong></p>
-                <p>${msg.message.replace(/\n/g, '<br>')}</p>
-            </div>
-        `).join('');
+    container.innerHTML = '<p>Cargando mensajes...</p>';
+    try {
+        const q = query(collection(db, "messages"), orderBy("date", "desc"));
+        const querySnapshot = await getDocs(q);
+        const messages = querySnapshot.docs.map(doc => doc.data());
+
+        container.innerHTML = (messages.length === 0)
+            ? '<p>No se han recibido mensajes.</p>'
+            : messages.map(msg => `
+                <div class="message-item">
+                    <h4>De: ${msg.name} (${msg.email})</h4>
+                    <p><strong>Fecha:</strong> ${new Date(msg.date).toLocaleString()}</p>
+                    <p><strong>Mensaje:</strong></p>
+                    <p>${msg.message.replace(/\n/g, '<br>')}</p>
+                </div>
+            `).join('');
+    } catch (error) {
+        console.error("Error cargando mensajes: ", error);
+        container.innerHTML = '<p>Error al cargar los mensajes.</p>';
+    }
 }
 
-function loadQuotesTab() {
+async function loadQuotesTab() {
     const container = document.getElementById('quotes-container');
-    const quotes = JSON.parse(localStorage.getItem('quoteRequests')) || [];
-    container.innerHTML = (quotes.length === 0)
-        ? '<p>No se han recibido solicitudes de presupuesto.</p>'
-        : quotes.reverse().map(quote => `
-            <div class="message-item">
-                <h4>De: ${quote.name} (<a href="mailto:${quote.email}">${quote.email}</a>)</h4>
-                <span>${new Date(quote.date).toLocaleString()}</span>
-                <p><strong>Servicio:</strong> ${quote.service}</p>
-                <p><strong>Plan:</strong> ${quote.plan} (${quote.price})</p>
-                <p><strong>Método de Pago:</strong> ${quote.paymentMethod}</p>
-                <p><strong>Notas:</strong> ${quote.message ? quote.message.replace(/\n/g, '<br>') : '<em>Sin notas.</em>'}</p>
-            </div>
-        `).join('');
+    container.innerHTML = '<p>Cargando presupuestos...</p>';
+    try {
+        const q = query(collection(db, "quotes"), orderBy("date", "desc"));
+        const querySnapshot = await getDocs(q);
+        const quotes = querySnapshot.docs.map(doc => doc.data());
+
+        container.innerHTML = (quotes.length === 0)
+            ? '<p>No se han recibido solicitudes de presupuesto.</p>'
+            : quotes.map(quote => `
+                <div class="message-item">
+                    <h4>De: ${quote.name} (<a href="mailto:${quote.email}">${quote.email}</a>)</h4>
+                    <span>${new Date(quote.date).toLocaleString()}</span>
+                    <p><strong>Servicio:</strong> ${quote.service}</p>
+                    <p><strong>Plan:</strong> ${quote.plan} (${quote.price})</p>
+                    <p><strong>Método de Pago:</strong> ${quote.paymentMethod}</p>
+                    <p><strong>Notas:</strong> ${quote.message ? quote.message.replace(/\n/g, '<br>') : '<em>Sin notas.</em>'}</p>
+                </div>
+            `).join('');
+    } catch (error) {
+        console.error("Error cargando presupuestos: ", error);
+        container.innerHTML = '<p>Error al cargar los presupuestos.</p>';
+    }
 }
 
 function loadInfoTab() {
