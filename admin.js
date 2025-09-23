@@ -112,10 +112,6 @@ function loadEditTab() {
                     title: 'Idiomas',
                     fields: { title: { type: 'text' }, company: { type: 'text' } }
                 },
-                'technologies-list': {
-                    title: 'Tecnologías',
-                    fields: { name: { type: 'text' }, icon: { type: 'text' } }
-                },
                 'projects-list': {
                     title: 'Proyectos',
                     fields: { title: { type: 'text' }, description: { type: 'textarea' }, link: { type: 'text', isUnique: true } }

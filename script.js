@@ -22,8 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialTranslations = {
         ui: {
             es: {
-                'nav-about': 'Sobre mí', 'nav-services': 'Servicios', 'nav-experience': 'Experiencia', 'nav-projects': 'Proyectos', 'nav-contact': 'Contacto',
-                'nav-technologies': 'Tecnologías', 'fiverr-btn': 'Contrátame en Fiverr', 'title-about': 'Sobre Mí', 'title-services': 'Mis Servicios', 'title-experience': 'Experiencia Laboral', 'title-education': 'Educación y Formación', 'title-languages': 'Competencias Lingüísticas', 'title-technologies': 'Tecnologías', 'title-projects': 'Proyectos Destacados', 'title-contact': 'Contacto',
+                'nav-about': 'Sobre mí', 'nav-services': 'Servicios', 'nav-experience': 'Experiencia', 'nav-projects': 'Proyectos', 'nav-contact': 'Contacto', 'fiverr-btn': 'Contrátame en Fiverr', 'title-about': 'Sobre Mí', 'title-services': 'Mis Servicios', 'title-experience': 'Experiencia Laboral', 'title-education': 'Educación y Formación', 'title-languages': 'Competencias Lingüísticas', 'title-projects': 'Proyectos Destacados', 'title-contact': 'Contacto',
                 'contact-lets-talk': 'Hablemos', 'contact-send-message': 'Envíame un mensaje',
                 'form-placeholder-name': 'Tu Nombre', 'form-placeholder-email': 'Tu Correo Electrónico', 'form-placeholder-message': 'Tu Mensaje',
                 'form-send-button': 'Enviar Mensaje',
@@ -31,8 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'services-button': 'Ver todos los servicios →'
             },
             en: {
-                'nav-about': 'About Me', 'nav-services': 'Services', 'nav-experience': 'Experience', 'nav-projects': 'Projects', 'nav-contact': 'Contact',
-                'nav-technologies': 'Technologies', 'fiverr-btn': 'Hire me on Fiverr', 'title-about': 'About Me', 'title-services': 'My Services', 'title-experience': 'Work Experience', 'title-education': 'Education & Training', 'title-languages': 'Language Skills', 'title-technologies': 'Technologies', 'title-projects': 'Featured Projects', 'title-contact': 'Contact',
+                'nav-about': 'About Me', 'nav-services': 'Services', 'nav-experience': 'Experience', 'nav-projects': 'Projects', 'nav-contact': 'Contact', 'fiverr-btn': 'Hire me on Fiverr', 'title-about': 'About Me', 'title-services': 'My Services', 'title-experience': 'Work Experience', 'title-education': 'Education & Training', 'title-languages': 'Language Skills', 'title-projects': 'Featured Projects', 'title-contact': 'Contact',
                 'contact-lets-talk': "Let's Talk", 'contact-send-message': 'Send me a message',
                 'form-placeholder-name': 'Your Name', 'form-placeholder-email': 'Your Email', 'form-placeholder-message': 'Your Message',
                 'form-send-button': 'Send Message',
@@ -74,18 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     { title: 'Español', company: 'Nativo', description: '' },
                     { title: 'Inglés', company: 'Profesional (C1)', description: '' }
                 ],
-                'technologies-list': [
-                    { name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
-                    { name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
-                    { name: 'HTML5', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
-                    { name: 'CSS3', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
-                    { name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
-                    { name: 'Firebase', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg' },
-                    { name: 'Amazon Web Services', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg' },
-                    { name: 'Azure', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg' },
-                    { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
-                    { name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' }
-                ],
                 'projects-list': [
                     { title: '🛡️ File Integrity Monitor', description: 'Herramienta de ciberseguridad en Python que supervisa directorios, calcula hashes SHA-256 y registra cambios en archivos.', link: 'https://github.com/Santiago-off/File-Integrity-Monitor' },
                     { title: '🔐 Encryptador Web', description: 'Aplicación en React + Vite para encriptar y desencriptar texto localmente usando el cifrado de Vigenère.', link: 'https://github.com/Santiago-off/Encryptator' },
@@ -125,18 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     { title: 'Spanish', company: 'Native', description: '' },
                     { title: 'English', company: 'Professional (C1)', description: '' }
                 ],
-                'technologies-list': [
-                    { name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
-                    { name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
-                    { name: 'HTML5', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
-                    { name: 'CSS3', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
-                    { name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
-                    { name: 'Firebase', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg' },
-                    { name: 'Amazon Web Services', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg' },
-                    { name: 'Azure', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg' },
-                    { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
-                    { name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' }
-                ],
                 'projects-list': [
                     { title: '🛡️ File Integrity Monitor', description: 'A cybersecurity tool in Python that monitors directories, calculates SHA-256 hashes, and logs file changes.', link: 'https://github.com/Santiago-off/File-Integrity-Monitor' },
                     { title: '🔐 Web Encryptor', description: 'A React + Vite application to encrypt and decrypt text locally using the Vigenère cipher.', link: 'https://github.com/Santiago-off/Encryptator' },
@@ -146,24 +120,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Función mejorada para fusionar datos guardados con los datos por defecto.
+    // Esto asegura que nuevas secciones (como 'tecnologías') aparezcan incluso si hay datos viejos en localStorage.
     function getTranslations() {
-        const savedData = localStorage.getItem('portfolioContent');
-        if (savedData) {
+        // 1. Empezamos con una copia profunda de los datos por defecto como base.
+        const finalContent = JSON.parse(JSON.stringify(initialTranslations.content));
+        const savedDataJSON = localStorage.getItem('portfolioContent');
+
+        if (savedDataJSON) {
             try {
-                const parsedContent = JSON.parse(savedData);
-                return {
-                    ui: initialTranslations.ui,
-                    content: parsedContent
-                };
+                const savedData = JSON.parse(savedDataJSON);
+                // 2. Recorremos los idiomas ('es', 'en') para fusionar los datos.
+                for (const lang in finalContent) {
+                    if (savedData[lang]) {
+                        // 3. Recorremos todas las claves de los datos por defecto.
+                        for (const key in finalContent[lang]) {
+                            // 4. Si el usuario tiene un valor guardado para una clave, lo usamos.
+                            // Si no (porque es una sección nueva), se mantendrá el valor por defecto.
+                            if (savedData[lang].hasOwnProperty(key)) {
+                                finalContent[lang][key] = savedData[lang][key];
+                            }
+                        }
+                    }
+                }
             } catch (e) {
-                console.error("Error parsing portfolioContent from localStorage, falling back to default.", e);
-                localStorage.setItem('portfolioContent', JSON.stringify(initialTranslations.content));
-                return initialTranslations;
+                console.error("Error al procesar los datos de localStorage. Se usarán los datos por defecto.", e);
+                // Si hay un error, simplemente continuamos, ya que finalContent ya tiene los datos por defecto.
             }
-        } else {
-            localStorage.setItem('portfolioContent', JSON.stringify(initialTranslations.content));
-            return initialTranslations;
         }
+
+        // 5. Guardamos el contenido (posiblemente fusionado) de vuelta, para mantenerlo actualizado.
+        localStorage.setItem('portfolioContent', JSON.stringify(finalContent));
+
+        return { ui: initialTranslations.ui, content: finalContent };
     }
 
     const allTranslations = getTranslations();
@@ -225,13 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="timeline-item">
                 <h3>${item.title}</h3>
                 <h4>${item.company}</h4>
-            </div>
-        `);
-
-        renderList('technologies-list', content, (item) => `
-            <div class="tech-card">
-                <img src="${item.icon}" alt="${item.name}" class="tech-icon">
-                <span>${item.name}</span>
             </div>
         `);
 
