@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ],
                 'languages-list': [
                     { title: 'Español', company: 'Nativo', description: '' },
-                    { title: 'Inglés', company: 'Profesional (C1)', description: '' }
+                    { title: 'Inglés', company: 'A2', description: '' }
                 ],
                 'projects-list': [
                     { title: '🛡️ File Integrity Monitor', description: 'Herramienta de ciberseguridad en Python que supervisa directorios, calcula hashes SHA-256 y registra cambios en archivos.', link: 'https://github.com/Santiago-off/File-Integrity-Monitor' },
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ],
                 'languages-list': [
                     { title: 'Spanish', company: 'Native', description: '' },
-                    { title: 'English', company: 'Professional (C1)', description: '' }
+                    { title: 'English', company: 'A2', description: '' }
                 ],
                 'projects-list': [
                     { title: '🛡️ File Integrity Monitor', description: 'A cybersecurity tool in Python that monitors directories, calculates SHA-256 hashes, and logs file changes.', link: 'https://github.com/Santiago-off/File-Integrity-Monitor' },
