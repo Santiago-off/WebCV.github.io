@@ -54,12 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 'linkedin-link': 'https://www.linkedin.com/in/tu-usuario/',
                 'experience-list': [
                     { title: 'Realizando tareas de Programador', company: 'Armonia (18/03/2025 – 16/06/2025) Salerno, Italia', description: '' },
-                    { title: 'Soporte de hosting (online)', company: '(05/2022 – 09/2023) Madrid, España', description: '' }
+                    { title: 'Soporte de hosting (online)', company: '(05/2022 – Actual) Madrid, España', description: '' }
                 ],
                 'education-list': [
                     { title: 'Grado Medio Sistemas Microinformáticos y Redes', company: 'Santa Gema FP, Galgani (09/2023 – 06/2025) Madrid, España', description: '' },
                     { title: 'Experto Universitario en Cloud Computing. Arquitectura y Soluciones (AWS y Azure)', company: 'UNIR (10/2023 – 01/2024) Madrid, España', description: '' },
-                    { title: 'Introducción a Ciberseguridad', company: 'Cisco Networking Academy (04/2024 – Actual) Madrid, España', description: '' },
+                    { title: 'Introducción a Ciberseguridad', company: 'Cisco Networking Academy (09/2025 - 09/2025) Madrid, España', description: '' },
                     { title: 'Fundamentos de IA con IBM SkillsBuild', company: 'Cisco Networking Academy (11/2024 – Actual) Madrid, España', description: '' },
                     { title: 'Fundamentos de Python 1', company: 'Cisco Networking Academy (03/2024 – 11/2024) Madrid, España', description: '' },
                     { title: 'CIBERSEGURIDAD PERSONAL', company: 'BACKTRACK ACADEMY (12/2020 – 01/2021) Madrid, España', description: '' },
@@ -93,12 +93,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 'linkedin-link': 'https://www.linkedin.com/in/tu-usuario/',
                 'experience-list': [
                     { title: 'Performing Programmer tasks', company: 'Armonia (Mar 2025 – Jun 2025) Salerno, Italy', description: '' },
-                    { title: 'Hosting support (online)', company: '(May 2022 – Sep 2023) Madrid, Spain', description: '' }
+                    { title: 'Hosting support (online)', company: '(May 2022 – Present) Madrid, Spain', description: '' }
                 ],
                 'education-list': [
                     { title: 'Vocational Training in Microcomputer Systems and Networks', company: 'Santa Gema FP, Galgani (Sep 2023 – Jun 2025) Madrid, Spain', description: '' },
                     { title: 'University Expert in Cloud Computing. Architecture and Solutions (AWS and Azure)', company: 'UNIR (Oct 2023 – Jan 2024) Madrid, Spain', description: '' },
-                    { title: 'Introduction to Cybersecurity', company: 'Cisco Networking Academy (Apr 2024 – Present) Madrid, Spain', description: '' },
+                    { title: 'Introduction to Cybersecurity', company: 'Cisco Networking Academy (Sep 2025 – Sep 2025) Madrid, Spain', description: '' },
                     { title: 'AI Fundamentals with IBM SkillsBuild', company: 'Cisco Networking Academy (Nov 2024 – Present) Madrid, Spain', description: '' },
                     { title: 'Python Essentials 1', company: 'Cisco Networking Academy (Mar 2024 – Nov 2024) Madrid, Spain', description: '' },
                     { title: 'PERSONAL CYBERSECURITY', company: 'BACKTRACK ACADEMY (Dec 2020 – Jan 2021) Madrid, Spain', description: '' },
