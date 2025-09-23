@@ -1,3 +1,7 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { firebaseConfig } from './firebase-config.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const siteSettings = JSON.parse(localStorage.getItem('siteSettings')) || {};
     if (siteSettings.maintenanceMode === 'on') {
@@ -18,8 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialTranslations = {
         ui: {
             es: {
-                'nav-about': 'Sobre mí', 'nav-services': 'Servicios', 'nav-experience': 'Experiencia', 'nav-projects': 'Proyectos', 'nav-contact': 'Contacto',
-                'fiverr-btn': 'Contrátame en Fiverr', 'title-about': 'Sobre Mí', 'title-services': 'Mis Servicios', 'title-experience': 'Experiencia Laboral', 'title-education': 'Educación y Formación', 'title-languages': 'Competencias Lingüísticas', 'title-projects': 'Proyectos Destacados', 'title-contact': 'Contacto',
+                'nav-about': 'Sobre mí', 'nav-services': 'Servicios', 'nav-experience': 'Experiencia', 'nav-projects': 'Proyectos', 'nav-contact': 'Contacto', 'fiverr-btn': 'Contrátame en Fiverr', 'title-about': 'Sobre Mí', 'title-services': 'Mis Servicios', 'title-experience': 'Experiencia Laboral', 'title-education': 'Educación y Formación', 'title-languages': 'Competencias Lingüísticas', 'title-projects': 'Proyectos Destacados', 'title-contact': 'Contacto',
                 'contact-lets-talk': 'Hablemos', 'contact-send-message': 'Envíame un mensaje',
                 'form-placeholder-name': 'Tu Nombre', 'form-placeholder-email': 'Tu Correo Electrónico', 'form-placeholder-message': 'Tu Mensaje',
                 'form-send-button': 'Enviar Mensaje',
@@ -27,8 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'services-button': 'Ver todos los servicios →'
             },
             en: {
-                'nav-about': 'About Me', 'nav-services': 'Services', 'nav-experience': 'Experience', 'nav-projects': 'Projects', 'nav-contact': 'Contact',
-                'fiverr-btn': 'Hire me on Fiverr', 'title-about': 'About Me', 'title-services': 'My Services', 'title-experience': 'Work Experience', 'title-education': 'Education & Training', 'title-languages': 'Language Skills', 'title-projects': 'Featured Projects', 'title-contact': 'Contact',
+                'nav-about': 'About Me', 'nav-services': 'Services', 'nav-experience': 'Experience', 'nav-projects': 'Projects', 'nav-contact': 'Contact', 'fiverr-btn': 'Hire me on Fiverr', 'title-about': 'About Me', 'title-services': 'My Services', 'title-experience': 'Work Experience', 'title-education': 'Education & Training', 'title-languages': 'Language Skills', 'title-projects': 'Featured Projects', 'title-contact': 'Contact',
                 'contact-lets-talk': "Let's Talk", 'contact-send-message': 'Send me a message',
                 'form-placeholder-name': 'Your Name', 'form-placeholder-email': 'Your Email', 'form-placeholder-message': 'Your Message',
                 'form-send-button': 'Send Message',
@@ -118,24 +120,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Función mejorada para fusionar datos guardados con los datos por defecto.
+    // Esto asegura que nuevas secciones (como 'tecnologías') aparezcan incluso si hay datos viejos en localStorage.
     function getTranslations() {
-        const savedData = localStorage.getItem('portfolioContent');
-        if (savedData) {
+        // 1. Empezamos con una copia profunda de los datos por defecto como base.
+        const finalContent = JSON.parse(JSON.stringify(initialTranslations.content));
+        const savedDataJSON = localStorage.getItem('portfolioContent');
+
+        if (savedDataJSON) {
             try {
-                const parsedContent = JSON.parse(savedData);
-                return {
-                    ui: initialTranslations.ui,
-                    content: parsedContent
-                };
+                const savedData = JSON.parse(savedDataJSON);
+                // 2. Recorremos los idiomas ('es', 'en') para fusionar los datos.
+                for (const lang in finalContent) {
+                    if (savedData[lang]) {
+                        // 3. Recorremos todas las claves de los datos por defecto.
+                        for (const key in finalContent[lang]) {
+                            // 4. Si el usuario tiene un valor guardado para una clave, lo usamos.
+                            // Si no (porque es una sección nueva), se mantendrá el valor por defecto.
+                            if (savedData[lang].hasOwnProperty(key)) {
+                                finalContent[lang][key] = savedData[lang][key];
+                            }
+                        }
+                    }
+                }
             } catch (e) {
-                console.error("Error parsing portfolioContent from localStorage, falling back to default.", e);
-                localStorage.setItem('portfolioContent', JSON.stringify(initialTranslations.content));
-                return initialTranslations;
+                console.error("Error al procesar los datos de localStorage. Se usarán los datos por defecto.", e);
+                // Si hay un error, simplemente continuamos, ya que finalContent ya tiene los datos por defecto.
             }
-        } else {
-            localStorage.setItem('portfolioContent', JSON.stringify(initialTranslations.content));
-            return initialTranslations;
         }
+
+        // 5. Guardamos el contenido (posiblemente fusionado) de vuelta, para mantenerlo actualizado.
+        localStorage.setItem('portfolioContent', JSON.stringify(finalContent));
+
+        return { ui: initialTranslations.ui, content: finalContent };
     }
 
     const allTranslations = getTranslations();
@@ -283,6 +300,10 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(section);
     });
 
+    // Inicializar Firebase y Firestore
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
     const contactForm = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
     const submitButton = contactForm.querySelector('.btn-submit');
@@ -309,19 +330,25 @@ document.addEventListener('DOMContentLoaded', () => {
             date: new Date().toISOString()
         };
 
-        let messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
-        messages.push(newMessage);
-        localStorage.setItem('contactMessages', JSON.stringify(messages));
-
-        formStatus.textContent = '¡Mensaje enviado con éxito! Gracias por contactarme.';
-        formStatus.style.color = '#00ADB5';
-        contactForm.reset();
-
-        submitButton.disabled = false;
-        submitButton.textContent = allTranslations.ui[currentLang]['form-send-button'];
-        setTimeout(() => {
-            formStatus.textContent = '';
-        }, 5000); 
+        // Guardar en Firestore en lugar de localStorage
+        addDoc(collection(db, "messages"), newMessage)
+            .then(() => {
+                formStatus.textContent = '¡Mensaje enviado con éxito! Gracias por contactarme.';
+                formStatus.style.color = '#00ADB5';
+                contactForm.reset();
+            })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+                formStatus.textContent = 'Error al enviar el mensaje. Inténtalo de nuevo.';
+                formStatus.style.color = '#ff6b6b';
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                submitButton.textContent = allTranslations.ui[currentLang]['form-send-button'];
+                setTimeout(() => {
+                    formStatus.textContent = '';
+                }, 5000);
+            });
     });
 
     updateVisitCounter();

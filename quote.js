@@ -1,3 +1,7 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { firebaseConfig } from './firebase-config.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const service = params.get('service');
@@ -160,6 +164,10 @@ document.addEventListener('DOMContentLoaded', () => {
         renderSummary();
     }
 
+    // Inicializar Firebase y Firestore
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
     const cursor = document.querySelector('.custom-cursor');
     if (cursor) {
         document.addEventListener('mousemove', e => {
@@ -205,16 +213,22 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        let quotes = JSON.parse(localStorage.getItem('quoteRequests')) || [];
-        quotes.push(newQuote);
-        localStorage.setItem('quoteRequests', JSON.stringify(quotes));
-
-        formStatus.textContent = translations[currentLang]['success-msg'];
-        formStatus.style.color = 'var(--accent-color)';
         submitButton.disabled = true;
-        quoteForm.reset();
 
-        setTimeout(() => window.location.href = 'services.html', 3000);
+        // Guardar en Firestore en lugar de localStorage
+        addDoc(collection(db, "quotes"), newQuote)
+            .then(() => {
+                formStatus.textContent = translations[currentLang]['success-msg'];
+                formStatus.style.color = 'var(--accent-color)';
+                quoteForm.reset();
+                setTimeout(() => window.location.href = 'services.html', 3000);
+            })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+                formStatus.textContent = 'Error al enviar la solicitud. Inténtalo de nuevo.';
+                formStatus.style.color = '#ff6b6b';
+                submitButton.disabled = false;
+            });
     });
 
     document.getElementById('current-year').textContent = new Date().getFullYear();
