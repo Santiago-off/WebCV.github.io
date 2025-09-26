@@ -67,7 +67,6 @@ function loadEditTab() {
             fields: {
                 'page-title': { type: 'text' },
                 'header-name': { type: 'text' },
-                'fiverr-link': { type: 'text' },
                 'github-link': { type: 'text' },
                 'linkedin-link': { type: 'text' }
             }

@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialTranslations = {
         ui: {
             es: {
-                'nav-about': 'Sobre mí', 'nav-services': 'Servicios', 'nav-experience': 'Experiencia', 'nav-projects': 'Proyectos', 'nav-contact': 'Contacto', 'fiverr-btn': 'Contrátame en Fiverr', 'title-about': 'Sobre Mí', 'title-services': 'Mis Servicios', 'title-experience': 'Experiencia Laboral', 'title-education': 'Educación y Formación', 'title-languages': 'Competencias Lingüísticas', 'title-projects': 'Proyectos Destacados', 'title-contact': 'Contacto',
+                'nav-about': 'Sobre mí', 'nav-services': 'Servicios', 'nav-experience': 'Experiencia', 'nav-projects': 'Proyectos', 'nav-contact': 'Contacto', 'title-about': 'Sobre Mí', 'title-services': 'Mis Servicios', 'title-experience': 'Experiencia Laboral', 'title-education': 'Educación y Formación', 'title-languages': 'Competencias Lingüísticas', 'title-projects': 'Proyectos Destacados', 'title-contact': 'Contacto',
                 'contact-lets-talk': 'Hablemos', 'contact-send-message': 'Envíame un mensaje',
                 'form-placeholder-name': 'Tu Nombre', 'form-placeholder-email': 'Tu Correo Electrónico', 'form-placeholder-message': 'Tu Mensaje',
                 'form-send-button': 'Enviar Mensaje',
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'services-button': 'Ver todos los servicios →'
             },
             en: {
-                'nav-about': 'About Me', 'nav-services': 'Services', 'nav-experience': 'Experience', 'nav-projects': 'Projects', 'nav-contact': 'Contact', 'fiverr-btn': 'Hire me on Fiverr', 'title-about': 'About Me', 'title-services': 'My Services', 'title-experience': 'Work Experience', 'title-education': 'Education & Training', 'title-languages': 'Language Skills', 'title-projects': 'Featured Projects', 'title-contact': 'Contact',
+                'nav-about': 'About Me', 'nav-services': 'Services', 'nav-experience': 'Experience', 'nav-projects': 'Projects', 'nav-contact': 'Contact', 'title-about': 'About Me', 'title-services': 'My Services', 'title-experience': 'Work Experience', 'title-education': 'Education & Training', 'title-languages': 'Language Skills', 'title-projects': 'Featured Projects', 'title-contact': 'Contact',
                 'contact-lets-talk': "Let's Talk", 'contact-send-message': 'Send me a message',
                 'form-placeholder-name': 'Your Name', 'form-placeholder-email': 'Your Email', 'form-placeholder-message': 'Your Message',
                 'form-send-button': 'Send Message',
@@ -42,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
             es: {
                 'page-title': 'Santiago Fernandez - Programador y Experto en Ciberseguridad',
                 'header-name': 'Santiago Fernandez',
-                'fiverr-link': 'https://www.fiverr.com/s/NNyovjR',
                 'hero-title': 'Desarrollador de Software y Experto en Ciberseguridad',
                 'hero-subtitle': 'Creando soluciones digitales seguras, eficientes y escalables en la nube.',
                 'about-me-text': 'Soy un técnico en sistemas microinformáticos y redes, actualmente especializándome en ciberseguridad y cloud computing (AWS y Azure). Mi pasión por la tecnología me impulsa a aprender y aplicar constantemente nuevos conocimientos en programación, seguridad de sistemas y administración de infraestructuras. Busco oportunidades para desarrollar soluciones seguras y eficientes, y contribuir con mi entusiasmo y habilidades a proyectos innovadores.',
@@ -81,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
             en: {
                 'page-title': 'Santiago Fernandez - Programmer & Cybersecurity Expert',
                 'header-name': 'Santiago Fernandez',
-                'fiverr-link': 'https://www.fiverr.com/s/NNyovjR',
                 'hero-title': 'Software Developer & Cybersecurity Expert',
                 'hero-subtitle': 'Creating secure, efficient, and scalable digital solutions in the cloud.',
                 'about-me-text': 'I am a microcomputer systems and networks technician, currently specializing in cybersecurity and cloud computing (AWS and Azure). My passion for technology drives me to constantly learn and apply new knowledge in programming, system security, and infrastructure administration. I am looking for opportunities to develop secure and efficient solutions, and to contribute my enthusiasm and skills to innovative projects.',
