@@ -392,6 +392,13 @@ function loadConfigTab() {
             </div>
             <button id="export-btn" class="btn-action">Exportar a XML</button>
         </div>
+        <div class="setting-item danger-zone">
+            <div>
+                <p>Restablecer Contenido</p>
+                <small>Elimina los datos guardados en el navegador y carga los valores por defecto del código. Útil si la web no refleja los últimos cambios. <strong>Esta acción no se puede deshacer.</strong></small>
+            </div>
+            <button id="reset-content-btn" class="btn-danger">Restablecer Contenido</button>
+        </div>
     `;
 
     document.getElementById('maintenance-toggle').addEventListener('change', (e) => {
@@ -401,6 +408,14 @@ function loadConfigTab() {
     });
 
     document.getElementById('export-btn').addEventListener('click', exportDataToXML);
+
+    document.getElementById('reset-content-btn').addEventListener('click', () => {
+        if (confirm('¿Estás seguro de que quieres restablecer todo el contenido a los valores por defecto? Se perderán todos los cambios que hayas guardado desde el panel.')) {
+            localStorage.removeItem('portfolioContent');
+            alert('Contenido restablecido. Recarga la página principal (Ctrl+F5) para ver los cambios.');
+            location.reload();
+        }
+    });
 }
 
 function exportDataToXML() {

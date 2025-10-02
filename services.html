@@ -18,11 +18,17 @@
     <header class="header">
         <div class="logo">
             <img src="logo.svg" alt="Logo SF" class="logo-img">
-            <span>Santiago Fernandez</span>
+            <span data-editable="header-name">Santiago Fernandez</span>
         </div>
         <nav class="nav">
-            <a href="index.html">Inicio</a>
+            <a href="index.html" data-translate="nav-home">Inicio</a>
         </nav>
+        <div class="header-controls">
+            <button id="theme-toggle" class="theme-btn" aria-label="Cambiar tema">
+                <svg class="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.106a.75.75 0 010 1.06l-1.591 1.59a.75.75 0 11-1.06-1.06l1.59-1.59a.75.75 0 011.06 0zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.836 17.836a.75.75 0 01-1.06 0l-1.59-1.591a.75.75 0 111.06-1.06l1.59 1.59a.75.75 0 010 1.061zM12 18a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V18.75a.75.75 0 01.75-.75zM5.106 17.836a.75.75 0 010-1.06l1.59-1.591a.75.75 0 011.06 1.06l-1.59 1.59a.75.75 0 01-1.06 0zM4.5 12a.75.75 0 01-.75.75H1.5a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM6.106 6.106a.75.75 0 011.06 0l1.591 1.59a.75.75 0 01-1.06 1.06l-1.59-1.59a.75.75 0 010-1.06z"/></svg>
+                <svg class="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 004.463-.69a.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-3.51 1.713-6.625 4.463-8.482a.75.75 0 01.819.162z" clip-rule="evenodd" /></svg>
+            </button>
+        </div>
         <div class="lang-switcher">
             <button data-lang="es" class="lang-btn active">ES</button>
             <span>|</span>
@@ -33,271 +39,159 @@
     <main>
         <section class="services-hero">
             <h1 class="section-title" data-translate="services-title">Mis Servicios</h1>
-            <p class="services-intro" data-translate="services-page-intro">Soluciones tecnológicas a medida para construir, mantener y optimizar tus proyectos digitales. Explora los planes y descubre cómo puedo ayudarte.</p>
+            <p class="services-intro" data-translate="services-page-intro">Soluciones tecnológicas a medida para impulsar tus proyectos. Explora los planes y descubre cómo puedo ayudarte a alcanzar tus objetivos.</p>
             <p class="services-intro-note" data-translate="services-page-note">Nota: Los precios son estimaciones. ¡Contáctame para un presupuesto personalizado!</p>
         </section>
 
         <section class="service-category">
             <h2 data-translate="web-dev-title">Desarrollo Web Completo</h2>
-            <div class="pricing-table-container">
-                <table class="pricing-table">
-                    <thead>
-                        <tr>
-                            <th scope="col" data-translate="feature-header">Característica</th>
-                            <th scope="col" data-translate="web-dev-plan1-title">Básico (Landing Page)</th>
-                            <th scope="col" class="featured-col" data-translate="web-dev-plan2-title">Profesional (Sitio Corporativo)</th>
-                            <th scope="col" data-translate="web-dev-plan3-title">Premium (Aplicación Web)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td scope="row" data-translate="price-header">Precio</td>
-                            <td data-translate="web-dev-plan1-price">Desde 350€</td>
-                            <td class="featured-col" data-translate="web-dev-plan2-price">Desde 950€</td>
-                            <td data-translate="web-dev-plan3-price">Desde 2,500€</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="web-dev-feat-pages">Páginas</td>
-                            <td data-translate="web-dev-plan1-feat1">1 (Página única)</td>
-                            <td class="featured-col" data-translate="web-dev-plan2-feat1">Hasta 5 páginas</td>
-                            <td data-translate="web-dev-plan3-feat1">Páginas y funciones ilimitadas</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="web-dev-feat-design">Diseño</td>
-                            <td data-translate="web-dev-plan1-feat2">Basado en plantilla</td>
-                            <td class="featured-col" data-translate="web-dev-plan2-feat2">Diseño personalizado</td>
-                            <td data-translate="web-dev-plan3-feat2">Diseño UX/UI avanzado</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="web-dev-feat-backend">Backend y BBDD</td>
-                            <td>❌</td>
-                            <td class="featured-col">🟡</td>
-                            <td>✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="web-dev-feat-admin">Panel de Administración</td>
-                            <td>❌</td>
-                            <td class="featured-col" data-translate="web-dev-plan2-feat3">Integración CMS (Opcional)</td>
-                            <td data-translate="web-dev-plan3-feat3">Panel a medida</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="web-dev-feat-seo">SEO Básico</td>
-                            <td>✔️</td>
-                            <td class="featured-col">✔️</td>
-                            <td>✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="web-dev-feat-hosting">Dominio y Hosting (1er año)</td>
-                            <td>🟡</td>
-                            <td class="featured-col">✔️</td>
-                            <td>✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row"></td>
-                            <td><a href="quote.html?service=web-dev&plan=basic" class="btn-cta" data-translate="quote-btn">Solicitar Presupuesto</a></td>
-                            <td class="featured-col"><a href="quote.html?service=web-dev&plan=professional" class="btn-cta" data-translate="quote-btn">Solicitar Presupuesto</a></td>
-                            <td><a href="quote.html?service=web-dev&plan=premium" class="btn-cta" data-translate="quote-btn">Solicitar Presupuesto</a></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="pricing-grid">
+                <!-- Plan Básico -->
+                <div class="pricing-card">
+                    <h3 data-translate="web-dev-plan1-title">Básico (Landing Page)</h3>
+                    <div class="price" data-translate="web-dev-plan1-price">Desde 300€</div>
+                    <ul>
+                        <li data-translate="web-dev-plan1-feat1">✓ 1 Página única</li>
+                        <li data-translate="web-dev-plan1-feat2">✓ Diseño responsive</li>
+                        <li data-translate="web-dev-feat-seo">✓ SEO Básico</li>
+                        <li>-</li>
+                    </ul>
+                    <div class="card-footer">
+                        <button class="btn-details" data-service="web-dev" data-plan="basic" data-translate="details-btn">Ver detalles</button>
+                        <a href="quote.html?service=web-dev&plan=basic" class="btn-cta" data-translate="quote-btn">Solicitar</a>
+                    </div>
+                </div>
+                <!-- Plan Profesional -->
+                <div class="pricing-card featured">
+                    <div class="featured-tag" data-translate="featured-tag">Recomendado</div>
+                    <h3 data-translate="web-dev-plan2-title">Profesional (Sitio Corporativo)</h3>
+                    <div class="price" data-translate="web-dev-plan2-price">Desde 850€</div>
+                    <ul>
+                        <li data-translate="web-dev-plan2-feat1">✓ Hasta 5 páginas</li>
+                        <li data-translate="web-dev-plan2-feat2">✓ Diseño personalizado</li>
+                        <li data-translate="web-dev-plan2-feat3">✓ Integración CMS (Opcional)</li>
+                        <li data-translate="web-dev-feat-hosting">✓ Dominio y Hosting (1er año)</li>
+                    </ul>
+                    <div class="card-footer">
+                        <button class="btn-details" data-service="web-dev" data-plan="professional" data-translate="details-btn">Ver detalles</button>
+                        <a href="quote.html?service=web-dev&plan=professional" class="btn-cta" data-translate="quote-btn">Solicitar</a>
+                    </div>
+                </div>
+                <!-- Plan Premium -->
+                <div class="pricing-card">
+                    <h3 data-translate="web-dev-plan3-title">Premium (Aplicación Web)</h3>
+                    <div class="price" data-translate="web-dev-plan3-price">Desde 2,200€</div>
+                    <ul>
+                        <li data-translate="web-dev-plan3-feat1">✓ Páginas y funciones ilimitadas</li>
+                        <li data-translate="web-dev-plan3-feat2">✓ Diseño UX/UI avanzado</li>
+                        <li data-translate="web-dev-plan3-feat3">✓ Panel de administración a medida</li>
+                        <li data-translate="web-dev-feat-backend">✓ Backend y Base de Datos</li>
+                    </ul>
+                    <div class="card-footer">
+                        <button class="btn-details" data-service="web-dev" data-plan="premium" data-translate="details-btn">Ver detalles</button>
+                        <a href="quote.html?service=web-dev&plan=premium" class="btn-cta" data-translate="quote-btn">Solicitar</a>
+                    </div>
+                </div>
             </div>
         </section>
         
         <section class="service-category">
             <h2 data-translate="ciber-title">Servicios de Ciberseguridad</h2>
-            <div class="pricing-table-container">
-                <table class="pricing-table">
-                    <thead>
-                        <tr>
-                            <th scope="col" data-translate="feature-header">Característica</th>
-                            <th scope="col" data-translate="ciber-plan1-title">Auditoría de Seguridad</th>
-                            <th scope="col" class="featured-col" data-translate="ciber-plan2-title">Pentesting Web</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td scope="row" data-translate="price-header">Precio</td>
-                            <td data-translate="ciber-plan1-price">Desde 450€</td>
-                            <td class="featured-col" data-translate="ciber-plan2-price">Desde 1,200€</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="ciber-feat-scan">Análisis de vulnerabilidades</td>
-                            <td>✔️</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="ciber-feat-config">Revisión de configuración</td>
-                            <td>✔️</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="ciber-feat-exploit">Intento de explotación (OWASP Top 10)</td>
-                            <td>❌</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="ciber-feat-report">Informe de hallazgos</td>
-                            <td>✔️</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="ciber-feat-remediation">Plan de remediación</td>
-                            <td>🟡</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row"></td>
-                            <td><a href="quote.html?service=cyber&plan=audit" class="btn-cta" data-translate="quote-btn">Solicitar Presupuesto</a></td>
-                            <td class="featured-col"><a href="quote.html?service=cyber&plan=pentesting" class="btn-cta" data-translate="quote-btn">Solicitar Presupuesto</a></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3 data-translate="ciber-plan1-title">Auditoría de Seguridad</h3>
+                    <div class="price" data-translate="ciber-plan1-price">Desde 400€</div>
+                    <ul>
+                        <li data-translate="ciber-feat-scan">✓ Análisis de vulnerabilidades</li>
+                        <li data-translate="ciber-feat-config">✓ Revisión de configuración</li>
+                        <li data-translate="ciber-feat-report">✓ Informe de hallazgos</li>
+                    </ul>
+                    <div class="card-footer">
+                        <button class="btn-details" data-service="cyber" data-plan="audit" data-translate="details-btn">Ver detalles</button>
+                        <a href="quote.html?service=cyber&plan=audit" class="btn-cta" data-translate="quote-btn">Solicitar</a>
+                    </div>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="featured-tag" data-translate="featured-tag">Recomendado</div>
+                    <h3 data-translate="ciber-plan2-title">Pentesting Web</h3>
+                    <div class="price" data-translate="ciber-plan2-price">Desde 1,100€</div>
+                    <ul>
+                        <li data-translate="ciber-feat-exploit">✓ Intento de explotación (OWASP Top 10)</li>
+                        <li data-translate="ciber-feat-report">✓ Informe técnico detallado</li>
+                        <li data-translate="ciber-feat-remediation">✓ Plan de remediación</li>
+                    </ul>
+                    <div class="card-footer">
+                        <button class="btn-details" data-service="cyber" data-plan="pentesting" data-translate="details-btn">Ver detalles</button>
+                        <a href="quote.html?service=cyber&plan=pentesting" class="btn-cta" data-translate="quote-btn">Solicitar</a>
+                    </div>
+                </div>
             </div>
         </section>
         
         <section class="service-category">
             <h2 data-translate="cloud-title">Cloud & DevOps</h2>
-            <div class="pricing-table-container">
-                <table class="pricing-table">
-                    <thead>
-                        <tr>
-                            <th scope="col" data-translate="feature-header">Característica</th>
-                            <th scope="col" data-translate="cloud-plan1-title">Despliegue de Infraestructura</th>
-                            <th scope="col" class="featured-col" data-translate="cloud-plan2-title">Automatización CI/CD</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td scope="row" data-translate="price-header">Precio</td>
-                            <td data-translate="cloud-plan1-price">Desde 500€</td>
-                            <td class="featured-col" data-translate="cloud-plan2-price">Desde 800€</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="cloud-feat-infra">Infraestructura como Código (IaC)</td>
-                            <td>✔️</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="cloud-feat-container">Gestión de Contenedores (Docker)</td>
-                            <td>✔️</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="cloud-feat-pipeline">Pipeline de Integración Continua</td>
-                            <td>❌</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="cloud-feat-deploy">Pipeline de Despliegue Continuo</td>
-                            <td>❌</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="cloud-feat-monitoring">Monitorización y Alertas</td>
-                            <td>🟡</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row"></td>
-                            <td><a href="quote.html?service=cloud&plan=deploy" class="btn-cta" data-translate="quote-btn">Solicitar Presupuesto</a></td>
-                            <td class="featured-col"><a href="quote.html?service=cloud&plan=automation" class="btn-cta" data-translate="quote-btn">Solicitar Presupuesto</a></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3 data-translate="cloud-plan1-title">Despliegue de Infraestructura</h3>
+                    <div class="price" data-translate="cloud-plan1-price">Desde 450€</div>
+                    <ul>
+                        <li data-translate="cloud-feat-infra">✓ Infraestructura como Código (IaC)</li>
+                        <li data-translate="cloud-feat-container">✓ Gestión de Contenedores (Docker)</li>
+                        <li data-translate="cloud-feat-monitoring">✓ Monitorización y Alertas básicas</li>
+                    </ul>
+                    <div class="card-footer">
+                        <button class="btn-details" data-service="cloud" data-plan="deploy" data-translate="details-btn">Ver detalles</button>
+                        <a href="quote.html?service=cloud&plan=deploy" class="btn-cta" data-translate="quote-btn">Solicitar</a>
+                    </div>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="featured-tag" data-translate="featured-tag">Recomendado</div>
+                    <h3 data-translate="cloud-plan2-title">Automatización CI/CD</h3>
+                    <div class="price" data-translate="cloud-plan2-price">Desde 750€</div>
+                    <ul>
+                        <li data-translate="cloud-feat-pipeline">✓ Pipeline de Integración Continua</li>
+                        <li data-translate="cloud-feat-deploy">✓ Pipeline de Despliegue Continuo</li>
+                        <li data-translate="cloud-feat-monitoring">✓ Monitorización y Alertas avanzadas</li>
+                    </ul>
+                    <div class="card-footer">
+                        <button class="btn-details" data-service="cloud" data-plan="automation" data-translate="details-btn">Ver detalles</button>
+                        <a href="quote.html?service=cloud&plan=automation" class="btn-cta" data-translate="quote-btn">Solicitar</a>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section class="service-category">
             <h2 data-translate="maintenance-title">Mantenimiento Web (Suscripción)</h2>
-            <div class="pricing-table-container">
-                <table class="pricing-table">
-                    <thead>
-                        <tr>
-                            <th scope="col" data-translate="feature-header">Característica</th>
-                            <th scope="col" data-translate="maintenance-plan1-title">Básico</th>
-                            <th scope="col" class="featured-col" data-translate="maintenance-plan2-title">Avanzado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td scope="row" data-translate="price-header">Precio</td>
-                            <td data-translate="maintenance-plan1-price">60€ / mes</td>
-                            <td class="featured-col" data-translate="maintenance-plan2-price">120€ / mes</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="maintenance-feat-updates">Actualizaciones (Core, Plugins)</td>
-                            <td>✔️</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="maintenance-feat-backups">Copias de Seguridad</td>
-                            <td data-translate="maintenance-plan1-feat-backups">Mensuales</td>
-                            <td class="featured-col" data-translate="maintenance-plan2-feat-backups">Semanales</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="maintenance-feat-security">Escaneo de Seguridad</td>
-                            <td>✔️</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="maintenance-feat-uptime">Monitorización Uptime</td>
-                            <td>❌</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="maintenance-feat-support">Horas de Soporte</td>
-                            <td data-translate="maintenance-plan1-feat-support">1h / mes</td>
-                            <td class="featured-col" data-translate="maintenance-plan2-feat-support">3h / mes</td>
-                        </tr>
-                        <tr>
-                            <td scope="row"></td>
-                            <td><a href="quote.html?service=maintenance&plan=basic" class="btn-cta" data-translate="quote-btn">Solicitar Presupuesto</a></td>
-                            <td class="featured-col"><a href="quote.html?service=maintenance&plan=advanced" class="btn-cta" data-translate="quote-btn">Solicitar Presupuesto</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="service-category">
-            <h2 data-translate="db-title">Servicios de Bases de Datos</h2>
-            <div class="pricing-table-container">
-                <table class="pricing-table">
-                    <thead>
-                        <tr>
-                            <th scope="col" data-translate="feature-header">Característica</th>
-                            <th scope="col" data-translate="db-plan1-title">Diseño y Creación</th>
-                            <th scope="col" class="featured-col" data-translate="db-plan2-title">Gestión y Optimización</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td scope="row" data-translate="price-header">Precio</td>
-                            <td data-translate="db-plan1-price">Desde 380€</td>
-                            <td class="featured-col" data-translate="db-plan2-price">Desde 200€</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="db-feat-schema">Diseño de Esquema (SQL/NoSQL)</td>
-                            <td>✔️</td>
-                            <td class="featured-col">🟡</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="db-feat-optimization">Optimización de Consultas</td>
-                            <td>❌</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row" data-translate="db-feat-maintenance">Mantenimiento y Backups</td>
-                            <td>❌</td>
-                            <td class="featured-col">✔️</td>
-                        </tr>
-                        <tr>
-                            <td scope="row"></td>
-                            <td><a href="quote.html?service=db&plan=design" class="btn-cta" data-translate="quote-btn">Solicitar Presupuesto</a></td>
-                            <td class="featured-col"><a href="quote.html?service=db&plan=management" class="btn-cta" data-translate="quote-btn">Solicitar Presupuesto</a></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3 data-translate="maintenance-plan1-title">Básico</h3>
+                    <div class="price" data-translate="maintenance-plan1-price">50€ / mes</div>
+                    <ul>
+                        <li data-translate="maintenance-feat-updates">✓ Actualizaciones de seguridad</li>
+                        <li data-translate="maintenance-plan1-feat-backups">✓ Copias de seguridad mensuales</li>
+                        <li data-translate="maintenance-feat-security">✓ Escaneo de seguridad</li>
+                    </ul>
+                    <div class="card-footer">
+                        <button class="btn-details" data-service="maintenance" data-plan="basic" data-translate="details-btn">Ver detalles</button>
+                        <a href="quote.html?service=maintenance&plan=basic" class="btn-cta" data-translate="quote-btn">Solicitar</a>
+                    </div>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="featured-tag" data-translate="featured-tag">Recomendado</div>
+                    <h3 data-translate="maintenance-plan2-title">Avanzado</h3>
+                    <div class="price" data-translate="maintenance-plan2-price">100€ / mes</div>
+                    <ul>
+                        <li><strong>Todo lo del plan Básico, y además:</strong></li>
+                        <li data-translate="maintenance-plan2-feat-backups">✓ Copias de seguridad semanales</li>
+                        <li data-translate="maintenance-feat-uptime">✓ Monitorización Uptime 24/7</li>
+                        <li data-translate="maintenance-plan2-feat-support">✓ 3h de soporte técnico</li>
+                    </ul>
+                    <div class="card-footer">
+                        <button class="btn-details" data-service="maintenance" data-plan="advanced" data-translate="details-btn">Ver detalles</button>
+                        <a href="quote.html?service=maintenance&plan=advanced" class="btn-cta" data-translate="quote-btn">Solicitar</a>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -305,6 +199,15 @@
     <footer class="footer">
         <p>&copy; <span id="current-year"></span> Santiago Fernandez. Todos los derechos reservados.</p>
     </footer>
+
+    <!-- Modal Structure -->
+    <div id="details-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="modal-close" class="modal-close-btn">&times;</button>
+            <h3 id="modal-title"></h3>
+            <div id="modal-body"></div>
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>

@@ -1,133 +1,250 @@
-body {
-    background-color: transparent;
-}
+/* services.css */
 
-main {
-    background-color: rgba(34, 40, 49, 0.8);
-    backdrop-filter: blur(5px);
-    position: relative;
-    z-index: 2;
-}
-
+/* --- Fondo Animado --- */
 #vanta-bg {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
+    z-index: -1;
 }
 
+/* --- Contenido Principal --- */
+main {
+    padding-top: 100px; /* Ajuste para el header fijo */
+}
+
+/* --- Hero Section --- */
 .services-hero {
     padding: 4rem 2rem;
     text-align: center;
+    color: var(--c-text);
+    position: relative;
 }
 
 .services-hero .section-title {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
+    color: var(--c-text); /* Asegura que el título sea visible sobre el fondo vanta */
 }
 
 .services-intro {
-    text-align: center;
-    max-width: 800px;
+    max-width: 700px;
     margin: 0 auto 1rem auto;
-    font-size: 1.1rem;
-    color: #ccc;
+    font-size: 1.2rem;
+    opacity: 0.9;
 }
 
 .services-intro-note {
-    font-size: 0.9rem;
-    color: #aaa;
-    font-style: italic;
+    max-width: 700px;
+    margin: 1rem auto;
+    font-weight: bold;
+    color: var(--accent);
+    background-color: color-mix(in srgb, var(--c-bg-medium) 50%, transparent);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent);
 }
 
+/* --- Categorías de Servicios --- */
 .service-category {
     max-width: 1200px;
-    margin: 0 auto 4rem auto;
+    margin: 4rem auto;
     padding: 2rem;
+    background-color: var(--c-bg-medium);
+    border-radius: 12px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-.service-category h2 {
-    font-size: 2.5rem;
-    color: var(--accent-color);
+.service-category.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.service-category > h2 {
     text-align: center;
-    margin-bottom: 2.5rem;
+    font-size: 2.2rem;
+    color: var(--accent);
+    margin-bottom: 3rem;
 }
 
-.pricing-table-container {
-    overflow-x: auto;
-    padding-bottom: 1rem;
+/* --- Grid de Precios --- */
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+    align-items: stretch;
 }
 
-.pricing-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 600px;
-    background-color: var(--dark-bg);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-.pricing-table th, .pricing-table td {
-    padding: 1.5rem 1rem;
+/* --- Tarjetas de Precios con Efecto 3D --- */
+.pricing-card {
+    background-color: var(--c-bg);
+    border: 1px solid var(--c-border);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
     text-align: center;
-    border-bottom: 1px solid var(--medium-bg);
-}
-
-.pricing-table thead th {
-    background-color: #2a3038;
-    color: var(--accent-color);
-    font-size: 1.2rem;
-}
-
-.pricing-table tbody td:first-child {
-    text-align: left;
-    font-weight: bold;
-    color: var(--text-color);
-}
-
-.pricing-table tbody tr:nth-child(even) {
-    background-color: #2a3038;
-}
-
-.pricing-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.pricing-table .featured-col {
-    background-color: rgba(0, 173, 181, 0.1);
-    border-left: 2px solid var(--accent-color);
-    border-right: 2px solid var(--accent-color);
-}
-
-.pricing-table thead .featured-col {
-    color: #fff;
-    transform: scale(1.05);
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
-
-.pricing-table .btn-cta {
-    margin-top: 0;
-    padding: 0.6rem 1.2rem;
-    background-color: var(--accent-color);
-    color: var(--dark-bg);
-    border-color: var(--accent-color);
-    animation: none;
-}
-
-.pricing-table .btn-cta:hover {
-    background-color: #00c1cb;
-    border-color: #00c1cb;
-}
-
-.footer {
+    transition: transform 0.1s ease, box-shadow 0.3s ease;
     position: relative;
-    z-index: 2;
+    overflow: hidden;
+    transform-style: preserve-3d; /* Habilita el contexto 3D */
 }
 
+.pricing-card:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.pricing-card h3 {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.pricing-card .price {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+}
+
+.pricing-card ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.pricing-card ul li {
+    margin-bottom: 0.8rem;
+    color: var(--c-text-muted);
+}
+
+.card-footer {
+    margin-top: auto;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.pricing-card .btn-cta, .pricing-card .btn-details {
+    animation: none; /* Anula la animación de pulso */
+    padding: 0.6rem 1.2rem;
+    margin-top: 0;
+}
+
+.btn-details {
+    background-color: var(--c-bg-medium);
+    border: 2px solid var(--c-border);
+    color: var(--c-text-muted);
+}
+
+/* --- Tarjeta Destacada con Borde Animado --- */
+.pricing-card.featured {
+    transform: scale(1.05);
+    border: 2px solid transparent; /* Borde transparente para alojar el degradado */
+    background-clip: padding-box; /* Evita que el fondo se vea a través del borde */
+    position: relative;
+}
+
+.pricing-card.featured::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    z-index: -1;
+    margin: -2px; /* Ajuste para el grosor del borde */
+    border-radius: inherit; /* Hereda el radio de la tarjeta */
+    background: radial-gradient(circle, var(--accent), transparent 70%);
+    animation: breathing-glow 4s ease-in-out infinite;
+}
+
+@keyframes breathing-glow {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+
+.pricing-card.featured:hover {
+    transform: scale(1.1);
+}
+
+.featured-tag {
+    position: absolute;
+    top: 15px;
+    right: -35px;
+    background-color: var(--accent);
+    color: var(--c-bg);
+    padding: 5px 30px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transform: rotate(45deg);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* --- Modal de Detalles --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: var(--c-bg-medium);
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--c-text-muted);
+    line-height: 1;
+}
+
+.modal-content h3 {
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.modal-content p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+}
+
+/* --- Responsive --- */
 @media (max-width: 768px) {
     .services-hero {
         padding: 2rem 1rem;
@@ -135,10 +252,13 @@ main {
     .services-hero .section-title {
         font-size: 2.5rem;
     }
-    .service-category {
-        padding: 1rem;
+    .pricing-grid {
+        grid-template-columns: 1fr;
     }
-    .service-category h2 {
-        font-size: 2rem;
+    .pricing-card.featured {
+        transform: scale(1);
+    }
+    .pricing-card.featured:hover {
+        transform: translateY(-10px);
     }
 }
