@@ -1,77 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import { firebaseConfig } from './firebase-config.js';
-
-document.addEventListener('DOMContentLoaded', () => {
+function initializeQuotePage() {
     const params = new URLSearchParams(window.location.search);
     const service = params.get('service');
     const plan = params.get('plan');
     let currentLang = localStorage.getItem('language') || 'es';
-
-    const serviceDetails = {
-        es: {
-            'web-dev': { 
-                title: 'Desarrollo Web Completo',
-                plans: {
-                    'basic': { name: 'Básico (Landing Page)', price: 'Desde 300€' },
-                    'professional': { name: 'Profesional (Sitio Corporativo)', price: 'Desde 850€' },
-                    'premium': { name: 'Premium (Aplicación Web)', price: 'Desde 2,200€' }
-                }
-            },
-            'cyber': {
-                title: 'Servicios de Ciberseguridad',
-                plans: {
-                    'audit': { name: 'Auditoría de Seguridad', price: 'Desde 400€' },
-                    'pentesting': { name: 'Pentesting Web', price: 'Desde 1,100€' }
-                }
-            },
-            'cloud': {
-                title: 'Cloud & DevOps',
-                plans: {
-                    'deploy': { name: 'Despliegue de Infraestructura', price: 'Desde 450€' },
-                    'automation': { name: 'Automatización CI/CD', price: 'Desde 750€' }
-                }
-            },
-            'maintenance': {
-                title: 'Mantenimiento Web',
-                plans: {
-                    'basic': { name: 'Básico', price: '50€ / mes' },
-                    'advanced': { name: 'Avanzado', price: '100€ / mes' }
-                }
-            }
-        },
-        en: {
-            'web-dev': { 
-                title: 'Full Web Development',
-                plans: {
-                    'basic': { name: 'Basic (Landing Page)', price: 'From €300' },
-                    'professional': { name: 'Professional (Corporate Site)', price: 'From €850' },
-                    'premium': { name: 'Premium (Web Application)', price: 'From €2,200' }
-                }
-            },
-            'cyber': {
-                title: 'Cybersecurity Services',
-                plans: {
-                    'audit': { name: 'Security Audit', price: 'From €400' },
-                    'pentesting': { name: 'Web Pentesting', price: 'From €1,100' }
-                }
-            },
-            'cloud': {
-                title: 'Cloud & DevOps',
-                plans: {
-                    'deploy': { name: 'Infrastructure Deployment', price: 'From €450' },
-                    'automation': { name: 'CI/CD Automation', price: 'From €750' }
-                }
-            },
-            'maintenance': {
-                title: 'Web Maintenance',
-                plans: {
-                    'basic': { name: 'Basic', price: '€50 / month' },
-                    'advanced': { name: 'Advanced', price: '€100 / month' }
-                }
-            }
-        }
-    };
+    let vantaEffect = null;
 
     const translations = {
         es: {
@@ -82,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'payment-method-note': 'Esto no es un pago real. Es para saber tu preferencia y agilizar el proceso.',
             'payment-transfer': 'Transferencia Bancaria', 'payment-paypal': 'PayPal', 'payment-other': 'Otro / A discutir',
             'notes-title': 'Notas Adicionales', 'notes-placeholder': '¿Algún detalle específico que debamos saber?',
-            'submit-quote-btn': 'Enviar Solicitud', 'summary-title': 'Resumen del Pedido',
+            'submit-quote-btn': 'Enviar Solicitud', 'summary-title': 'Resumen del Pedido', 'summary-details': 'Detalles del Plan',
             'loading-summary': 'Cargando...', 'summary-footer-note': 'Recibirás una respuesta con el presupuesto detallado y los siguientes pasos en menos de 24 horas.',
             'summary-service': 'Servicio', 'summary-plan': 'Plan Seleccionado', 'summary-price': 'Precio Estimado',
             'success-msg': '¡Solicitud enviada! Nos pondremos en contacto contigo pronto.', 'error-msg': 'Por favor, completa todos los campos.'
@@ -95,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'payment-method-note': 'This is not a real payment. It is to know your preference and speed up the process.',
             'payment-transfer': 'Bank Transfer', 'payment-paypal': 'PayPal', 'payment-other': 'Other / To be discussed',
             'notes-title': 'Additional Notes', 'notes-placeholder': 'Any specific details we should know?',
-            'submit-quote-btn': 'Send Request', 'summary-title': 'Order Summary',
+            'submit-quote-btn': 'Send Request', 'summary-title': 'Order Summary', 'summary-details': 'Plan Details',
             'loading-summary': 'Loading...', 'summary-footer-note': 'You will receive a response with a detailed quote and the next steps in less than 24 hours.',
             'summary-service': 'Service', 'summary-plan': 'Selected Plan', 'summary-price': 'Estimated Price',
             'success-msg': 'Request sent! We will contact you soon.', 'error-msg': 'Please fill in all fields.'
@@ -104,26 +39,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderSummary() {
         const summaryContainer = document.getElementById('summary-content');
-        const serviceData = serviceDetails[currentLang][service];
-        const planData = serviceData?.plans[plan];
+        const allServiceData = (window.serviceTranslations && window.serviceTranslations[currentLang]) || {};
 
-        if (serviceData && planData) {
+        const planMap = {
+            'basic': '1', 'professional': '2', 'premium': '3',
+            'audit': '1', 'pentesting': '2',
+            'deploy': '1', 'automation': '2',
+            'advanced': '2'
+        };
+        if (service === 'maintenance' && plan === 'basic') planMap['basic'] = '1';
+
+        const planNumber = planMap[plan];
+        const serviceKey = service === 'cyber' ? 'ciber' : service;
+
+        if (planNumber && allServiceData[`${serviceKey}-plan${planNumber}-title`]) {
+            const serviceTitle = allServiceData[`${serviceKey}-title`];
+            const planTitle = allServiceData[`${serviceKey}-plan${planNumber}-title`];
+            const planPrice = allServiceData[`${serviceKey}-plan${planNumber}-price`];
+            const planDetails = allServiceData[`${serviceKey}-plan${planNumber}-details`];
+
+            const detailsHtml = planDetails 
+                ? `<ul class="summary-details-list">${planDetails.map(detail => `<li>${detail}</li>`).join('')}</ul>` 
+                : '';
+
             summaryContainer.innerHTML = `
                 <div class="summary-item">
                     <strong data-translate="summary-service">${translations[currentLang]['summary-service']}</strong>
-                    <span>${serviceData.title}</span>
+                    <span>${serviceTitle}</span>
                 </div>
                 <div class="summary-item">
                     <strong data-translate="summary-plan">${translations[currentLang]['summary-plan']}</strong>
-                    <span>${planData.name}</span>
+                    <span>${planTitle}</span>
                 </div>
                 <div class="summary-item">
                     <strong data-translate="summary-price">${translations[currentLang]['summary-price']}</strong>
-                    <span>${planData.price}</span>
+                    <span>${planPrice}</span>
+                </div>
+                <div class="summary-item">
+                    <strong data-translate="summary-details">${translations[currentLang]['summary-details']}</strong>
+                    ${detailsHtml}
                 </div>
             `;
         } else {
-            summaryContainer.innerHTML = `<p>Error: Servicio o plan no válido.</p>`;
+            summaryContainer.innerHTML = `<p>Error: Servicio (${service}) o plan (${plan}) no válido.</p>`;
         }
     }
 
@@ -148,6 +106,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         renderSummary();
+    }
+
+    function initializeVanta(theme) {
+        if (vantaEffect) {
+            vantaEffect.destroy();
+        }
+        if (window.VANTA) {
+            vantaEffect = VANTA.GLOBE({
+                el: "#vanta-bg",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                color: 0x00adb5, // Accent color
+                color2: theme === 'dark' ? 0xeeeeee : 0x333333,
+                backgroundColor: theme === 'dark' ? 0x222831 : 0xf4f4f9,
+                size: 1.20
+            });
+        }
     }
 
     // Inicializar Firebase y Firestore
@@ -186,9 +166,15 @@ document.addEventListener('DOMContentLoaded', () => {
             email: document.getElementById('email').value,
             paymentMethod: document.querySelector('input[name="payment"]:checked').value,
             message: document.getElementById('message').value,
-            service: serviceDetails[currentLang][service].title,
-            plan: serviceDetails[currentLang][service].plans[plan].name,
-            price: serviceDetails[currentLang][service].plans[plan].price,
+            service: (window.serviceTranslations && window.serviceTranslations[currentLang][`${service === 'cyber' ? 'ciber' : service}-title`]) || service,
+            plan: (window.serviceTranslations && window.serviceTranslations[currentLang][`${service === 'cyber' ? 'ciber' : service}-plan${
+                plan === 'basic' ? '1' : 
+                plan === 'professional' ? '2' : 
+                plan === 'premium' ? '3' : 
+                plan === 'audit' ? '1' : 
+                plan === 'pentesting' ? '2' : 
+                plan === 'deploy' ? '1' : 
+                plan === 'automation' ? '2' : '2'}-title`]) || plan,
             date: new Date().toISOString(),
             lang: currentLang
         };
@@ -218,8 +204,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Cargar nombre desde localStorage si existe (para consistencia con index.html)
+    const savedDataJSON = localStorage.getItem('portfolioContent');
+    if (savedDataJSON) {
+        try {
+            const savedData = JSON.parse(savedDataJSON);
+            const headerName = document.querySelector('[data-editable="header-name"]');
+            if (headerName && savedData[currentLang]?.['header-name']) {
+                headerName.textContent = savedData[currentLang]['header-name'];
+            }
+        } catch (e) {
+            console.error("Error al cargar datos del portafolio", e);
+        }
+    }
+
+    // Inicializar Vanta con el tema por defecto (oscuro)
+    initializeVanta('dark');
+
     setLanguage(currentLang);
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
     });
-});
+}
+
+// Esperamos a que tanto el DOM como el script de services.js (que define window.serviceTranslations) se hayan cargado.
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeQuotePage);
+} else {
+    // El DOM ya está listo, solo ejecutamos.
+    initializeQuotePage();
+}

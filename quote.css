@@ -8,7 +8,7 @@
 
 .quote-main h1 {
     text-align: center;
-    color: var(--accent-color);
+    color: var(--accent);
     margin-bottom: 3rem;
 }
 
@@ -33,7 +33,7 @@
     font-size: 1.5rem;
     margin-top: 2rem;
     margin-bottom: 1rem;
-    border-bottom: 2px solid var(--accent-color);
+    border-bottom: 2px solid var(--accent);
     padding-bottom: 0.5rem;
 }
 
@@ -43,7 +43,7 @@
 
 .form-note {
     font-size: 0.9rem;
-    color: #ccc;
+    color: var(--c-text-muted);
     margin-bottom: 1rem;
     font-style: italic;
 }
@@ -62,23 +62,25 @@
 .form-group textarea {
     width: 100%;
     padding: 0.8rem;
-    background: var(--dark-bg);
-    border: 1px solid var(--medium-bg);
+    background: var(--c-bg);
+    border: 1px solid var(--c-border);
     border-radius: 5px;
-    color: var(--text-color);
+    color: var(--c-text);
     font-size: 1rem;
     transition: border-color 0.3s;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
-    border-color: var(--accent-color);
+    border-color: var(--accent) !important;
     outline: none;
+    box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .form-group-radio label {
     display: block;
-    background-color: var(--dark-bg);
+    background-color: var(--c-bg);
+    border: 1px solid var(--c-border);
     padding: 1rem;
     border-radius: 5px;
     margin-bottom: 0.5rem;
@@ -87,7 +89,12 @@
 }
 
 .form-group-radio label:hover {
-    background-color: #2a3038;
+    background-color: color-mix(in srgb, var(--c-bg) 80%, var(--c-text) 20%);
+}
+
+.form-group-radio input:checked + span {
+    color: var(--accent);
+    font-weight: bold;
 }
 
 .form-group-radio input {
@@ -97,17 +104,18 @@
 .btn-submit {
     width: 100%;
     padding: 1rem;
-    background: var(--accent-color);
-    color: var(--dark-bg);
+    background: var(--accent);
+    color: var(--c-bg);
     border: none;
     border-radius: 5px;
     font-weight: bold;
     font-size: 1.1rem;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .btn-submit:hover {
-    background-color: #00c1cb;
+    background-color: color-mix(in srgb, var(--accent) 90%, #fff);
+    box-shadow: 0 0 15px var(--accent-glow);
 }
 
 #form-status {
@@ -118,26 +126,43 @@
 
 /* Summary Card */
 .summary-card {
-    background-color: var(--medium-bg);
+    background-color: var(--c-bg-medium);
     padding: 2rem;
     border-radius: 8px;
     position: sticky;
     top: 120px; /* Header height + margin */
+    border: 1px solid var(--c-border);
 }
 
 .summary-card h2 {
-    color: var(--accent-color);
+    color: var(--accent);
     margin-top: 0;
     margin-bottom: 1.5rem;
 }
 
 .summary-item {
     margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--c-border);
 }
-.summary-item strong { display: block; color: #ccc; }
+.summary-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.summary-item strong { display: block; color: var(--c-text-muted); }
 .summary-item span { color: var(--text-color); font-size: 1.1rem; }
 
-.summary-footer { margin-top: 2rem; border-top: 1px solid #444; padding-top: 1.5rem; font-size: 0.9rem; color: #ccc; }
+.summary-details-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--c-text);
+}
+
+.summary-footer { margin-top: 2rem; border-top: 1px solid var(--c-border); padding-top: 1.5rem; font-size: 0.9rem; color: var(--c-text-muted); }
 
 @media (max-width: 768px) {
     .quote-main {

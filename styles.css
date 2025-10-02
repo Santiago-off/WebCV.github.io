@@ -130,6 +130,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     gap: 1rem;
 }
 
+.header-right-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 .theme-btn {
     background: none;
     border: none;

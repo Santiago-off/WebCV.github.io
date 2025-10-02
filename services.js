@@ -1,5 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const translations = {
+
+window.serviceTranslations = {
         es: {
             'nav-home': 'Inicio',
             'services-title': 'Mis Servicios',
@@ -16,10 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
             'web-dev-plan1-feat2': '✓ Diseño responsive',
             'web-dev-plan1-details': [
                 'Ideal para presentar un producto, evento o perfil profesional. Una página única y directa.',
-                'Diseño limpio y moderno basado en una estructura predefinida y adaptada a tu marca.',
+                '<strong>Qué incluye:</strong>',
+                '• Diseño limpio y moderno adaptado a tu imagen de marca.',
                 'Optimización para móviles, tablets y ordenadores.',
                 'Formulario de contacto funcional.',
-                'Optimización SEO inicial para mejorar la visibilidad en buscadores.'
+                'Optimización SEO inicial (títulos, metadescripciones, estructura de encabezados) para una mejor visibilidad en buscadores.',
+                'Integración con redes sociales y mapa de ubicación (si es necesario).',
+                '<strong>Proceso:</strong> Entrega en un plazo estimado de 5-7 días laborables.'
             ],
             'web-dev-plan2-title': 'Profesional (Sitio Corporativo)',
             'web-dev-plan2-price': 'Desde 850€',
@@ -28,9 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
             'web-dev-plan2-feat3': '✓ Integración CMS (Opcional)',
             'web-dev-plan2-details': [
                 'Perfecto para empresas y profesionales que necesitan una presencia online completa (Inicio, Sobre nosotros, Servicios, Blog, Contacto).',
+                '<strong>Qué incluye:</strong>',
                 'Diseño 100% a medida para reflejar la identidad única de tu marca.',
                 'Posibilidad de integrar un Sistema de Gestión de Contenidos (como WordPress o uno a medida) para que puedas actualizar el contenido tú mismo.',
-                'Incluye el registro de dominio (.com, .es) y el alojamiento web durante el primer año.'
+                'Galería de imágenes o portfolio para mostrar tus trabajos.',
+                'Integración con Google Analytics para el seguimiento de visitas.',
+                'Incluye el registro de dominio (.com, .es) y el alojamiento web de alto rendimiento durante el primer año.',
+                '<strong>Proceso:</strong> Se incluye una sesión de formación básica para la gestión del contenido si se elige la opción CMS.'
             ],
             'web-dev-plan3-title': 'Premium (Aplicación Web)',
             'web-dev-plan3-price': 'Desde 2,200€',
@@ -38,10 +45,14 @@ document.addEventListener('DOMContentLoaded', () => {
             'web-dev-plan3-feat2': '✓ Diseño UX/UI avanzado',
             'web-dev-plan3-feat3': '✓ Panel de administración a medida',
             'web-dev-plan3-details': [
-                'Para proyectos complejos que requieren lógica de negocio, bases de datos y funcionalidades interactivas (plataformas, SaaS, áreas de clientes).',
+                'Solución completa para proyectos complejos que requieren lógica de negocio, bases de datos y funcionalidades interactivas (plataformas, SaaS, áreas de clientes, etc.).',
+                '<strong>Qué incluye:</strong>',
                 'Proceso completo de diseño de experiencia de usuario (UX) e interfaz de usuario (UI) para garantizar la máxima usabilidad.',
+                'Registro de usuarios, perfiles y roles personalizados.',
                 'Desarrollo de un backend robusto y una base de datos escalable.',
-                'Creación de un panel de control a medida para gestionar todos los aspectos de la aplicación.'
+                'Creación de un panel de control a medida para gestionar todos los aspectos de la aplicación.',
+                'Integración con APIs de terceros y pasarelas de pago (Stripe, PayPal).',
+                '<strong>Proceso:</strong> Desarrollo ágil con entregas periódicas para revisión y feedback.'
             ],
             'web-dev-feat-backend': '✓ Backend y Base de Datos',
             'web-dev-feat-seo': 'SEO Básico',
@@ -52,15 +63,21 @@ document.addEventListener('DOMContentLoaded', () => {
             'ciber-plan1-price': 'Desde 400€',
             'ciber-plan1-details': [
                 'Análisis exhaustivo de tu sitio web o aplicación en busca de vulnerabilidades conocidas y malas configuraciones de seguridad.',
+                '<strong>Qué incluye:</strong>',
+                '• Escaneo automatizado y revisión manual de la configuración del servidor y la aplicación.',
+                '• Análisis de cabeceras de seguridad, políticas de cookies y versiones de software.',
                 'Se entrega un informe detallado con los hallazgos clasificados por nivel de riesgo.',
                 'Ideal para tener una visión clara del estado de seguridad actual de tu proyecto.'
             ],
             'ciber-plan2-title': 'Pentesting Web',
             'ciber-plan2-price': 'Desde 1,100€',
             'ciber-plan2-details': [
-                'Simulación de un ataque real contra tu aplicación web para identificar y explotar vulnerabilidades de forma controlada.',
+                'Simulación de un ataque informático real contra tu aplicación web para identificar y explotar vulnerabilidades de forma controlada.',
+                '<strong>Qué incluye:</strong>',
                 'Se cubren las principales categorías de riesgo, como las del OWASP Top 10 (Inyección SQL, XSS, etc.).',
-                'El informe final incluye no solo los hallazgos, sino también pruebas de concepto y un plan de remediación detallado para solucionar cada problema.'
+                'Análisis de la lógica de negocio para encontrar fallos únicos de la aplicación.',
+                'El informe final incluye no solo los hallazgos, sino también pruebas de concepto (PoC) y un plan de remediación detallado para solucionar cada problema.',
+                '<strong>Proceso:</strong> Incluye una reunión posterior para explicar los hallazgos y discutir las soluciones.'
             ],
             'ciber-feat-scan': '✓ Análisis de vulnerabilidades',
             'ciber-feat-config': '✓ Revisión de configuración',
@@ -73,15 +90,21 @@ document.addEventListener('DOMContentLoaded', () => {
             'cloud-plan1-price': 'Desde 450€',
             'cloud-plan1-details': [
                 'Diseño y despliegue de tu infraestructura en la nube (AWS, Azure) utilizando plantillas de Infraestructura como Código (Terraform, CloudFormation).',
+                '<strong>Qué incluye:</strong>',
                 'Configuración de redes, servidores virtuales, bases de datos y almacenamiento.',
-                'Implementación de un sistema básico de monitorización y alertas para vigilar la salud de la infraestructura.'
+                'Implementación de un sistema básico de monitorización y alertas para vigilar la salud y el consumo de la infraestructura.',
+                'Configuración de políticas de seguridad y grupos de acceso para proteger los recursos.',
+                '<strong>Beneficios:</strong> Infraestructura repetible, versionada y fácil de gestionar.'
             ],
             'cloud-plan2-title': 'Automatización CI/CD',
             'cloud-plan2-price': 'Desde 750€',
             'cloud-plan2-details': [
                 'Creación de pipelines de Integración Continua (CI) y Despliegue Continuo (CD) usando herramientas como GitHub Actions o Jenkins.',
+                '<strong>Qué incluye:</strong>',
                 'Automatiza las pruebas, la construcción y el despliegue de tu aplicación, reduciendo errores y acelerando la entrega de nuevas funcionalidades.',
-                'Configuración de un sistema de monitorización avanzado con dashboards y alertas proactivas.'
+                'Configuración de despliegues por entornos (desarrollo, pre-producción, producción).',
+                'Configuración de un sistema de monitorización avanzado con dashboards y alertas proactivas.',
+                '<strong>Beneficios:</strong> Ciclos de desarrollo más rápidos, mayor calidad del software y despliegues más seguros.'
             ],
             'cloud-feat-infra': '✓ Infraestructura como Código (IaC)',
             'cloud-feat-container': '✓ Gestión de Contenedores (Docker)',
@@ -94,17 +117,21 @@ document.addEventListener('DOMContentLoaded', () => {
             'maintenance-plan1-price': '50€ / mes',
             'maintenance-plan1-details': [
                 'Servicio mensual para mantener tu web segura y actualizada.',
+                '<strong>Qué incluye:</strong>',
                 'Incluye actualizaciones de seguridad del core y plugins.',
                 'Realización de una copia de seguridad completa de tu sitio cada mes.',
-                'Escaneo periódico en busca de malware y vulnerabilidades.'
+                'Escaneo periódico en busca de malware y vulnerabilidades.',
+                'Informe mensual con las acciones realizadas.'
             ],
             'maintenance-plan2-title': 'Avanzado',
             'maintenance-plan2-price': '100€ / mes',
             'maintenance-plan2-details': [
                 'Todo lo incluido en el plan Básico, más:',
+                '<strong>Mejoras clave:</strong>',
                 'Copias de seguridad más frecuentes (semanales) para mayor tranquilidad.',
                 'Monitorización 24/7 del estado de tu web. Si se cae, soy el primero en saberlo y actuar.',
-                'Bolsa de 3 horas mensuales para soporte técnico, pequeñas modificaciones o consultoría.'
+                'Bolsa de 3 horas mensuales para soporte técnico, pequeñas modificaciones o consultoría.',
+                'Optimización de rendimiento básica para mejorar la velocidad de carga.'
             ],
             'maintenance-feat-updates': '✓ Actualizaciones de seguridad',
             'maintenance-plan1-feat-backups': '✓ Copias de seguridad mensuales',
@@ -129,10 +156,13 @@ document.addEventListener('DOMContentLoaded', () => {
             'web-dev-plan1-feat2': '✓ Responsive Design',
             'web-dev-plan1-details': [
                 'Ideal for showcasing a product, event, or professional profile. A single, direct page.',
-                'Clean and modern design based on a predefined structure adapted to your brand.',
+                '<strong>What\'s included:</strong>',
+                '• Clean and modern design adapted to your brand image.',
                 'Optimization for mobile, tablets, and desktops.',
                 'Functional contact form.',
-                'Initial SEO optimization to improve search engine visibility.'
+                'Initial SEO optimization (titles, meta descriptions, header structure) for better search engine visibility.',
+                'Social media integration and location map (if needed).',
+                '<strong>Process:</strong> Delivery within an estimated 5-7 business days.'
             ],
             'web-dev-plan2-title': 'Professional (Corporate Site)',
             'web-dev-plan2-price': 'From €850',
@@ -141,9 +171,13 @@ document.addEventListener('DOMContentLoaded', () => {
             'web-dev-plan2-feat3': '✓ CMS Integration (Optional)',
             'web-dev-plan2-details': [
                 'Perfect for businesses and professionals needing a complete online presence (Home, About, Services, Blog, Contact).',
+                '<strong>What\'s included:</strong>',
                 '100% custom design to reflect your brand\'s unique identity.',
                 'Option to integrate a Content Management System (like WordPress or a custom one) so you can update the content yourself.',
-                'Includes domain registration (.com, .es) and web hosting for the first year.'
+                'Image gallery or portfolio to showcase your work.',
+                'Integration with Google Analytics for visitor tracking.',
+                'Includes domain registration (.com, .es) and high-performance web hosting for the first year.',
+                '<strong>Process:</strong> A basic training session for content management is included if the CMS option is chosen.'
             ],
             'web-dev-plan3-title': 'Premium (Web Application)',
             'web-dev-plan3-price': 'From €2,200',
@@ -151,10 +185,14 @@ document.addEventListener('DOMContentLoaded', () => {
             'web-dev-plan3-feat2': '✓ Advanced UX/UI Design',
             'web-dev-plan3-feat3': '✓ Custom Admin Panel',
             'web-dev-plan3-details': [
-                'For complex projects requiring business logic, databases, and interactive features (platforms, SaaS, client areas).',
+                'Complete solution for complex projects requiring business logic, databases, and interactive features (platforms, SaaS, client areas, etc.).',
+                '<strong>What\'s included:</strong>',
                 'Complete User Experience (UX) and User Interface (UI) design process to ensure maximum usability.',
+                'User registration, profiles, and custom roles.',
                 'Development of a robust backend and a scalable database.',
-                'Creation of a custom control panel to manage all aspects of the application.'
+                'Creation of a custom control panel to manage all aspects of the application.',
+                'Integration with third-party APIs and payment gateways (Stripe, PayPal).',
+                '<strong>Process:</strong> Agile development with periodic deliveries for review and feedback.'
             ],
             'web-dev-feat-backend': '✓ Backend & Database',
             'web-dev-feat-seo': 'Basic SEO',
@@ -165,15 +203,21 @@ document.addEventListener('DOMContentLoaded', () => {
             'ciber-plan1-price': 'From €400',
             'ciber-plan1-details': [
                 'Exhaustive analysis of your website or application for known vulnerabilities and security misconfigurations.',
+                '<strong>What\'s included:</strong>',
+                '• Automated scanning and manual review of server and application configuration.',
+                '• Analysis of security headers, cookie policies, and software versions.',
                 'A detailed report is delivered with findings classified by risk level.',
                 'Ideal for getting a clear picture of your project\'s current security status.'
             ],
             'ciber-plan2-title': 'Web Pentesting',
             'ciber-plan2-price': 'From €1,100',
             'ciber-plan2-details': [
-                'Simulation of a real attack against your web application to identify and exploit vulnerabilities in a controlled manner.',
+                'Simulation of a real cyber attack against your web application to identify and exploit vulnerabilities in a controlled manner.',
+                '<strong>What\'s included:</strong>',
                 'Covers major risk categories, such as the OWASP Top 10 (SQL Injection, XSS, etc.).',
-                'The final report includes not only the findings but also proofs of concept and a detailed remediation plan to fix each issue.'
+                'Analysis of business logic to find application-specific flaws.',
+                'The final report includes not only the findings but also proofs of concept (PoC) and a detailed remediation plan to fix each issue.',
+                '<strong>Process:</strong> Includes a follow-up meeting to explain the findings and discuss solutions.'
             ],
             'ciber-feat-scan': '✓ Vulnerability scanning',
             'ciber-feat-config': '✓ Configuration review',
@@ -186,15 +230,21 @@ document.addEventListener('DOMContentLoaded', () => {
             'cloud-plan1-price': 'From €450',
             'cloud-plan1-details': [
                 'Design and deployment of your cloud infrastructure (AWS, Azure) using Infrastructure as Code (IaC) templates (Terraform, CloudFormation).',
+                '<strong>What\'s included:</strong>',
                 'Configuration of networks, virtual servers, databases, and storage.',
-                'Implementation of a basic monitoring and alert system to watch over the infrastructure\'s health.'
+                'Implementation of a basic monitoring and alert system to watch over the infrastructure\'s health and consumption.',
+                'Setup of security policies and access groups to protect resources.',
+                '<strong>Benefits:</strong> Repeatable, versioned, and easy-to-manage infrastructure.'
             ],
             'cloud-plan2-title': 'CI/CD Automation',
             'cloud-plan2-price': 'From €750',
             'cloud-plan2-details': [
                 'Creation of Continuous Integration (CI) and Continuous Deployment (CD) pipelines using tools like GitHub Actions or Jenkins.',
+                '<strong>What\'s included:</strong>',
                 'Automates testing, building, and deploying your application, reducing errors and speeding up the delivery of new features.',
-                'Setup of an advanced monitoring system with dashboards and proactive alerts.'
+                'Configuration of deployments by environment (development, staging, production).',
+                'Setup of an advanced monitoring system with dashboards and proactive alerts.',
+                '<strong>Benefits:</strong> Faster development cycles, higher software quality, and safer deployments.'
             ],
             'cloud-feat-infra': '✓ Infrastructure as Code (IaC)',
             'cloud-feat-container': '✓ Container Management (Docker)',
@@ -207,17 +257,21 @@ document.addEventListener('DOMContentLoaded', () => {
             'maintenance-plan1-price': '€50 / month',
             'maintenance-plan1-details': [
                 'Monthly service to keep your website secure and up-to-date.',
+                '<strong>What\'s included:</strong>',
                 'Includes core and plugin security updates.',
                 'Performs a full backup of your site every month.',
-                'Periodic scanning for malware and vulnerabilities.'
+                'Periodic scanning for malware and vulnerabilities.',
+                'Monthly report with actions taken.'
             ],
             'maintenance-plan2-title': 'Advanced',
             'maintenance-plan2-price': '€100 / month',
             'maintenance-plan2-details': [
                 'Everything in the Basic plan, plus:',
+                '<strong>Key improvements:</strong>',
                 'More frequent backups (weekly) for greater peace of mind.',
                 '24/7 uptime monitoring. If your site goes down, I\'m the first to know and act.',
-                'A bucket of 3 hours per month for technical support, minor changes, or consulting.'
+                'A bucket of 3 hours per month for technical support, minor changes, or consulting.',
+                'Basic performance optimization to improve loading speed.'
             ],
             'maintenance-feat-updates': '✓ Security Updates',
             'maintenance-plan1-feat-backups': '✓ Monthly Backups',
@@ -235,6 +289,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalBody = document.getElementById('modal-body');
     const modalClose = document.getElementById('modal-close');
 
+document.addEventListener('DOMContentLoaded', () => {
+
     function setLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('language', lang);
@@ -242,8 +298,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.querySelectorAll('[data-translate]').forEach(el => {
             const key = el.dataset.translate;
-            if (translations[lang][key]) {
-                el.textContent = translations[lang][key];
+            if (window.serviceTranslations[lang][key]) {
+                el.textContent = window.serviceTranslations[lang][key];
             }
         });
 
@@ -324,11 +380,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function openModal(service, plan) {
-        const titleKey = `${service.replace('-', '_')}-plan${plan.slice(-1)}-title`;
-        const detailsKey = `${service.replace('-', '_')}-plan${plan.slice(-1)}-details`;
+        // Mapeo de los nombres de planes a los números de los identificadores en el objeto de traducciones.
+        const planMap = {
+            'basic': '1',
+            'professional': '2',
+            'premium': '3',
+            'audit': '1',
+            'pentesting': '2',
+            'deploy': '1',
+            'automation': '2',
+            'advanced': '2'
+        };
+
+        // Para el plan de mantenimiento 'basic', el número es '1'.
+        if (service === 'maintenance' && plan === 'basic') {
+            planMap['basic'] = '1';
+        }
+
+        const planNumber = planMap[plan];
+
+        // Si no encontramos un número de plan, no podemos continuar.
+        if (!planNumber) {
+            modalBody.innerHTML = `<p>Error: Plan '${plan}' no reconocido.</p>`;
+            modal.classList.add('active');
+            return;
+        }
+
+        // Corregir la clave para 'cyber' que en las traducciones es 'ciber'
+        const serviceKey = service === 'cyber' ? 'ciber' : service;
+        const titleKey = `${serviceKey}-plan${planNumber}-title`;
+        const detailsKey = `${serviceKey}-plan${planNumber}-details`;
         
-        const planTitle = translations[currentLang][titleKey] || 'Detalles del Plan';
-        const planDetails = translations[currentLang][detailsKey] || ['No hay detalles disponibles.'];
+        const planTitle = window.serviceTranslations[currentLang][titleKey] || 'Detalles del Plan';
+        const planDetails = window.serviceTranslations[currentLang][detailsKey] || [`No hay detalles disponibles para ${plan}.`];
 
         modalTitle.textContent = planTitle;
         modalBody.innerHTML = planDetails.map(p => `<p>${p}</p>`).join('');
@@ -400,3 +484,28 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.addEventListener('click', (e) => e.target === modal && closeModal());
     setup3dTiltEffect();
 });
+
+// Restaurar animación del cursor (movido fuera del DOMContentLoaded para asegurar ejecución)
+const cursor = document.querySelector('.custom-cursor');
+if (cursor) {
+    document.addEventListener('mousemove', e => {
+        cursor.style.top = e.clientY + 'px';
+        cursor.style.left = e.clientX + 'px';
+    });
+
+    // Retrasamos la asignación de eventos de hover para asegurar que todos los elementos estén en el DOM
+    setTimeout(() => {
+        document.querySelectorAll('a, button, input, textarea').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.width = '40px';
+                cursor.style.height = '40px';
+                cursor.style.backgroundColor = 'rgba(0, 173, 181, 0.5)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.width = '20px';
+                cursor.style.height = '20px';
+                cursor.style.backgroundColor = 'transparent';
+            });
+        });
+    }, 100);
+}
