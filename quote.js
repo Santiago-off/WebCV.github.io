@@ -1,12 +1,15 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-import { firebaseConfig } from './firebase-config.js';
-function initializeQuotePage() {
+import { auth, db } from './firebase-init.js'; // Importamos los servicios ya inicializados
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, getRedirectResult } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+
+
+document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const service = params.get('service');
     const plan = params.get('plan');
     let currentLang = localStorage.getItem('language') || 'es';
-    let vantaEffect = null;
+    let vantaEffect = null; // Mover vantaEffect aquí
+    let currentUser = null;
 
     const translations = {
         es: {
@@ -15,7 +18,9 @@ function initializeQuotePage() {
             'form-label-name': 'Nombre Completo', 'form-label-email': 'Correo Electrónico',
             'payment-method-title': 'Método de Pago Preferido',
             'payment-method-note': 'Esto no es un pago real. Es para saber tu preferencia y agilizar el proceso.',
-            'payment-transfer': 'Transferencia Bancaria', 'payment-paypal': 'PayPal', 'payment-other': 'Otro / A discutir',
+            'payment-transfer': 'Transferencia Bancaria',
+            'payment-paypal': 'PayPal',
+            'payment-other': 'Otro / A discutir',
             'notes-title': 'Notas Adicionales', 'notes-placeholder': '¿Algún detalle específico que debamos saber?',
             'submit-quote-btn': 'Enviar Solicitud', 'summary-title': 'Resumen del Pedido', 'summary-details': 'Detalles del Plan',
             'loading-summary': 'Cargando...', 'summary-footer-note': 'Recibirás una respuesta con el presupuesto detallado y los siguientes pasos en menos de 24 horas.',
@@ -28,7 +33,9 @@ function initializeQuotePage() {
             'form-label-name': 'Full Name', 'form-label-email': 'Email Address',
             'payment-method-title': 'Preferred Payment Method',
             'payment-method-note': 'This is not a real payment. It is to know your preference and speed up the process.',
-            'payment-transfer': 'Bank Transfer', 'payment-paypal': 'PayPal', 'payment-other': 'Other / To be discussed',
+            'payment-transfer': 'Bank Transfer',
+            'payment-paypal': 'PayPal',
+            'payment-other': 'Other / To be discussed',
             'notes-title': 'Additional Notes', 'notes-placeholder': 'Any specific details we should know?',
             'submit-quote-btn': 'Send Request', 'summary-title': 'Order Summary', 'summary-details': 'Plan Details',
             'loading-summary': 'Loading...', 'summary-footer-note': 'You will receive a response with a detailed quote and the next steps in less than 24 hours.',
@@ -130,10 +137,6 @@ function initializeQuotePage() {
         }
     }
 
-    // Inicializar Firebase y Firestore
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
     const cursor = document.querySelector('.custom-cursor');
     if (cursor) {
         document.addEventListener('mousemove', e => {
@@ -161,9 +164,15 @@ function initializeQuotePage() {
         const formStatus = document.getElementById('form-status');
         const submitButton = quoteForm.querySelector('.btn-submit');
 
+        if (!currentUser) {
+            formStatus.textContent = translations[currentLang]['error-signin-required'];
+            formStatus.style.color = '#ff6b6b';
+            return;
+        }
+
         const newQuote = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
+            name: currentUser.displayName, email: currentUser.email,
+            uid: currentUser.uid,
             paymentMethod: document.querySelector('input[name="payment"]:checked').value,
             message: document.getElementById('message').value,
             service: (window.serviceTranslations && window.serviceTranslations[currentLang][`${service === 'cyber' ? 'ciber' : service}-title`]) || service,
@@ -175,15 +184,10 @@ function initializeQuotePage() {
                 plan === 'pentesting' ? '2' : 
                 plan === 'deploy' ? '1' : 
                 plan === 'automation' ? '2' : '2'}-title`]) || plan,
-            date: new Date().toISOString(),
+            timestamp: serverTimestamp(), // Usar serverTimestamp para consistencia
+            date: new Date().toLocaleString('es-ES'), // Añadir formato legible como respaldo
             lang: currentLang
         };
-
-        if (!newQuote.name || !newQuote.email) {
-            formStatus.textContent = translations[currentLang]['error-msg'];
-            formStatus.style.color = '#ff6b6b';
-            return;
-        }
 
         submitButton.disabled = true;
 
@@ -202,6 +206,61 @@ function initializeQuotePage() {
                 submitButton.disabled = false;
             });
     });
+
+    function handleSignIn() {
+        const provider = new GoogleAuthProvider();
+        const statusElem = document.getElementById('login-wall-status');
+        if (statusElem) {
+            statusElem.textContent = 'Redirigiendo a Google...';
+        }
+        // Inicia el proceso de redirección. No necesita un .catch aquí.
+        signInWithPopup(auth, provider);
+    }
+
+    function updateUIForUser(user) {
+        const loginWall = document.getElementById('login-wall');
+        const mainContent = document.getElementById('main-content');
+
+        if (user) {
+            loginWall.style.display = 'none';
+            mainContent.style.visibility = 'visible';
+            mainContent.style.opacity = 1;
+            document.getElementById('user-info-display-quote').textContent = `${user.displayName} (${user.email})`;
+            const userInfoDisplay = document.getElementById('user-info-display-quote');
+            if (userInfoDisplay) {
+                userInfoDisplay.textContent = `${user.displayName} (${user.email})`;
+            }
+        } else {
+            loginWall.style.display = 'flex';
+            mainContent.style.visibility = 'hidden';
+            mainContent.style.opacity = 0;
+        }
+    }
+
+    // --- Lógica de Autenticación Principal ---
+    const wallStatus = document.getElementById('login-wall-status');
+    if (wallStatus) wallStatus.textContent = 'Verificando sesión...';
+
+    // Primero, intenta obtener el resultado de la redirección.
+    getRedirectResult(auth)
+        .then((result) => {
+            if (result && result.user) {
+                // El usuario acaba de iniciar sesión. onAuthStateChanged se activará.
+                if (wallStatus) wallStatus.textContent = '¡Sesión iniciada!';
+            } else {
+                // No venimos de una redirección, así que comprobamos el estado actual.
+                onAuthStateChanged(auth, (user) => {
+                    currentUser = user;
+                    updateUIForUser(user);
+                    if (!user && wallStatus) wallStatus.textContent = ''; // Limpiar mensaje si no hay usuario
+                });
+            }
+        }).catch((error) => {
+            console.error("Error durante el resultado de la redirección de Google: ", error);
+            if (wallStatus) wallStatus.textContent = 'Error al verificar la cuenta. Inténtalo de nuevo.';
+        });
+
+    document.getElementById('google-signin-btn-wall').addEventListener('click', handleSignIn);
 
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
@@ -226,12 +285,4 @@ function initializeQuotePage() {
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
     });
-}
-
-// Esperamos a que tanto el DOM como el script de services.js (que define window.serviceTranslations) se hayan cargado.
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeQuotePage);
-} else {
-    // El DOM ya está listo, solo ejecutamos.
-    initializeQuotePage();
-}
+});

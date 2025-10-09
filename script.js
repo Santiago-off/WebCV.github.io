@@ -1,6 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-import { firebaseConfig } from './firebase-config.js';
+import { auth, db } from './firebase-init.js'; // Importamos los servicios ya inicializados
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, getRedirectResult } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const siteSettings = JSON.parse(localStorage.getItem('siteSettings')) || {};
@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'form-placeholder-name': 'Tu Nombre', 'form-placeholder-email': 'Tu Correo Electrónico', 'form-placeholder-message': 'Tu Mensaje',
                 'form-send-button': 'Enviar Mensaje',
                 'project-link': 'Ver en GitHub →',
-                'services-button': 'Ver todos los servicios →'
+                'services-button': 'Ver todos los servicios →',
+                'form-signin-button': 'Iniciar sesión con Google para enviar'
             },
             en: {
                 'nav-about': 'About Me', 'nav-services': 'Services', 'nav-experience': 'Experience', 'nav-projects': 'Projects', 'nav-contact': 'Contact', 'title-about': 'About Me', 'title-services': 'My Services', 'title-experience': 'Work Experience', 'title-education': 'Education & Training', 'title-languages': 'Language Skills', 'title-projects': 'Featured Projects', 'title-testimonials': 'What They Say', 'title-contact': 'Contact',
@@ -35,7 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'form-placeholder-name': 'Your Name', 'form-placeholder-email': 'Your Email', 'form-placeholder-message': 'Your Message',
                 'form-send-button': 'Send Message',
                 'project-link': 'View on GitHub →',
-                'services-button': 'View all services →'
+                'services-button': 'View all services →',
+                'form-signin-button': 'Sign in with Google to send'
             }
         },
         content: {
@@ -194,6 +196,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (ui[key]) el.placeholder = ui[key];
         });
 
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (ui[key]) el.textContent = ui[key];
+        });
+
+
         const socialContainer = document.querySelector('.social-links');
         if (socialContainer) {
             socialContainer.innerHTML = `
@@ -344,34 +352,90 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(section);
     });
 
-    // Inicializar Firebase y Firestore
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
+    // Configuración de autenticación con Google y formulario de contacto
     const contactForm = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
-    const submitButton = contactForm.querySelector('.btn-submit');
+    const googleSignInBtn = document.getElementById('google-signin-btn');
+    const loginRequired = document.getElementById('login-required');
+    const userInfoContact = document.getElementById('user-info-contact');
+    let currentUser = null;
+
+    // Comprobar el estado de autenticación al cargar la página
+    onAuthStateChanged(auth, (user) => {
+        currentUser = user;
+        if (user) {
+            // Usuario autenticado
+            if (contactForm) contactForm.style.display = 'block';
+            if (loginRequired) loginRequired.style.display = 'none';
+            if (userInfoContact) userInfoContact.textContent = user.email;
+        } else {
+            // Usuario no autenticado
+            if (contactForm) contactForm.style.display = 'none';
+            if (loginRequired) loginRequired.style.display = 'block';
+            if (userInfoContact) userInfoContact.textContent = 'No autenticado';
+        }
+    });
+
+    // Configurar el botón de inicio de sesión con Google
+     if (googleSignInBtn) {
+         googleSignInBtn.addEventListener('click', async () => {
+             try {
+                 const provider = new GoogleAuthProvider();
+                 await signInWithPopup(auth, provider);
+                 // No es necesario hacer nada más aquí, el listener onAuthStateChanged se encargará de actualizar la UI
+             } catch (error) {
+                 console.error("Error al iniciar sesión con Google:", error);
+                 
+                 let errorMessage = '';
+                 // Mensajes de error específicos según el código de error
+                 if (error.code === 'auth/operation-not-allowed') {
+                     errorMessage = currentLanguage === 'es' ? 
+                         'El inicio de sesión con Google no está habilitado en Firebase. Contacta al administrador.' : 
+                         'Google sign-in is not enabled in Firebase. Contact the administrator.';
+                 } else if (error.code === 'auth/popup-closed-by-user') {
+                     errorMessage = currentLanguage === 'es' ? 
+                         'Has cerrado la ventana de inicio de sesión. Inténtalo de nuevo.' : 
+                         'You closed the sign-in window. Please try again.';
+                 } else if (error.code === 'auth/cancelled-popup-request') {
+                     // Este error es común y no necesita alerta
+                     return;
+                 } else if (error.code === 'auth/popup-blocked') {
+                     errorMessage = currentLanguage === 'es' ? 
+                         'El navegador ha bloqueado la ventana emergente. Permite ventanas emergentes e inténtalo de nuevo.' : 
+                         'The browser blocked the popup. Allow popups and try again.';
+                 } else {
+                     errorMessage = currentLanguage === 'es' ? 
+                         'Error al iniciar sesión con Google: ' + error.message : 
+                         'Error signing in with Google: ' + error.message;
+                 }
+                 
+                 if (errorMessage) {
+                     alert(errorMessage);
+                 }
+             }
+         });
+     }
 
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const message = document.getElementById('message').value.trim();
-
-        if (!name || !email || !message) {
-            formStatus.textContent = 'Por favor, completa todos los campos.';
+        if (!currentUser) {
+            formStatus.textContent = 'Error: No se ha detectado un usuario. Por favor, recarga la página.';
             formStatus.style.color = '#ff6b6b';
             return;
         }
 
+        const message = document.getElementById('message').value.trim();
+        const submitButton = contactForm.querySelector('.btn-submit');
         submitButton.disabled = true;
         submitButton.textContent = 'Enviando...';
 
         const newMessage = {
-            name,
-            email,
+            name: currentUser.displayName,
+            email: currentUser.email,
+            uid: currentUser.uid,
             message,
-            date: new Date().toISOString()
+            timestamp: serverTimestamp(),
+            date: new Date().toLocaleString('es-ES') // Añadimos un campo date legible como respaldo
         };
 
         // Guardar en Firestore en lugar de localStorage
@@ -394,6 +458,60 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 5000);
             });
     });
+
+    function handleSignIn() {
+        const provider = new GoogleAuthProvider();
+        const statusElem = document.getElementById('login-wall-status');
+        if (statusElem) {
+            statusElem.textContent = 'Redirigiendo a Google...';
+        }
+        // Inicia el proceso de autenticación con popup en lugar de redirección
+        signInWithPopup(auth, provider);
+    }
+
+    function updateUIForUser(user) {
+        const loginWall = document.getElementById('login-wall');
+        const mainContent = document.getElementById('main-content');
+
+        if (user) {
+            loginWall.style.display = 'none';
+            mainContent.style.visibility = 'visible';
+            mainContent.style.opacity = 1;
+            const userInfoContact = document.getElementById('user-info-contact');
+            if (userInfoContact) {
+                userInfoContact.textContent = `${user.displayName} (${user.email})`;
+            }
+        } else {
+            loginWall.style.display = 'flex';
+            mainContent.style.visibility = 'hidden';
+            mainContent.style.opacity = 0;
+        }
+    }
+
+    // --- Lógica de Autenticación Principal ---
+    const wallStatus = document.getElementById('login-wall-status');
+    if (wallStatus) wallStatus.textContent = 'Verificando sesión...';
+
+    // Primero, intenta obtener el resultado de la redirección.
+    getRedirectResult(auth)
+        .then((result) => {
+            if (result && result.user) {
+                // El usuario acaba de iniciar sesión. onAuthStateChanged se activará.
+                if (wallStatus) wallStatus.textContent = '¡Sesión iniciada!';
+            } else {
+                // No venimos de una redirección, así que comprobamos el estado actual.
+                onAuthStateChanged(auth, (user) => {
+                    currentUser = user;
+                    updateUIForUser(user);
+                    if (!user && wallStatus) wallStatus.textContent = ''; // Limpiar mensaje si no hay usuario
+                });
+            }
+        }).catch((error) => {
+            console.error("Error durante el resultado de la redirección de Google: ", error);
+            if (wallStatus) wallStatus.textContent = 'Error al verificar la cuenta. Inténtalo de nuevo.';
+        });
+
+    document.getElementById('google-signin-btn-wall').addEventListener('click', handleSignIn);
 
     const preferredTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     setTheme(preferredTheme);

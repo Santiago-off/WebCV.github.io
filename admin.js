@@ -7,9 +7,24 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// Lista de UUIDs autorizados para acceder al panel de administración
+const authorizedUIDs = [
+    'hldarKhx2wUSXsV5AV9h7XgX8Wi2',
+    'Eqya6AUi0ahVGCi5CPhfcR0TWCg1'
+];
+
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        main();
+        // Verificar si el usuario está autorizado
+        if (authorizedUIDs.includes(user.uid)) {
+            main();
+        } else {
+            // Si no está autorizado, cerrar sesión y redirigir al login
+            alert('No tienes autorización para acceder al panel de administración.');
+            signOut(auth).then(() => {
+                window.location.href = 'login.html';
+            });
+        }
     } else {
         window.location.href = 'login.html';
     }
@@ -301,7 +316,12 @@ function handleFormSubmit(e) {
     localStorage.setItem('portfolioContent', JSON.stringify(newData));
 
     setTimeout(() => {
-        statusDiv.textContent = '¡Cambios guardados con éxito!';
+        const successMessage = '¡Cambios guardados con éxito!';
+        // Proporciona un enlace útil si se está ejecutando en un servidor local
+        const localDevLink = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
+            ? `<br><a href="${window.location.origin}/index.html" target="_blank" style="color: var(--accent-color);">Ver la página principal</a>`
+            : '';
+        statusDiv.innerHTML = successMessage + localDevLink;
         statusDiv.style.color = 'var(--accent-color)';
         saveButton.disabled = false;
         setTimeout(() => statusDiv.textContent = '', 5000);
@@ -312,23 +332,299 @@ async function loadMessagesTab() {
     const container = document.getElementById('messages-container');
     container.innerHTML = '<p>Cargando mensajes...</p>';
     try {
-        const q = query(collection(db, "messages"), orderBy("date", "desc"));
-        const querySnapshot = await getDocs(q);
-        const messages = querySnapshot.docs.map(doc => doc.data());
+        console.log("Intentando cargar mensajes...");
+        
+        // Añadir controles para mensajes
+        let messagesHTML = `
+            <div class="messages-controls">
+                <button id="mark-all-read" class="admin-button">Marcar todos como leídos</button>
+            </div>
+        `;
+        
+        // Buscar en todas las colecciones posibles donde podrían estar los mensajes
+        const colecciones = ["messages", "contactMessages", "contactos", "mensajes", "formularios"];
+        let mensajesEncontrados = false;
+        let allMessages = [];
+        
+        for (const nombreColeccion of colecciones) {
+            try {
+                console.log(`Buscando mensajes en colección: ${nombreColeccion}`);
+                const coleccionRef = collection(db, nombreColeccion);
+                // Intentar ordenar por timestamp si existe
+                let q;
+                try {
+                    q = query(coleccionRef, orderBy("timestamp", "desc"));
+                    const snapshot = await getDocs(q);
+                    console.log(`Colección ${nombreColeccion} (ordenada): ${snapshot.size} documentos encontrados`);
+                    
+                    if (!snapshot.empty) {
+                        snapshot.forEach((doc) => {
+                            const data = doc.data();
+                            if (data) {
+                                allMessages.push({
+                                    ...data,
+                                    id: doc.id,
+                                    collection: nombreColeccion
+                                });
+                                mensajesEncontrados = true;
+                            }
+                        });
+                    }
+                } catch (orderErr) {
+                    console.warn(`No se pudo ordenar la colección ${nombreColeccion}:`, orderErr);
+                    // Si no se puede ordenar, obtener sin ordenar
+                    const snapshot = await getDocs(coleccionRef);
+                    console.log(`Colección ${nombreColeccion} (sin ordenar): ${snapshot.size} documentos encontrados`);
+                    
+                    if (!snapshot.empty) {
+                        snapshot.forEach((doc) => {
+                            const data = doc.data();
+                            if (data) {
+                                allMessages.push({
+                                    ...data,
+                                    id: doc.id,
+                                    collection: nombreColeccion
+                                });
+                                mensajesEncontrados = true;
+                            }
+                        });
+                    }
+                }
+            } catch (err) {
+                console.warn(`Error al buscar en colección ${nombreColeccion}:`, err);
+            }
+        }
+        
+        if (!mensajesEncontrados) {
+            console.warn("No se encontraron mensajes en ninguna colección");
+            container.innerHTML = '<p>No se han recibido mensajes. Verifica la estructura de la base de datos.</p>';
+            return;
+        }
+        
+        console.log("Total de mensajes encontrados:", allMessages.length);
 
-        container.innerHTML = (messages.length === 0)
-            ? '<p>No se han recibido mensajes.</p>'
-            : messages.map(msg => `
-                <div class="message-item">
-                    <h4>De: ${msg.name} (${msg.email})</h4>
-                    <p><strong>Fecha:</strong> ${new Date(msg.date).toLocaleString()}</p>
-                    <p><strong>Mensaje:</strong></p>
-                    <p>${msg.message.replace(/\n/g, '<br>')}</p>
-                </div>
-            `).join('');
+        if (allMessages.length === 0) {
+            container.innerHTML = '<p>No se han recibido mensajes. Verifica la estructura de la base de datos.</p>';
+            console.log("No hay mensajes para mostrar");
+        } else {
+            // Ordenar mensajes por fecha (más recientes primero)
+            allMessages.sort((a, b) => {
+                // Extraer timestamps para comparación
+                const getTimestamp = (msg) => {
+                    if (!msg.timestamp) return 0;
+                    
+                    if (typeof msg.timestamp.toDate === 'function') {
+                        return msg.timestamp.toDate().getTime();
+                    } else if (typeof msg.timestamp === 'object' && msg.timestamp.seconds !== undefined) {
+                        return msg.timestamp.seconds * 1000;
+                    } else if (typeof msg.timestamp === 'string') {
+                        if (msg.timestamp.startsWith("Timestamp(")) {
+                            const match = msg.timestamp.match(/seconds=(\d+)/);
+                            if (match && match[1]) {
+                                return parseInt(match[1]) * 1000;
+                            }
+                        } else {
+                            const date = new Date(msg.timestamp);
+                            if (!isNaN(date.getTime())) {
+                                return date.getTime();
+                            }
+                        }
+                    }
+                    return 0;
+                };
+                
+                return getTimestamp(b) - getTimestamp(a); // Orden descendente (más recientes primero)
+            });
+            
+            // Inicializar messagesHTML con los controles para mensajes
+            let messagesHTML = '<div class="messages-controls"><button id="mark-all-read" class="admin-button">Marcar todos como leídos</button></div>';
+            
+            // Procesar cada mensaje individualmente para evitar que un mensaje mal formateado rompa todo el renderizado
+            
+            // Procesar cada mensaje individualmente para evitar que un mensaje mal formateado rompa todo el renderizado
+            for (const msg of allMessages) {
+                try {
+                    // Manejar diferentes formatos de fecha
+                     let dateString = 'Fecha no disponible';
+                     let timestamp = 0;
+                     
+                     if (msg.timestamp) {
+                         console.log("Procesando timestamp:", msg.timestamp);
+                         if (typeof msg.timestamp.toDate === 'function') {
+                             // Firebase Timestamp
+                             dateString = msg.timestamp.toDate().toLocaleString('es-ES');
+                             timestamp = msg.timestamp.toDate().getTime();
+                             console.log("Timestamp convertido con toDate():", dateString);
+                         } else if (typeof msg.timestamp === 'object' && msg.timestamp.seconds !== undefined) {
+                             // Timestamp en formato objeto {seconds, nanoseconds}
+                             try {
+                                 const date = new Date(msg.timestamp.seconds * 1000);
+                                 dateString = date.toLocaleString('es-ES');
+                                 timestamp = date.getTime();
+                                 console.log("Timestamp convertido desde seconds:", dateString);
+                             } catch (err) {
+                                 console.warn("Error al convertir timestamp desde seconds:", err);
+                                 // Formatear manualmente el objeto Timestamp para que sea legible
+                                 dateString = `${new Date(msg.timestamp.seconds * 1000).toLocaleString('es-ES')}`;
+                                 timestamp = msg.timestamp.seconds * 1000;
+                             }
+                         } else if (typeof msg.timestamp === 'string') {
+                             // String de fecha ISO
+                             if (msg.timestamp.startsWith("Timestamp(")) {
+                                 // Es un string que representa un objeto Timestamp
+                                 console.log("Detectado string de Timestamp:", msg.timestamp);
+                                 // Extraer seconds del formato "Timestamp(seconds=1759757247, nanoseconds=856000000)"
+                                 const match = msg.timestamp.match(/seconds=(\d+)/);
+                                 if (match && match[1]) {
+                                     const seconds = parseInt(match[1]);
+                                     const date = new Date(seconds * 1000);
+                                     dateString = date.toLocaleString('es-ES');
+                                     timestamp = date.getTime();
+                                     console.log("Timestamp extraído de string:", dateString);
+                                 } else {
+                                     dateString = "Fecha en formato incorrecto";
+                                 }
+                             } else {
+                                 const date = new Date(msg.timestamp);
+                                 if (!isNaN(date.getTime())) {
+                                     dateString = date.toLocaleString('es-ES');
+                                 }
+                             }
+                         } else if (typeof msg.timestamp === 'number') {
+                             // Timestamp numérico
+                             const date = new Date(msg.timestamp);
+                             if (!isNaN(date.getTime())) {
+                                 dateString = date.toLocaleString('es-ES');
+                             }
+                         }
+                     } else if (msg.date) {
+                         // Alternativa: campo date
+                         console.log("Procesando campo date:", msg.date);
+                         
+                         if (typeof msg.date === 'string') {
+                             if (msg.date.startsWith("Timestamp(")) {
+                                 // Es un string que representa un objeto Timestamp
+                                 console.log("Detectado string de Timestamp en date:", msg.date);
+                                 // Extraer seconds del formato "Timestamp(seconds=1759757247, nanoseconds=856000000)"
+                                 const match = msg.date.match(/seconds=(\d+)/);
+                                 if (match && match[1]) {
+                                     const seconds = parseInt(match[1]);
+                                     const date = new Date(seconds * 1000);
+                                     dateString = date.toLocaleString('es-ES');
+                                     console.log("Timestamp extraído de string en date:", dateString);
+                                 } else {
+                                     dateString = "Fecha en formato incorrecto";
+                                 }
+                             } else if (msg.date.includes('de ') && (msg.date.includes('p.m.') || msg.date.includes('a.m.'))) {
+                                 // Usar directamente el string formateado en español
+                                 dateString = msg.date;
+                                 console.log("Usando formato de fecha español directamente:", dateString);
+                             } else {
+                                 // Intentar parsear como fecha ISO
+                                 const date = new Date(msg.date);
+                                 if (!isNaN(date.getTime())) {
+                                     dateString = date.toLocaleString('es-ES');
+                                     console.log("Fecha parseada correctamente:", dateString);
+                                 } else {
+                                     console.warn("No se pudo parsear la fecha:", msg.date);
+                                     dateString = msg.date; // Usar el valor original como fallback
+                                 }
+                             }
+                         }
+                     } else if (msg.createdAt) {
+                         // Alternativa: campo createdAt
+                         if (typeof msg.createdAt.toDate === 'function') {
+                             dateString = msg.createdAt.toDate().toLocaleString('es-ES');
+                         } else {
+                             const date = new Date(msg.createdAt);
+                             if (!isNaN(date.getTime())) {
+                                 dateString = date.toLocaleString('es-ES');
+                             }
+                         }
+                     }
+
+                    // Extraer información del remitente con múltiples alternativas
+                    const userName = msg.userName || msg.name || msg.sender || msg.from || 'Usuario desconocido';
+                    const userEmail = msg.userEmail || msg.email || msg.senderEmail || 'Email no disponible';
+                    const userUid = msg.userUid || msg.uid || msg.userId || 'No disponible';
+                    
+                    // Extraer el contenido del mensaje
+                    let messageContent = 'Sin contenido';
+                    if (msg.message) {
+                        messageContent = msg.message.replace(/\n/g, '<br>');
+                    } else if (msg.content) {
+                        messageContent = msg.content.replace(/\n/g, '<br>');
+                    } else if (msg.text) {
+                        messageContent = msg.text.replace(/\n/g, '<br>');
+                    }
+
+                    // Crear HTML para este mensaje con clase unread por defecto
+                    messagesHTML += `
+                        <div class="message-item message-card unread">
+                            <h4>De: ${userName} (${userEmail})</h4>
+                            <p><strong>Fecha:</strong> ${dateString}</p>
+                            <p><strong>UID:</strong> ${userUid}</p>
+                            <p><strong>Mensaje:</strong></p>
+                            <p>${messageContent}</p>
+                            <div class="message-actions">
+                                <button class="admin-button small toggle-read-btn">Marcar como leído</button>
+                            </div>
+                        </div>
+                    `;
+                } catch (msgError) {
+                    console.error("Error procesando mensaje individual:", msgError, msg);
+                    messagesHTML += `
+                        <div class="message-item error">
+                            <h4>Error al procesar mensaje</h4>
+                            <p>ID: ${msg.id || 'No disponible'}</p>
+                            <p>Error: ${msgError.message}</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            container.innerHTML = messagesHTML;
+            console.log("Mensajes renderizados en el contenedor");
+            
+            // Añadir event listeners para los botones de leído/no leído
+            document.querySelectorAll('.toggle-read-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const messageCard = this.closest('.message-card');
+                    const isCurrentlyRead = messageCard.classList.contains('read');
+                    
+                    // Cambiar la clase y el texto del botón
+                    if (isCurrentlyRead) {
+                        messageCard.classList.remove('read');
+                        messageCard.classList.add('unread');
+                        this.textContent = 'Marcar como leído';
+                    } else {
+                        messageCard.classList.remove('unread');
+                        messageCard.classList.add('read');
+                        this.textContent = 'Marcar como no leído';
+                    }
+                });
+            });
+            
+            // Añadir event listener para el botón de marcar todos como leídos
+            const markAllReadBtn = document.getElementById('mark-all-read');
+            if (markAllReadBtn) {
+                markAllReadBtn.addEventListener('click', function() {
+                    document.querySelectorAll('.message-card.unread').forEach(card => {
+                        card.classList.remove('unread');
+                        card.classList.add('read');
+                        const btn = card.querySelector('.toggle-read-btn');
+                        if (btn) btn.textContent = 'Marcar como no leído';
+                    });
+                });
+            }
+        }
     } catch (error) {
         console.error("Error cargando mensajes: ", error);
-        container.innerHTML = '<p>Error al cargar los mensajes.</p>';
+        container.innerHTML = `
+            <p>Error al cargar los mensajes: ${error.message}</p>
+            <p>Detalles: ${error.stack || 'No disponible'}</p>
+            <p>Intenta revisar la consola para más información.</p>
+        `;
     }
 }
 
@@ -336,25 +632,245 @@ async function loadQuotesTab() {
     const container = document.getElementById('quotes-container');
     container.innerHTML = '<p>Cargando presupuestos...</p>';
     try {
-        const q = query(collection(db, "quotes"), orderBy("date", "desc"));
-        const querySnapshot = await getDocs(q);
-        const quotes = querySnapshot.docs.map(doc => doc.data());
+        // Añadir controles para presupuestos
+        let quotesHTML = `
+            <div class="messages-controls">
+                <button id="mark-all-quotes-read" class="admin-button">Marcar todos como leídos</button>
+            </div>
+        `;
+        console.log("Intentando cargar presupuestos...");
+        
+        // Buscar en todas las colecciones posibles donde podrían estar los presupuestos
+        const colecciones = ["quotes", "presupuestos", "cotizaciones", "solicitudes"];
+        let presupuestosEncontrados = false;
+        let querySnapshot;
+        
+        for (const nombreColeccion of colecciones) {
+            try {
+                console.log(`Buscando presupuestos en colección: ${nombreColeccion}`);
+                const coleccionRef = collection(db, nombreColeccion);
+                const snapshot = await getDocs(coleccionRef);
+                
+                console.log(`Colección ${nombreColeccion}: ${snapshot.size} documentos encontrados`);
+                
+                if (!snapshot.empty) {
+                    querySnapshot = snapshot;
+                    presupuestosEncontrados = true;
+                    console.log(`Presupuestos encontrados en colección: ${nombreColeccion}`);
+                    // No salimos del bucle para combinar presupuestos de todas las colecciones
+                }
+            } catch (err) {
+                console.warn(`Error al buscar en colección ${nombreColeccion}:`, err);
+            }
+        }
+        
+        if (!presupuestosEncontrados) {
+            console.warn("No se encontraron presupuestos en ninguna colección");
+            querySnapshot = await getDocs(collection(db, "quotes")); // Colección por defecto
+        }
+        
+        const quotes = [];
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            console.log("Documento encontrado:", doc.id, data);
+            
+            // Verificar que el documento tenga datos válidos
+            if (data) {
+                quotes.push({
+                    ...data,
+                    id: doc.id
+                });
+            } else {
+                console.warn("Documento sin datos:", doc.id);
+            }
+        });
+        
+        console.log("Total de presupuestos encontrados:", quotes.length);
 
-        container.innerHTML = (quotes.length === 0)
-            ? '<p>No se han recibido solicitudes de presupuesto.</p>'
-            : quotes.map(quote => `
-                <div class="message-item">
-                    <h4>De: ${quote.name} (<a href="mailto:${quote.email}">${quote.email}</a>)</h4>
-                    <span>${new Date(quote.date).toLocaleString()}</span>
-                    <p><strong>Servicio:</strong> ${quote.service}</p>
-                    <p><strong>Plan:</strong> ${quote.plan} (${quote.price})</p>
-                    <p><strong>Método de Pago:</strong> ${quote.paymentMethod}</p>
-                    <p><strong>Notas:</strong> ${quote.message ? quote.message.replace(/\n/g, '<br>') : '<em>Sin notas.</em>'}</p>
-                </div>
-            `).join('');
+        if (quotes.length === 0) {
+            container.innerHTML = '<p>No se han recibido solicitudes de presupuesto.</p>';
+            console.log("No hay presupuestos para mostrar");
+        } else {
+            let quotesHTML = '';
+            
+            // Procesar cada presupuesto individualmente para evitar que uno mal formateado rompa todo el renderizado
+            for (const quote of quotes) {
+                try {
+                    // Manejar diferentes formatos de fecha
+                    let dateString = 'Fecha no disponible';
+                    if (quote.timestamp) {
+                        console.log("Procesando timestamp:", quote.timestamp);
+                        if (typeof quote.timestamp.toDate === 'function') {
+                            // Firebase Timestamp
+                            dateString = quote.timestamp.toDate().toLocaleString('es-ES');
+                            console.log("Timestamp convertido con toDate():", dateString);
+                        } else if (typeof quote.timestamp === 'object' && quote.timestamp.seconds !== undefined) {
+                            // Timestamp en formato objeto {seconds, nanoseconds}
+                            try {
+                                const date = new Date(quote.timestamp.seconds * 1000);
+                                dateString = date.toLocaleString('es-ES');
+                                console.log("Timestamp convertido desde seconds:", dateString);
+                            } catch (err) {
+                                console.warn("Error al convertir timestamp desde seconds:", err);
+                                // Formatear manualmente el objeto Timestamp para que sea legible
+                                dateString = `${new Date(quote.timestamp.seconds * 1000).toLocaleString('es-ES')}`;
+                            }
+                        } else if (typeof quote.timestamp === 'string') {
+                            // String de fecha ISO
+                            if (quote.timestamp.startsWith("Timestamp(")) {
+                                // Es un string que representa un objeto Timestamp
+                                console.log("Detectado string de Timestamp:", quote.timestamp);
+                                // Extraer seconds del formato "Timestamp(seconds=1759757247, nanoseconds=856000000)"
+                                const match = quote.timestamp.match(/seconds=(\d+)/);
+                                if (match && match[1]) {
+                                    const seconds = parseInt(match[1]);
+                                    const date = new Date(seconds * 1000);
+                                    dateString = date.toLocaleString('es-ES');
+                                    console.log("Timestamp extraído de string:", dateString);
+                                } else {
+                                    dateString = "Fecha en formato incorrecto";
+                                }
+                            } else {
+                                const date = new Date(quote.timestamp);
+                                if (!isNaN(date.getTime())) {
+                                    dateString = date.toLocaleString('es-ES');
+                                }
+                            }
+                        } else if (typeof quote.timestamp === 'number') {
+                            // Timestamp numérico
+                            const date = new Date(quote.timestamp);
+                            if (!isNaN(date.getTime())) {
+                                dateString = date.toLocaleString('es-ES');
+                            }
+                        }
+                    } else if (quote.date) {
+                        // Alternativa: campo date
+                        console.log("Procesando campo date:", quote.date);
+                        
+                        if (typeof quote.date === 'string') {
+                            if (quote.date.startsWith("Timestamp(")) {
+                                // Es un string que representa un objeto Timestamp
+                                console.log("Detectado string de Timestamp en date:", quote.date);
+                                // Extraer seconds del formato "Timestamp(seconds=1759757247, nanoseconds=856000000)"
+                                const match = quote.date.match(/seconds=(\d+)/);
+                                if (match && match[1]) {
+                                    const seconds = parseInt(match[1]);
+                                    const date = new Date(seconds * 1000);
+                                    dateString = date.toLocaleString('es-ES');
+                                    console.log("Timestamp extraído de string en date:", dateString);
+                                } else {
+                                    dateString = "Fecha en formato incorrecto";
+                                }
+                            } else if (quote.date.includes('de ') && (quote.date.includes('p.m.') || quote.date.includes('a.m.'))) {
+                                // Usar directamente el string formateado en español
+                                dateString = quote.date;
+                                console.log("Usando formato de fecha español directamente:", dateString);
+                            } else {
+                                // Intentar parsear como fecha ISO
+                                const date = new Date(quote.date);
+                                if (!isNaN(date.getTime())) {
+                                    dateString = date.toLocaleString('es-ES');
+                                    console.log("Fecha parseada correctamente:", dateString);
+                                } else {
+                                    console.warn("No se pudo parsear la fecha:", quote.date);
+                                    dateString = quote.date; // Usar el valor original como fallback
+                                }
+                            }
+                        }
+                    } else if (quote.createdAt) {
+                        // Alternativa: campo createdAt
+                        if (typeof quote.createdAt.toDate === 'function') {
+                            dateString = quote.createdAt.toDate().toLocaleString('es-ES');
+                        } else {
+                            const date = new Date(quote.createdAt);
+                            if (!isNaN(date.getTime())) {
+                                dateString = date.toLocaleString('es-ES');
+                            }
+                        }
+                    }
+
+                    // Extraer información del remitente con múltiples alternativas
+                    const userName = quote.name || quote.userName || quote.sender || quote.from || 'Usuario desconocido';
+                    const userEmail = quote.email || quote.userEmail || quote.senderEmail || 'Email no disponible';
+                    const userPhone = quote.phone || quote.telefono || quote.tel || quote.phoneNumber || 'No proporcionado';
+                    const serviceType = quote.service || quote.servicio || quote.tipo || quote.serviceType || 'No especificado';
+                    
+                    // Extraer el contenido del mensaje
+                    let messageContent = 'Sin contenido';
+                    if (quote.message) {
+                        messageContent = quote.message.replace(/\n/g, '<br>');
+                    } else if (quote.content) {
+                        messageContent = quote.content.replace(/\n/g, '<br>');
+                    } else if (quote.text) {
+                        messageContent = quote.text.replace(/\n/g, '<br>');
+                    } else if (quote.descripcion) {
+                        messageContent = quote.descripcion.replace(/\n/g, '<br>');
+                    }
+
+                    // Crear HTML para este presupuesto con clase unread por defecto
+                    quotesHTML += `
+                        <div class="quote-item message-card unread">
+                            <h4>De: ${userName} (${userEmail})</h4>
+                            <p><strong>Fecha:</strong> ${dateString}</p>
+                            <p><strong>Teléfono:</strong> ${userPhone}</p>
+                            <p><strong>Servicio:</strong> ${serviceType}</p>
+                            <p><strong>Mensaje:</strong></p>
+                            <p>${messageContent}</p>
+                            <div class="message-actions">
+                                <button class="admin-button small toggle-read-btn">Marcar como leído</button>
+                            </div>
+                        </div>
+                    `;
+                } catch (quoteError) {
+                    console.error("Error procesando presupuesto individual:", quoteError, quote);
+                    quotesHTML += `
+                        <div class="quote-item error">
+                            <h4>Error al procesar presupuesto</h4>
+                            <p>ID: ${quote.id || 'No disponible'}</p>
+                            <p>Error: ${quoteError.message}</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            container.innerHTML = quotesHTML;
+            console.log("Presupuestos renderizados en el contenedor");
+            
+            // Añadir event listeners para los botones de leído/no leído
+            document.querySelectorAll('.quote-item .toggle-read-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const quoteCard = this.closest('.message-card');
+                    const isCurrentlyRead = quoteCard.classList.contains('read');
+                    
+                    // Cambiar la clase y el texto del botón
+                    if (isCurrentlyRead) {
+                        quoteCard.classList.remove('read');
+                        quoteCard.classList.add('unread');
+                        this.textContent = 'Marcar como leído';
+                    } else {
+                        quoteCard.classList.remove('unread');
+                        quoteCard.classList.add('read');
+                        this.textContent = 'Marcar como no leído';
+                    }
+                });
+            });
+            
+            // Añadir event listener para el botón de marcar todos como leídos
+            const markAllReadBtn = document.getElementById('mark-all-quotes-read');
+            if (markAllReadBtn) {
+                markAllReadBtn.addEventListener('click', function() {
+                    document.querySelectorAll('.quote-item.unread').forEach(card => {
+                        card.classList.remove('unread');
+                        card.classList.add('read');
+                        const btn = card.querySelector('.toggle-read-btn');
+                        if (btn) btn.textContent = 'Marcar como no leído';
+                    });
+                });
+            }
+        }
     } catch (error) {
         console.error("Error cargando presupuestos: ", error);
-        container.innerHTML = '<p>Error al cargar los presupuestos.</p>';
+        container.innerHTML = `<p>Error al cargar los presupuestos: ${error.message}</p>`;
     }
 }
 

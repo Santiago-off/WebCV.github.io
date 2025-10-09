@@ -14,79 +14,88 @@
 
     <div class="custom-cursor"></div>
 
-    <header class="header">
-        <div class="logo">
-            <img src="logo.svg" alt="Logo SF" class="logo-img">
-            <span data-editable="header-name">Santiago Fernandez</span>
+    <div id="login-wall" class="login-wall">
+        <div class="login-box">
+            <img src="logo.svg" alt="Logo SF" class="login-logo">
+            <h2 data-translate="login-wall-title">Acceso Requerido</h2>
+            <p data-translate="login-wall-desc-quote">Para solicitar un presupuesto, por favor, inicia sesión con tu cuenta de Google.</p>
+            <button type="button" id="google-signin-btn-wall" class="btn-google">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo">
+                <span data-translate="login-wall-button">Iniciar sesión con Google</span>
+            </button>
+            <p id="login-wall-status"></p>
         </div>
-        <nav class="nav">
-            <a href="index.html" data-translate="nav-home">Inicio</a>
-            <a href="services.html" data-translate="nav-services">Servicios</a>
-        </nav>
-        <div class="header-right-group">
-            <div class="lang-switcher">
-                <button data-lang="es" class="lang-btn active">ES</button>
-                <span>|</span>
-                <button data-lang="en" class="lang-btn">EN</button>
+    </div>
+
+    <div id="main-content" style="visibility: hidden;">
+        <header class="header">
+            <div class="logo">
+                <img src="logo.svg" alt="Logo SF" class="logo-img">
+                <span data-editable="header-name">Santiago Fernandez</span>
             </div>
-        </div>
-    </header>
-
-    <main class="quote-main">
-        <h1 data-translate="quote-main-title">Finalizar Solicitud de Presupuesto</h1>
-        <div class="quote-container">
-            <div class="quote-form-section">
-                <form id="quote-form">
-                    <h2 data-translate="contact-details-title">Tus Datos de Contacto</h2>
-                    <div class="form-group">
-                        <label for="name" data-translate="form-label-name">Nombre Completo</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email" data-translate="form-label-email">Correo Electrónico</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-
-                    <h2 data-translate="payment-method-title">Método de Pago Preferido</h2>
-                    <p class="form-note" data-translate="payment-method-note">
-                        Esto no es un pago real. Es para saber tu preferencia y agilizar el proceso.
-                    </p>
-                    <div class="form-group-radio">
-                        <label><input type="radio" name="payment" value="transfer" checked> <span data-translate="payment-transfer">Transferencia Bancaria</span></label>
-                        <label><input type="radio" name="payment" value="paypal"> <span data-translate="payment-paypal">PayPal</span></label>
-                        <label><input type="radio" name="payment" value="other"> <span data-translate="payment-other">Otro / A discutir</span></label>
-                    </div>
-
-                    <h2 data-translate="notes-title">Notas Adicionales</h2>
-                    <div class="form-group">
-                        <textarea id="message" name="message" rows="4" data-translate-placeholder="notes-placeholder"></textarea>
-                    </div>
-
-                    <button type="submit" class="btn-submit" data-translate="submit-quote-btn">Enviar Solicitud</button>
-                    <div id="form-status"></div>
-                </form>
+            <nav class="nav">
+                <a href="index.html" data-translate="nav-home">Inicio</a>
+                <a href="services.html" data-translate="nav-services">Servicios</a>
+            </nav>
+            <div class="header-right-group">
+                <div class="lang-switcher">
+                    <button data-lang="es" class="lang-btn active">ES</button>
+                    <span>|</span>
+                    <button data-lang="en" class="lang-btn">EN</button>
+                </div>
             </div>
+        </header>
 
-            <div class="quote-summary-section">
-                <div class="summary-card">
-                    <h2 data-translate="summary-title">Resumen del Pedido</h2>
-                    <div id="summary-content">
-                        <p data-translate="loading-summary">Cargando...</p>
-                    </div>
-                    <div class="summary-footer">
-                        <p data-translate="summary-footer-note">Recibirás una respuesta con el presupuesto detallado y los siguientes pasos en menos de 24 horas.</p>
+        <main class="quote-main">
+            <h1 data-translate="quote-main-title">Finalizar Solicitud de Presupuesto</h1>
+            <div class="quote-container">
+                <div class="quote-form-section">
+                    <form id="quote-form">
+                        <h2 data-translate="contact-details-title">Tus Datos de Contacto</h2>
+                        <p class="user-info-display">Conectado como: <strong id="user-info-display-quote"></strong></p>
+
+                        <h2 data-translate="payment-method-title">Método de Pago Preferido</h2>
+                        <p class="form-note" data-translate="payment-method-note">
+                            Esto no es un pago real. Es para saber tu preferencia y agilizar el proceso.
+                        </p>
+                        <div class="form-group-radio">
+                            <label><input type="radio" name="payment" value="transfer" checked> <span data-translate="payment-transfer">Transferencia Bancaria</span></label>
+                            <label><input type="radio" name="payment" value="paypal"> <span data-translate="payment-paypal">PayPal</span></label>
+                            <label><input type="radio" name="payment" value="other"> <span data-translate="payment-other">Otro / A discutir</span></label>
+                        </div>
+
+                        <h2 data-translate="notes-title">Notas Adicionales</h2>
+                        <div class="form-group">
+                            <textarea id="message" name="message" rows="4" data-translate-placeholder="notes-placeholder"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-submit" data-translate="submit-quote-btn">Enviar Solicitud</button>
+                        <div id="form-status"></div>
+                    </form>
+                </div>
+
+                <div class="quote-summary-section">
+                    <div class="summary-card">
+                        <h2 data-translate="summary-title">Resumen del Pedido</h2>
+                        <div id="summary-content">
+                            <p data-translate="loading-summary">Cargando...</p>
+                        </div>
+                        <div class="summary-footer">
+                            <p data-translate="summary-footer-note">Recibirás una respuesta con el presupuesto detallado y los siguientes pasos en menos de 24 horas.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
 
-    <footer class="footer">
-        <p>&copy; <span id="current-year"></span> Santiago Fernandez. Todos los derechos reservados.</p>
-    </footer>
+        <footer class="footer">
+            <p>&copy; <span id="current-year"></span> Santiago Fernandez. Todos los derechos reservados.</p>
+        </footer>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+    <script type="module" src="firebase-init.js"></script>
     <script src="services.js"></script>
     <script type="module" src="quote.js"></script>
 </body>
