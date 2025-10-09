@@ -883,6 +883,7 @@ function loadInfoTab() {
                             <p><strong>Fecha:</strong> ${date}</p>
                             <p><strong>IP:</strong> ${visit.ip || 'N/A'}</p>
                             <p><strong>Navegador:</strong> ${visit.browser || 'N/A'}</p>
+                            <p><strong>SO:</strong> ${visit.os || 'N/A'}</p>
                             <p><strong>Dispositivo:</strong> ${visit.device || 'N/A'}</p>
                         </div>
                     `;
