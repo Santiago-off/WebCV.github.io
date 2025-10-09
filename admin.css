@@ -323,12 +323,17 @@ input:checked + .slider:before { transform: translateX(26px); }
 .admin-tab-link:hover { background-color: #4a515c; }
 .admin-tab-link.active { background-color: var(--accent-color); color: var(--dark-bg); font-weight: bold; }
 .admin-tab-content { 
-    display: none; 
-    animation: fadeIn 0.5s;
+    display: none;
 }
-.admin-tab-content.active { display: block; }
+.admin-tab-content.active { 
+    display: block; 
+    animation: fadeIn 0.5s ease-in-out;
+}
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(10px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
 
 /* Info Container */
 #info-container .message-item {

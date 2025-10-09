@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import { firebaseConfig } from "./firebase-config.js";
 
 const app = initializeApp(firebaseConfig);
@@ -640,41 +640,16 @@ async function loadQuotesTab() {
         `;
         console.log("Intentando cargar presupuestos...");
         
-        // Buscar en todas las colecciones posibles donde podrían estar los presupuestos
-        const colecciones = ["quotes", "presupuestos", "cotizaciones", "solicitudes"];
-        let presupuestosEncontrados = false;
-        let querySnapshot;
-        
-        for (const nombreColeccion of colecciones) {
-            try {
-                console.log(`Buscando presupuestos en colección: ${nombreColeccion}`);
-                const coleccionRef = collection(db, nombreColeccion);
-                const snapshot = await getDocs(coleccionRef);
-                
-                console.log(`Colección ${nombreColeccion}: ${snapshot.size} documentos encontrados`);
-                
-                if (!snapshot.empty) {
-                    querySnapshot = snapshot;
-                    presupuestosEncontrados = true;
-                    console.log(`Presupuestos encontrados en colección: ${nombreColeccion}`);
-                    // No salimos del bucle para combinar presupuestos de todas las colecciones
-                }
-            } catch (err) {
-                console.warn(`Error al buscar en colección ${nombreColeccion}:`, err);
-            }
-        }
-        
-        if (!presupuestosEncontrados) {
-            console.warn("No se encontraron presupuestos en ninguna colección");
-            querySnapshot = await getDocs(collection(db, "quotes")); // Colección por defecto
-        }
+        // Obtener presupuestos ordenados directamente desde Firestore
+        const quotesRef = collection(db, "quotes");
+        const q = query(quotesRef, orderBy("timestamp", "desc"));
+        const querySnapshot = await getDocs(q);
         
         const quotes = [];
         querySnapshot.forEach((doc) => {
             const data = doc.data();
             console.log("Documento encontrado:", doc.id, data);
             
-            // Verificar que el documento tenga datos válidos
             if (data) {
                 quotes.push({
                     ...data,
@@ -691,8 +666,6 @@ async function loadQuotesTab() {
             container.innerHTML = '<p>No se han recibido solicitudes de presupuesto.</p>';
             console.log("No hay presupuestos para mostrar");
         } else {
-            let quotesHTML = '';
-            
             // Procesar cada presupuesto individualmente para evitar que uno mal formateado rompa todo el renderizado
             for (const quote of quotes) {
                 try {
@@ -877,12 +850,60 @@ async function loadQuotesTab() {
 function loadInfoTab() {
     const container = document.getElementById('info-container');
     const visits = localStorage.getItem('visitCounter') || 0;
-    container.innerHTML = `
-        <div class="message-item">
-            <h3>Visitas Totales</h3>
-            <p style="font-size: 2rem; font-weight: bold;">${visits}</p>
-        </div>
-    `;
+    container.innerHTML = `<p>Cargando información de visitas...</p>`;
+
+    const loadVisits = async () => {
+        try {
+            const visitsRef = collection(db, "visits");
+            const q = query(visitsRef, orderBy("timestamp", "desc"), limit(100)); // Obtener las últimas 100 visitas
+            const querySnapshot = await getDocs(q);
+
+            let visitsHTML = `
+                <div class="message-item">
+                    <h3>Visitas Totales (Contador Local)</h3>
+                    <p style="font-size: 2rem; font-weight: bold;">${visits}</p>
+                </div>
+                <h2>Últimas Visitas Registradas</h2>
+            `;
+
+            if (querySnapshot.empty) {
+                visitsHTML += '<p>No hay visitas registradas en la base de datos.</p>';
+            } else {
+                visitsHTML += '<div class="visits-grid">';
+                querySnapshot.forEach(doc => {
+                    const visit = doc.data();
+                    const date = visit.timestamp?.toDate ? visit.timestamp.toDate().toLocaleString('es-ES') : 'N/A';
+                    const userInfo = visit.userEmail 
+                        ? `<p><strong>Usuario:</strong> ${visit.userName || 'N/A'} (${visit.userEmail})</p>`
+                        : '<p><strong>Usuario:</strong> Anónimo</p>';
+
+                    visitsHTML += `
+                        <div class="message-item">
+                            ${userInfo}
+                            <p><strong>Fecha:</strong> ${date}</p>
+                            <p><strong>IP:</strong> ${visit.ip || 'N/A'}</p>
+                            <p><strong>Navegador:</strong> ${visit.browser || 'N/A'}</p>
+                            <p><strong>Dispositivo:</strong> ${visit.device || 'N/A'}</p>
+                        </div>
+                    `;
+                });
+                visitsHTML += '</div>';
+            }
+            container.innerHTML = visitsHTML;
+
+        } catch (error) {
+            console.error("Error cargando visitas: ", error);
+            container.innerHTML = `
+                <div class="message-item">
+                    <h3>Visitas Totales (Contador Local)</h3>
+                    <p style="font-size: 2rem; font-weight: bold;">${visits}</p>
+                </div>
+                <p style="color: red;">Error al cargar las visitas desde la base de datos.</p>
+            `;
+        }
+    };
+
+    loadVisits();
 }
 
 function loadConfigTab() {

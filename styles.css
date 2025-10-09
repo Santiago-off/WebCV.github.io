@@ -36,7 +36,7 @@ body {
     background-color: var(--c-bg);
     color: var(--c-text);
     line-height: 1.6;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 a, button {
@@ -60,7 +60,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     top: 0;
     pointer-events: none;
     transform: translate(-50%, -50%);
-    transition: width 0.2s, height 0.2s, background-color 0.2s;
+    transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
     z-index: 9999;
 }
 
@@ -76,7 +76,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     padding: 1rem 5%;
     background-color: color-mix(in srgb, var(--c-bg) 80%, transparent);
     backdrop-filter: blur(10px);
-    z-index: 1000;
+    z-index: 1000;    
     transition: top 0.3s;
 }
 
@@ -99,7 +99,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     margin: 0 1rem;
     font-weight: 500;
     position: relative;
-    transition: color 0.3s;
+    transition: color 0.3s ease;
 }
 
 .nav a::after {
@@ -111,8 +111,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     left: 50%;
     transform: translateX(-50%) scaleX(0);
     transform-origin: center;
-    background-color: var(--accent);
-    transition: width 0.3s;
+    background-color: var(--accent);    
     transition: transform 0.3s ease-out;
 }
 
@@ -121,6 +120,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 .nav a:hover::after {
+    width: 100%;
     transform: translateX(-50%) scaleX(1);
 }
 
@@ -169,7 +169,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     border: none;
     color: var(--c-text);
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: bold;    
     opacity: 0.6;
     transition: opacity 0.2s;
 }
@@ -177,7 +177,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* --- Secciones Principales --- */
 main {
-    padding-top: 80px; /* Espacio para el header fijo */
+    padding-top: 80px; /* Espacio para el header fijo */    
 }
 
 .hero {
@@ -280,6 +280,11 @@ main {
 	0% { background-position: 0% 50%; }
 	50% { background-position: 100% 50%; }
 	100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeInPage {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Botón de llamada a la acción (Call to Action) */
@@ -721,4 +726,15 @@ main {
     .testimonial-card {
         width: 80vw;
     }
+}
+
+/* Estilos para el panel de admin */
+.visits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.visits-grid .message-item {
+    font-size: 0.9rem;
 }
