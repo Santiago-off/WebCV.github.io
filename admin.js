@@ -1,8 +1,11 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { getFirestore, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-import { auth, db } from "./firebase-init.js"; // Importamos los servicios ya inicializados
+import { firebaseConfig } from "./firebase-config.js";
 
-// No es necesario inicializar app, auth, db aquí, ya vienen de firebase-init.js
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 // Lista de UUIDs autorizados para acceder al panel de administración
 const authorizedUIDs = [

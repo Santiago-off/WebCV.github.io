@@ -1,6 +1,8 @@
-import { auth, db } from './firebase-init.js'; // Importamos los servicios ya inicializados
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, getRedirectResult } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, getRedirectResult } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { firebaseConfig } from "./firebase-config.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const siteSettings = JSON.parse(localStorage.getItem('siteSettings')) || {};
@@ -18,6 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         return;
     }
+
+    // Inicializamos Firebase aquí
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
     const initialTranslations = {
         ui: {
