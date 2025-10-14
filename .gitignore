@@ -1,0 +1,8 @@
+# Ignorar dependencias de Node
+node_modules/
+
+# Ignorar archivos de configuración sensibles
+firebase-config.js
+
+# Ignorar archivos de entorno
+.env

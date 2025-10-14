@@ -1,5 +1,6 @@
 // Este archivo contiene la configuración de tu proyecto de Firebase.
-// Es importado por login.js y admin.js para conectar con los servicios de Firebase.
+// Este archivo NO debe ser subido a GitHub. Está ignorado a través de .gitignore.
+// Contiene las claves reales de tu proyecto de Firebase.
 
 export const firebaseConfig = {
   apiKey: "AIzaSyD_zLhYz4fJaqA93EEcAy5rTj03x3rpOYg",
