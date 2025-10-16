@@ -1,13 +1,23 @@
-// Este archivo contiene la configuración de tu proyecto de Firebase.
-// Este archivo NO debe ser subido a GitHub. Está ignorado a través de .gitignore.
-// Contiene las claves reales de tu proyecto de Firebase.
+// Este archivo carga la configuración de Firebase desde variables de entorno
+// o utiliza valores de ejemplo para desarrollo local.
+// Las credenciales reales deben estar en el archivo .env que NO se sube a GitHub.
+
+// Función para cargar variables de entorno o usar valores por defecto
+function getEnvVariable(name, defaultValue = '') {
+  // Intenta obtener la variable del objeto window.env (que se cargará desde .env)
+  if (window.env && window.env[name]) {
+    return window.env[name];
+  }
+  // Si no está disponible, usa el valor por defecto
+  return defaultValue;
+}
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyD_zLhYz4fJaqA93EEcAy5rTj03x3rpOYg",
-  authDomain: "aplicacion-85493.firebaseapp.com",
-  projectId: "aplicacion-85493",
-  storageBucket: "aplicacion-85493.firebasestorage.app",
-  messagingSenderId: "978332522962",
-  appId: "1:978332522962:web:c2fd2710dad09b77d6900b",
-  measurementId: "G-64WYRVRDKS"
+  apiKey: getEnvVariable('FIREBASE_API_KEY'),
+  authDomain: getEnvVariable('FIREBASE_AUTH_DOMAIN'),
+  projectId: getEnvVariable('FIREBASE_PROJECT_ID'),
+  storageBucket: getEnvVariable('FIREBASE_STORAGE_BUCKET'),
+  messagingSenderId: getEnvVariable('FIREBASE_MESSAGING_SENDER_ID'),
+  appId: getEnvVariable('FIREBASE_APP_ID'),
+  measurementId: getEnvVariable('FIREBASE_MEASUREMENT_ID')
 };
