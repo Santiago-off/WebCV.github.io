@@ -200,6 +200,114 @@ main {
     z-index: -1;
 }
 
+/* --- Tarjeta Compartible de Perfil --- */
+.share-card {
+    margin: 2rem auto 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(145deg, color-mix(in srgb, var(--c-bg) 78%, transparent), color-mix(in srgb, var(--accent) 8%, transparent));
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--c-border);
+    border-radius: 14px;
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--accent) 18%, transparent);
+    max-width: 680px;
+    position: relative;
+    overflow: hidden;
+    flex-direction: column;
+    text-align: center;
+}
+
+.share-card::after {
+    content: '';
+    position: absolute;
+    top: -60%; left: -20%;
+    width: 200%; height: 160%;
+    background: radial-gradient(ellipse at center, color-mix(in srgb, var(--accent) 14%, transparent), transparent 60%);
+    opacity: 0.12;
+    transform: rotate(12deg);
+    pointer-events: none;
+}
+
+.share-card:hover { box-shadow: 0 12px 34px color-mix(in srgb, var(--accent) 24%, transparent); }
+
+.share-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 26%, transparent);
+}
+
+.share-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.share-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.share-role {
+    font-size: 0.95rem;
+    color: var(--c-text-muted);
+}
+
+.share-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+}
+
+.share-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.6rem;
+    border: 1px dashed var(--c-border);
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--c-text);
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+    white-space: nowrap;
+}
+.share-link:hover { border-color: var(--accent); transform: translateY(-1px); }
+.share-link.instagram:hover { color: #E1306C; }
+.share-link.github:hover { color: #2ea043; }
+.share-link.email:hover { color: var(--accent); }
+.share-link.web:hover { color: var(--accent); }
+
+.share-link.instagram::before { content: '📸'; }
+.share-link.github::before { content: '💻'; }
+.share-link.email::before { content: '✉️'; }
+.share-link.web::before { content: '🌐'; }
+
+.btn-copy {
+    align-self: center;
+    margin-top: 0.25rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.5rem 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 6px 16px var(--accent-glow);
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+.btn-copy:hover { transform: translateY(-1px); box-shadow: 0 8px 18px var(--accent-glow); }
+.btn-copy:active { transform: translateY(0); }
+.btn-copy::before { content: '📋'; margin-right: 0.4rem; }
+
+@media (max-width: 640px) {
+    /* Ya está centrado por defecto; mantenemos ajustes mínimos en móvil */
+}
+
 .hero-content h1 {
     font-size: 3.5rem;
     margin-bottom: 1rem;

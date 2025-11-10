@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'contact-location': '28939 Arroyomolinos, España',
                 'footer-text': 'Santiago Fernandez. Todos los derechos reservados.',
                 'github-link': 'https://github.com/Santiago-off',
+                'instagram-link': 'https://www.instagram.com/santiagorfer',
                 'linkedin-link': 'https://www.linkedin.com/in/tu-usuario/',
                 'experience-list': [
                     { title: 'Realizando tareas de Programador', company: 'Armonia (18/03/2025 – 16/06/2025) Salerno, Italia', description: '' },
@@ -105,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'contact-location': '28939 Arroyomolinos, Spain',
                 'footer-text': 'Santiago Fernandez. All rights reserved.',
                 'github-link': 'https://github.com/Santiago-off',
+                'instagram-link': 'https://www.instagram.com/santiagorfer',
                 'linkedin-link': 'https://www.linkedin.com/in/tu-usuario/',
                 'experience-list': [
                     { title: 'Performing Programmer tasks', company: 'Armonia (Mar 2025 – Jun 2025) Salerno, Italy', description: '' },
@@ -197,6 +199,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const key = el.dataset.key;
             if (ui[key]) el.textContent = ui[key];
         });
+
+        // Actualiza el enlace de Instagram en el footer, si existe
+        const footerInsta = document.getElementById('footer-instagram');
+        if (footerInsta && content['instagram-link']) {
+            footerInsta.href = content['instagram-link'];
+        }
 
         document.querySelectorAll('[data-key-placeholder]').forEach(el => {
             const key = el.dataset.keyPlaceholder;
@@ -578,6 +586,28 @@ document.addEventListener('DOMContentLoaded', () => {
     updateVisitCounter();
 
     setLanguage(currentLang);
+
+    // Copiar la tarjeta al portapapeles
+    const copyBtn = document.getElementById('share-card-copy');
+    if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            const content = allTranslations.content[currentLang];
+            const name = document.querySelector('.share-name')?.textContent?.trim() || content['header-name'] || 'Santiago Fernandez';
+            const insta = document.querySelector('.share-link.instagram')?.href || content['instagram-link'] || 'https://www.instagram.com/santiagorfer';
+            const github = document.querySelector('.share-link.github')?.href || content['github-link'] || '';
+            const email = document.querySelector('.share-link.email')?.textContent?.trim() || content['contact-email'] || '';
+            const canonical = document.querySelector('link[rel="canonical"]')?.href || window.location.href;
+
+            const text = `${name} — Perfil\nInstagram: ${insta}\nGitHub: ${github}\nEmail: ${email}\nWeb: ${canonical}`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                copyBtn.textContent = 'Copiado ✓';
+                setTimeout(() => copyBtn.textContent = 'Copiar tarjeta', 2000);
+            }).catch(() => {
+                alert('Copia fallida. Copia manual:\n\n' + text);
+            });
+        });
+    }
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
