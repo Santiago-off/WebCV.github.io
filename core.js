@@ -8,14 +8,12 @@
     } catch(e){}
     return location.origin
   })()
-  var firebaseLoaded = !!window.firebase
-  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;s.crossOrigin='anonymous';document.head.appendChild(s)})}
   function ensureFirebase(){
-    if(firebaseLoaded) return Promise.resolve()
     return Promise.resolve()
-      .then(function(){return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js')})
-      .then(function(){return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js')})
-      .then(function(){return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js')})
+      .then(function(){return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js')})
+      .then(function(){return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js')})
+      .then(function(){return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js')})
   }
   function initApp(){
     var config={
@@ -26,8 +24,8 @@
       messagingSenderId:"1025406460370",
       appId:"1:1025406460370:web:b0e8f55f96d0b84097280b"
     }
-    if(!window.firebase.apps.length) window.firebase.initializeApp(config)
-    return { auth: window.firebase.auth(), db: window.firebase.firestore() }
+    var app = window.firebase.initializeApp(config)
+    return { auth: window.firebase.getAuth(app), db: window.firebase.getFirestore(app) }
   }
   function siteIdFromDomain(domain){return domain.replace(/[^a-z0-9]+/gi,'-').replace(/^-+|-+$/g,'').toLowerCase()}
   function createBar(user,domain,version){
@@ -51,7 +49,7 @@
     btn.style.border='none'
     btn.style.padding='4px 8px'
     btn.style.borderRadius='6px'
-    btn.onclick=function(){window.open('https://'+location.host.replace(/^www\./,''),'_blank')}
+    btn.onclick=function(){window.open(PANEL_ORIGIN,'_blank')}
     bar.appendChild(btn)
     document.body.appendChild(bar)
   }
@@ -76,11 +74,11 @@
     var {auth,db}=initApp()
     var domain=location.hostname
     var siteId=siteIdFromDomain(domain)
-    auth.onAuthStateChanged(function(u){if(u) createBar(u,domain,CORE_VERSION)})
-    db.collection('globalConfig').doc('default').onSnapshot(function(s){var d=s.exists? s.data() : {};if(d){if(d.maintenanceMode){document.body.innerHTML=''};injectHTML(d.defaultHTMLInjections||[]);injectCSS(d.defaultCSSInjections||[]);injectJS(d.defaultJSInjections||[]);if(d.darkMode) applyDarkMode(true)}})
-    db.collection('sites').where('domain','==',domain).limit(1).onSnapshot(function(s){})
+    window.firebase.onAuthStateChanged(auth,function(u){if(u) createBar(u,domain,CORE_VERSION)})
+    window.firebase.onSnapshot(window.firebase.doc(db,'globalConfig','default'),function(s){var d=s.exists? s.data() : {};if(d){if(d.maintenanceMode){document.body.innerHTML=''};injectHTML(d.defaultHTMLInjections||[]);injectCSS(d.defaultCSSInjections||[]);injectJS(d.defaultJSInjections||[]);if(d.darkMode) applyDarkMode(true)}})
+    window.firebase.onSnapshot(window.firebase.query(window.firebase.collection(db,'sites'), window.firebase.where('domain','==',domain), window.firebase.limit(1)),function(s){})
     heartbeat(domain); setInterval(function(){heartbeat(domain)},30000)
-    db.collection('commands').where('executed','==',false).onSnapshot(function(s){s.forEach(function(d){var c=d.data();if(!c.siteId||c.siteId===domain){handleCommand(c);ackCommand(d.id)}})})
+    window.firebase.onSnapshot(window.firebase.query(window.firebase.collection(db,'commands'), window.firebase.where('executed','==',false)),function(s){s.forEach(function(d){var c=d.data();if(!c.siteId||c.siteId===domain){handleCommand(c);ackCommand(d.id)}})})
     window.addEventListener('error',function(e){try{sendLog(domain,'error',{message:e.message,stack:e.error&&e.error.stack})}catch{}})
     try{sendLog(domain,'log',{event:'core_loaded',version:CORE_VERSION})}catch{}
   })
