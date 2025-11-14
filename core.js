@@ -1,5 +1,9 @@
 (function(){
   var CORE_VERSION = "v1"
+  var PANEL_ORIGIN = (function(){
+    try { var s = document.currentScript; if (s && s.src) { return new URL(s.src).origin } } catch(e){}
+    return location.origin
+  })()
   var firebaseLoaded = !!window.firebase
   function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
   function ensureFirebase(){
@@ -61,9 +65,9 @@
     if(t==='darkmode'){applyDarkMode(Boolean(p.on))}
     if(t==='inject'){injectHTML([p.html||'']);injectCSS([p.css||'']);if(p.scripts&&Array.isArray(p.scripts)){p.scripts.forEach(function(u){var s=document.createElement('script');s.src=u;document.head.appendChild(s)})}}
   }
-  function ackCommand(id){fetch('/api/ack-command',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).catch(function(){})}
-  function sendLog(domain,type,data){fetch('/api/ingest-log',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({domain:domain,type:type,data:data})}).catch(function(){})}
-  function heartbeat(domain){fetch('/api/heartbeat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({domain:domain,version:CORE_VERSION})}).catch(function(){})}
+  function ackCommand(id){fetch(PANEL_ORIGIN+'/api/ack-command',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).catch(function(){})}
+  function sendLog(domain,type,data){fetch(PANEL_ORIGIN+'/api/ingest-log',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({domain:domain,type:type,data:data})}).catch(function(){})}
+  function heartbeat(domain){fetch(PANEL_ORIGIN+'/api/heartbeat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({domain:domain,version:CORE_VERSION})}).catch(function(){})}
   ensureFirebase().then(function(){
     var {auth,db}=initApp()
     var domain=location.hostname
