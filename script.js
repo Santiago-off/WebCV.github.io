@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'projects-list': [
                     { title: '🛡️ File Integrity Monitor', description: 'Herramienta de ciberseguridad en Python que supervisa directorios, calcula hashes SHA-256 y registra cambios en archivos.', link: 'https://github.com/Santiago-off/File-Integrity-Monitor' },
                     { title: '🔐 Encryptador Web', description: 'Aplicación en React + Vite para encriptar y desencriptar texto localmente usando el cifrado de Vigenère.', link: 'https://github.com/Santiago-off/Encryptator' },
-                    { title: '🏦 Banco Simulado', description: 'Simulador de una aplicación bancaria web con funcionalidades de registro, login y transferencias, usando Firebase para la gestión de datos.', link: 'https://github.com/Santiago-off/Banco-Simulado' }
+                    { title: '🏦 Banco Bankinter', description: 'Simulador de una aplicación bancaria web con funcionalidades de registro, login y transferencias, usando Firebase para la gestión de datos.', link: 'https://github.com/Santiago-off/Banquinter' }
                 ],
                 'testimonials-list': [
                     { quote: 'Trabajar con Santiago fue un acierto. Su capacidad para entender nuestras necesidades y traducirlas en una solución cloud robusta y escalable fue impresionante. Optimizó nuestra infraestructura en AWS, resultando en una reducción de costes del 20%.', author: 'Marcos Vega', role: 'Director de Tecnología' },
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'projects-list': [
                     { title: '🛡️ File Integrity Monitor', description: 'A cybersecurity tool in Python that monitors directories, calculates SHA-256 hashes, and logs file changes.', link: 'https://github.com/Santiago-off/File-Integrity-Monitor' },
                     { title: '🔐 Web Encryptor', description: 'A React + Vite application to encrypt and decrypt text locally using the Vigenère cipher.', link: 'https://github.com/Santiago-off/Encryptator' },
-                    { title: '🏦 Simulated Bank', description: 'A web application simulator for a bank with registration, login, and transfer functionalities, using Firebase for data management.', link: 'https://github.com/Santiago-off/Banco-Simulado' }
+                    { title: '🏦 Bankinter Bank', description: 'A web application simulator for a bank with registration, login, and transfer functionalities, using Firebase for data management.', link: 'https://github.com/Santiago-off/Banquinter' }
                 ],
                 'testimonials-list': [
                     { quote: 'Working with Santiago was the right move. His ability to understand our needs and translate them into a robust and scalable cloud solution was impressive. He optimized our AWS infrastructure, resulting in a 20% cost reduction.', author: 'Marcos Vega', role: 'Chief Technology Officer' },
