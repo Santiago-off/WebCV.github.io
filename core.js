@@ -47,7 +47,7 @@
     btn.style.border='none'
     btn.style.padding='4px 8px'
     btn.style.borderRadius='6px'
-    btn.onclick=function(){window.open('https://'+location.host.replace(/^www\./,''),'_blank')}
+    btn.onclick=function(){window.open(PANEL_ORIGIN,'_blank')}
     bar.appendChild(btn)
     document.body.appendChild(bar)
   }
