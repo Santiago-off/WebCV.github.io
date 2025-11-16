@@ -26,27 +26,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const initialTranslations = {
-        ui: {
-            es: {
-                'nav-about': 'Sobre mí', 'nav-services': 'Servicios', 'nav-experience': 'Experiencia', 'nav-projects': 'Proyectos', 'nav-contact': 'Contacto', 'title-about': 'Sobre Mí', 'title-services': 'Mis Servicios', 'title-experience': 'Experiencia Laboral', 'title-education': 'Educación y Formación', 'title-languages': 'Competencias Lingüísticas', 'title-projects': 'Proyectos Destacados', 'title-testimonials': 'Lo que dicen de mí', 'title-contact': 'Contacto',
+        const initialTranslations = {
+            ui: {
+                es: {
+                'nav-about': 'Sobre mí', 'nav-services': 'Servicios', 'nav-experience': 'Experiencia', 'nav-projects': 'Proyectos', 'nav-contact': 'Contacto', 'nav-panel': 'Panelcentral', 'title-about': 'Sobre Mí', 'title-services': 'Mis Servicios', 'title-experience': 'Experiencia Laboral', 'title-education': 'Educación y Formación', 'title-languages': 'Competencias Lingüísticas', 'title-projects': 'Proyectos Destacados', 'title-testimonials': 'Lo que dicen de mí', 'title-contact': 'Contacto', 'title-panel': 'Panelcentral',
                 'contact-lets-talk': 'Hablemos', 'contact-send-message': 'Envíame un mensaje',
                 'form-placeholder-name': 'Tu Nombre', 'form-placeholder-email': 'Tu Correo Electrónico', 'form-placeholder-message': 'Tu Mensaje',
                 'form-send-button': 'Enviar Mensaje',
                 'project-link': 'Ver en GitHub →',
                 'services-button': 'Ver todos los servicios →',
-                'form-signin-button': 'Iniciar sesión con Google para enviar'
-            },
-            en: {
-                'nav-about': 'About Me', 'nav-services': 'Services', 'nav-experience': 'Experience', 'nav-projects': 'Projects', 'nav-contact': 'Contact', 'title-about': 'About Me', 'title-services': 'My Services', 'title-experience': 'Work Experience', 'title-education': 'Education & Training', 'title-languages': 'Language Skills', 'title-projects': 'Featured Projects', 'title-testimonials': 'What They Say', 'title-contact': 'Contact',
+                'form-signin-button': 'Iniciar sesión con Google para enviar',
+                'panel-subtitle1': 'Recuerda contactarme para darte un tour completo y registrarte',
+                'panel-subtitle2': 'Conecta cualquier web, genera un core.js único y gestiona el modo mantenimiento de forma remota.',
+                'panel-step1-title': 'Añade tu URL',
+                'panel-step1-desc': 'Registra la web en el panel para iniciar la vinculación segura.',
+                'panel-step2-title': 'Genera el core.js',
+                'panel-step2-desc': 'Obtén el archivo que habilita comandos remotos desde el panel.',
+                'panel-step3-title': 'Vincula y gestiona',
+                'panel-step3-desc': 'Incluye el script y controla el modo mantenimiento sin tocar tu código.',
+                'panel-cta': 'Ver Panelcentral →',
+                'panel-demo-button': 'Demostración de mantenimiento'
+                },
+                en: {
+                'nav-about': 'About Me', 'nav-services': 'Services', 'nav-experience': 'Experience', 'nav-projects': 'Projects', 'nav-contact': 'Contact', 'nav-panel': 'Panelcentral', 'title-about': 'About Me', 'title-services': 'My Services', 'title-experience': 'Work Experience', 'title-education': 'Education & Training', 'title-languages': 'Language Skills', 'title-projects': 'Featured Projects', 'title-testimonials': 'What They Say', 'title-contact': 'Contact', 'title-panel': 'Panelcentral',
                 'contact-lets-talk': "Let's Talk", 'contact-send-message': 'Send me a message',
                 'form-placeholder-name': 'Your Name', 'form-placeholder-email': 'Your Email', 'form-placeholder-message': 'Your Message',
                 'form-send-button': 'Send Message',
                 'project-link': 'View on GitHub →',
                 'services-button': 'View all services →',
-                'form-signin-button': 'Sign in with Google to send'
-            }
-        },
+                'form-signin-button': 'Sign in with Google to send',
+                'panel-subtitle1': 'Remember to contact me for a complete tour and registration',
+                'panel-subtitle2': 'Connect any website, generate a unique core.js and manage maintenance mode remotely.',
+                'panel-step1-title': 'Add your URL',
+                'panel-step1-desc': 'Register the site in the panel to start a secure link.',
+                'panel-step2-title': 'Generate core.js',
+                'panel-step2-desc': 'Get the file that enables remote commands from the panel.',
+                'panel-step3-title': 'Link and manage',
+                'panel-step3-desc': 'Include the script and control maintenance without touching your code.',
+                'panel-cta': 'View Panelcentral →',
+                'panel-demo-button': 'Maintenance demo'
+                }
+            },
         content: {
             es: {
                 'page-title': 'Santiago Fernandez - Programador y Experto en Ciberseguridad',
@@ -62,10 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 'footer-text': 'Santiago Fernandez. Todos los derechos reservados.',
                 'github-link': 'https://github.com/Santiago-off',
                 'instagram-link': 'https://www.instagram.com/santiagorfer',
-                'linkedin-link': 'https://www.linkedin.com/in/tu-usuario/',
+                'linkedin-link': 'https://www.linkedin.com/in/santiago-reguero-fernández-172a9530a',
                 'experience-list': [
                     { title: 'Realizando tareas de Programador', company: 'Armonia (18/03/2025 – 16/06/2025) Salerno, Italia', description: '' },
-                    { title: 'Soporte de hosting (online)', company: '(05/2022 – Actual) Madrid, España', description: '' }
+                    { title: 'Soporte de hosting (online)', company: '(05/2022 – Actual) Madrid, España', description: '' },
+                    /*{ title: 'Fullstack Developer (online)', company: 'KaliumLab (11/2025 – Actual) Madrid, España', description: '' }*/
                 ],
                 'education-list': [
                     { title: 'Grado Medio Sistemas Microinformáticos y Redes', company: 'Santa Gema FP, Galgani (09/2023 – 06/2025) Madrid, España', description: '' },
@@ -76,7 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     { title: 'Fundamentos de Python 1', company: 'Cisco Networking Academy (03/2024 – 11/2024) Madrid, España', description: '' },
                     { title: 'CIBERSEGURIDAD PERSONAL', company: 'BACKTRACK ACADEMY (12/2020 – 01/2021) Madrid, España', description: '' },
                     { title: 'Google: Inteligencia Artificial y Productividad', company: 'Santander Academy (04/05/2025) Madrid, España', description: '' },
-                    { title: 'Piloto De Drones (A1/A3, A2, STS01-STS02)', company: 'AESA & Bai Escuela de drones (2025) Madrid, España', description: '' }
+                    { title: 'Piloto De Drones (A1/A3, A2, STS01-STS02)', company: 'AESA & Bai Escuela de drones (2025) Madrid, España', description: '' },
+                    { title: 'Grado Superior DAM', company: 'Digitech FP, Madrid (10/2025 – Actual) Madrid, España', description: '' }
                 ],
                 'languages-list': [
                     { title: 'Español', company: 'Nativo', description: '' },
@@ -108,10 +130,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 'footer-text': 'Santiago Fernandez. All rights reserved.',
                 'github-link': 'https://github.com/Santiago-off',
                 'instagram-link': 'https://www.instagram.com/santiagorfer',
-                'linkedin-link': 'https://www.linkedin.com/in/tu-usuario/',
+                'linkedin-link': 'https://www.linkedin.com/in/santiago-reguero-fernández-172a9530a',
                 'experience-list': [
                     { title: 'Performing Programmer tasks', company: 'Armonia (Mar 2025 – Jun 2025) Salerno, Italy', description: '' },
-                    { title: 'Hosting support (online)', company: '(May 2022 – Present) Madrid, Spain', description: '' }
+                    { title: 'Hosting support (online)', company: '(May 2022 – Present) Madrid, Spain', description: '' },
+                    /*{ title: 'Fullstack Developer (online)', company: 'KaliumLab (11/2025 – Present) Madrid, Spain', description: '' }*/
                 ],
                 'education-list': [
                     { title: 'Vocational Training in Microcomputer Systems and Networks', company: 'Santa Gema FP, Galgani (Sep 2023 – Jun 2025) Madrid, Spain', description: '' },
@@ -122,7 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     { title: 'Python Essentials 1', company: 'Cisco Networking Academy (Mar 2024 – Nov 2024) Madrid, Spain', description: '' },
                     { title: 'PERSONAL CYBERSECURITY', company: 'BACKTRACK ACADEMY (Dec 2020 – Jan 2021) Madrid, Spain', description: '' },
                     { title: 'Google: Artificial Intelligence and Productivity', company: 'Santander Academy (May 4, 2025) Madrid, Spain', description: '' },
-                    { title: 'Drone Pilot (A1/A3, A2, STS01-STS02)', company: 'AESA & Bai Drone School (2025) Madrid, Spain', description: '' }
+                    { title: 'Drone Pilot (A1/A3, A2, STS01-STS02)', company: 'AESA & Bai Drone School (2025) Madrid, Spain', description: '' },
+                    { title: 'Grado Superior DAM', company: 'Digitech FP, Madrid (10/2025 – Present) Madrid, Spain', description: '' },
                 ],
                 'languages-list': [
                     { title: 'Spanish', company: 'Native', description: '' },

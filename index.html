@@ -78,6 +78,7 @@
                 <a href="#experience" data-key="nav-experience">Experiencia</a>
                 <a href="#projects" data-key="nav-projects">Proyectos</a>
                 <a href="#contact" data-key="nav-contact">Contacto</a>
+                <a href="#panel" data-key="nav-panel">Panelcentral</a>
             </nav>
             <div class="header-controls">
                 <button id="theme-toggle" class="theme-btn" aria-label="Cambiar tema">
@@ -119,6 +120,47 @@
                         </div>
                         <button id="share-card-copy" class="btn-copy">Copiar tarjeta</button>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="panel" class="content-section panel-section">
+            <h2 class="section-title" data-key="title-panel">Panelcentral</h2>
+            <p class="panel-subtitle1" data-key="panel-subtitle1">Recuerda contactarme para darte un tour completo y registrarte</p>
+            <p class="panel-subtitle2" data-key="panel-subtitle2">Conecta cualquier web, genera un core.js único y gestiona el modo mantenimiento de forma remota.</p>
+
+            <div class="step-grid">
+                <div class="step-card">
+                    <div class="step-index">1</div>
+                    <h3 data-key="panel-step1-title">Añade tu URL</h3>
+                    <p data-key="panel-step1-desc">Registra la web en el panel para iniciar la vinculación segura.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-index">2</div>
+                    <h3 data-key="panel-step2-title">Genera el core.js</h3>
+                    <p data-key="panel-step2-desc">Obtén el archivo que habilita comandos remotos desde el panel.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-index">3</div>
+                    <h3 data-key="panel-step3-title">Vincula y gestiona</h3>
+                    <p data-key="panel-step3-desc">Incluye el script y controla el modo mantenimiento sin tocar tu código.</p>
+                </div>
+            </div>
+
+            <div class="code-preview" aria-label="Ejemplo de integración">
+<pre><code>&lt;script src="https://panelcentral.example/core.js" data-api="https://https://panelwebss.netlify.app"&gt;&lt;/script&gt;</code></pre>
+            </div>
+
+            <div class="panel-actions">
+                <a class="btn-cta" href="https://panelwebss.netlify.app" target="_blank" rel="noopener noreferrer" data-key="panel-cta">Ver Panelcentral →</a>
+                <button type="button" class="btn-demo" id="panel-demo-btn" data-key="panel-demo-button">Demostración de mantenimiento</button>
+            </div>
+
+            <div id="panel-demo-overlay" class="panel-demo-overlay" aria-hidden="true">
+                <div class="panel-demo-box">
+                    <h3>Modo Mantenimiento</h3>
+                    <p>Ejemplo visual del overlay gestionado remotamente.</p>
+                    <button type="button" class="btn-close" id="panel-demo-close">Cerrar</button>
                 </div>
             </div>
         </section>
@@ -230,5 +272,17 @@
     <script src="env-loader.js"></script>
     <script type="module" src="script.js"></script>
     <script src="core.js"></script>
+    <script>
+      (function(){
+        const btn = document.getElementById('panel-demo-btn');
+        const ov = document.getElementById('panel-demo-overlay');
+        const close = document.getElementById('panel-demo-close');
+        if(btn && ov && close){
+          btn.addEventListener('click', ()=>{ ov.setAttribute('aria-hidden','false'); ov.classList.add('visible'); });
+          close.addEventListener('click', ()=>{ ov.classList.remove('visible'); ov.setAttribute('aria-hidden','true'); });
+          ov.addEventListener('click', (e)=>{ if(e.target===ov){ ov.classList.remove('visible'); ov.setAttribute('aria-hidden','true'); } });
+        }
+      })();
+    </script>
 </body>
 </html>
