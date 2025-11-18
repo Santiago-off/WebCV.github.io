@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 minWidth: 200.00,
                 scale: 1.00,
                 scaleMobile: 1.00,
-                color: 0x00adb5, // Accent color
+                color: 0x00adb5,
                 color2: theme === 'dark' ? 0xeeeeee : 0x333333,
                 backgroundColor: theme === 'dark' ? 0x222831 : 0xf4f4f9,
                 size: 1.20
@@ -346,10 +346,12 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', theme);
         document.documentElement.setAttribute('data-theme', theme);
         const themeToggle = document.getElementById('theme-toggle');
-        if (theme === 'dark') {
-            themeToggle.classList.add('dark');
-        } else {
-            themeToggle.classList.remove('dark');
+        if (themeToggle) {
+            if (theme === 'dark') {
+                themeToggle.classList.add('dark');
+            } else {
+                themeToggle.classList.remove('dark');
+            }
         }
         initializeVanta(theme);
     }
@@ -440,13 +442,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Configurar el tema
-    const preferredTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const preferredTheme = 'dark';
     setTheme(preferredTheme);
 
-    document.getElementById('theme-toggle').addEventListener('click', () => {
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-        setTheme(currentTheme === 'dark' ? 'light' : 'dark');
-    });
+    const themeToggleEl = document.getElementById('theme-toggle');
+    if (themeToggleEl) {
+        themeToggleEl.addEventListener('click', () => {
+            setTheme('dark');
+        });
+    }
+
+    
 
     setLanguage(currentLang);
 

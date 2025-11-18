@@ -12,8 +12,20 @@
 <body>
 
     <div id="vanta-bg"></div>
-
     <div class="custom-cursor"></div>
+
+    <div id="login-wall" class="login-wall">
+        <div class="login-box">
+            <img src="logo.svg" alt="Logo SF" class="login-logo">
+            <h2>Acceso Requerido</h2>
+            <p>Para ver los servicios y solicitar, inicia sesión con tu cuenta de Google.</p>
+            <button type="button" id="google-signin-btn-wall" class="btn-google">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo">
+                <span>Iniciar sesión con Google</span>
+            </button>
+            <p id="login-wall-status"></p>
+        </div>
+    </div>
 
     <header class="header">
         <div class="logo">
@@ -24,7 +36,7 @@
             <a href="index.html" data-translate="nav-home">Inicio</a>
         </nav>
         <div class="header-controls">
-            <button id="theme-toggle" class="theme-btn" aria-label="Cambiar tema">
+            <button id="theme-toggle" class="theme-btn" aria-label="Cambiar tema" style="display: none;">
                 <svg class="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.106a.75.75 0 010 1.06l-1.591 1.59a.75.75 0 11-1.06-1.06l1.59-1.59a.75.75 0 011.06 0zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.836 17.836a.75.75 0 01-1.06 0l-1.59-1.591a.75.75 0 111.06-1.06l1.59 1.59a.75.75 0 010 1.061zM12 18a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V18.75a.75.75 0 01.75-.75zM5.106 17.836a.75.75 0 010-1.06l1.59-1.591a.75.75 0 011.06 1.06l-1.59 1.59a.75.75 0 01-1.06 0zM4.5 12a.75.75 0 01-.75.75H1.5a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM6.106 6.106a.75.75 0 011.06 0l1.591 1.59a.75.75 0 01-1.06 1.06l-1.59-1.59a.75.75 0 010-1.06z"/></svg>
                 <svg class="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 004.463-.69a.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-3.51 1.713-6.625 4.463-8.482a.75.75 0 01.819.162z" clip-rule="evenodd" /></svg>
             </button>
@@ -36,7 +48,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content" style="visibility: hidden;">
         <section class="services-hero">
             <h1 class="section-title" data-translate="services-title">Mis Servicios</h1>
             <p class="services-intro" data-translate="services-page-intro">Soluciones tecnológicas a medida para impulsar tus proyectos. Explora los planes y descubre cómo puedo ayudarte a alcanzar tus objetivos.</p>
@@ -212,6 +224,61 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
     <script src="services.js"></script>
+    <script type="module">
+        import { auth } from './firebase-init.js';
+        import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, getRedirectResult } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+
+        let currentUser = null;
+
+        function updateUI(user) {
+            const loginWall = document.getElementById('login-wall');
+            const mainContent = document.getElementById('main-content');
+            if (user) {
+                loginWall.style.display = 'none';
+                mainContent.style.visibility = 'visible';
+                mainContent.style.opacity = 1;
+            } else {
+                loginWall.style.display = 'flex';
+                mainContent.style.visibility = 'hidden';
+                mainContent.style.opacity = 0;
+            }
+        }
+
+        function handleSignIn() {
+            const provider = new GoogleAuthProvider();
+            const statusElem = document.getElementById('login-wall-status');
+            if (statusElem) statusElem.textContent = 'Redirigiendo a Google...';
+            signInWithPopup(auth, provider).catch((error) => {
+                console.error('Error al iniciar sesión:', error);
+                if (statusElem) statusElem.textContent = 'Error al iniciar sesión. Inténtalo de nuevo.';
+            });
+        }
+
+        document.getElementById('google-signin-btn-wall').addEventListener('click', handleSignIn);
+
+        const wallStatus = document.getElementById('login-wall-status');
+        if (wallStatus) wallStatus.textContent = 'Verificando sesión...';
+
+        getRedirectResult(auth)
+            .then((result) => {
+                if (result && result.user) {
+                    if (wallStatus) wallStatus.textContent = '¡Sesión iniciada!';
+                } else {
+                    onAuthStateChanged(auth, (user) => {
+                        currentUser = user;
+                        updateUI(user);
+                        if (!user) {
+                            if (wallStatus) wallStatus.textContent = '';
+                            handleSignIn();
+                        }
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error('Error durante verificación:', error);
+                if (wallStatus) wallStatus.textContent = 'Error al verificar la cuenta. Inténtalo de nuevo.';
+            });
+    </script>
     <script src="core.js" data-api="https://panelcentral.netlify.app" defer></script>
 </body>
 </html>

@@ -287,6 +287,7 @@ main {
 .share-link.github::before { content: '💻'; }
 .share-link.email::before { content: '✉️'; }
 .share-link.web::before { content: '🌐'; }
+.share-link.linkedin::before { content: '🔗'; }
 
 .btn-copy {
     align-self: center;
@@ -302,6 +303,8 @@ main {
 }
 .btn-copy:hover { transform: translateY(-1px); box-shadow: 0 8px 18px var(--accent-glow); }
 .btn-copy:active { transform: translateY(0); }
+
+
 .btn-copy::before { content: '📋'; margin-right: 0.4rem; }
 
 @media (max-width: 640px) {
@@ -766,6 +769,42 @@ main {
     transform: scale(1.1); 
     background-color: color-mix(in srgb, var(--accent) 90%, #fff);
 }
+
+#bg-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+
+#splash {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--c-bg);
+    z-index: 3000;
+    transition: opacity 0.4s ease;
+}
+
+#splash.hide { opacity: 0; visibility: hidden; }
+
+.splash-logo {
+    width: min(40vw, 280px);
+    height: auto;
+    animation: splashRGB 3s ease both;
+    filter: drop-shadow(0 0 20px rgba(255,0,0,0.6)) drop-shadow(0 0 28px rgba(0,255,0,0.5)) drop-shadow(0 0 36px rgba(0,128,255,0.5));
+}
+
+@keyframes splashRGB {
+    0% { transform: scale(0.92); opacity: 0; filter: hue-rotate(0deg) saturate(1.2); }
+    50% { transform: scale(1.06); opacity: 1; filter: hue-rotate(180deg) saturate(1.5); }
+    100% { transform: scale(1.02); opacity: 1; filter: hue-rotate(360deg) saturate(1.2); }
+}
+
 
 /* --- Responsive Design --- */
 @media (max-width: 768px) {

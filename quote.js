@@ -171,8 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const submitButton = quoteForm.querySelector('.btn-submit');
 
         if (!currentUser) {
-            formStatus.textContent = translations[currentLang]['error-signin-required'];
-            formStatus.style.color = '#ff6b6b';
+            const loginWall = document.getElementById('login-wall');
+            const wallStatus = document.getElementById('login-wall-status');
+            if (wallStatus) wallStatus.textContent = '';
+            loginWall.style.display = 'flex';
             return;
         }
 
@@ -288,9 +290,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             saveVisit(user); // Registrar visita CON datos de usuario
         } else {
-            loginWall.style.display = 'flex';
-            mainContent.style.visibility = 'hidden';
-            mainContent.style.opacity = 0;
+            loginWall.style.display = 'none';
+            mainContent.style.visibility = 'visible';
+            mainContent.style.opacity = 1;
             saveVisit(null); // Registrar visita ANÓNIMA
         }
     }
@@ -319,6 +321,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     document.getElementById('google-signin-btn-wall').addEventListener('click', handleSignIn);
+
+    const messageInput = document.getElementById('message');
+    if (messageInput) {
+        messageInput.addEventListener('focus', () => {
+            if (!currentUser) {
+                const loginWall = document.getElementById('login-wall');
+                const wallStatus = document.getElementById('login-wall-status');
+                if (wallStatus) wallStatus.textContent = '';
+                loginWall.style.display = 'flex';
+            }
+        });
+    }
 
     document.getElementById('current-year').textContent = new Date().getFullYear();
 

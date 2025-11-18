@@ -26,6 +26,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const auth = getAuth(app);
     const db = getFirestore(app);
 
+        const splashEl = document.getElementById('splash');
+        if (splashEl) {
+            setTimeout(() => {
+                splashEl.classList.add('hide');
+                setTimeout(() => { try { splashEl.remove(); } catch(e){} }, 400);
+            }, 3000);
+        }
+
         const initialTranslations = {
             ui: {
                 es: {
@@ -226,10 +234,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (ui[key]) el.textContent = ui[key];
         });
 
-        // Actualiza el enlace de Instagram en el footer, si existe
         const footerInsta = document.getElementById('footer-instagram');
         if (footerInsta && content['instagram-link']) {
             footerInsta.href = content['instagram-link'];
+        }
+        const footerGithub = document.getElementById('footer-github');
+        if (footerGithub && content['github-link']) {
+            footerGithub.href = content['github-link'];
+        }
+        const footerLinkedin = document.getElementById('footer-linkedin');
+        if (footerLinkedin && content['linkedin-link']) {
+            footerLinkedin.href = content['linkedin-link'];
         }
 
         document.querySelectorAll('[data-key-placeholder]').forEach(el => {
@@ -246,6 +261,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const socialContainer = document.querySelector('.social-links');
         if (socialContainer) {
             socialContainer.innerHTML = `
+                <a href="${content['instagram-link']}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <img src="https://img.icons8.com/ios-filled/50/eeeeee/instagram-new.png" alt="Instagram" style="width:24px; height:24px;">
+                </a>
                 <a href="${content['github-link']}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                     <img src="https://img.icons8.com/ios-filled/50/eeeeee/github.png" alt="GitHub" style="width:24px; height:24px;">
                 </a>
@@ -334,17 +352,21 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', theme);
         document.documentElement.setAttribute('data-theme', theme);
         const themeToggle = document.getElementById('theme-toggle');
-        if (theme === 'dark') {
-            themeToggle.classList.add('dark');
-        } else {
-            themeToggle.classList.remove('dark');
+        if (themeToggle) {
+            if (theme === 'dark') {
+                themeToggle.classList.add('dark');
+            } else {
+                themeToggle.classList.remove('dark');
+            }
         }
     }
 
-    document.getElementById('theme-toggle').addEventListener('click', () => {
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-        setTheme(currentTheme === 'dark' ? 'light' : 'dark');
-    });
+    const themeToggleEl = document.getElementById('theme-toggle');
+    if (themeToggleEl) {
+        themeToggleEl.addEventListener('click', () => {
+            setTheme('dark');
+        });
+    }
 
     const backToTopButton = document.querySelector('.back-to-top');
     window.addEventListener('scroll', () => {
@@ -574,9 +596,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             saveVisit(user); // Registrar visita CON datos de usuario
         } else {
-            loginWall.style.display = 'flex';
-            mainContent.style.visibility = 'hidden';
-            mainContent.style.opacity = 0;
+            loginWall.style.display = 'none';
+            mainContent.style.visibility = 'visible';
+            mainContent.style.opacity = 1;
             saveVisit(null); // Registrar visita ANÓNIMA
         }
     }
@@ -606,8 +628,93 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('google-signin-btn-wall').addEventListener('click', handleSignIn);
 
-    const preferredTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const preferredTheme = 'dark';
     setTheme(preferredTheme);
+
+    function startAnimatedBackground(){
+        const c=document.createElement('canvas');
+        c.id='bg-canvas';
+        document.body.prepend(c);
+        const ctx=c.getContext('2d');
+        let w=0,h=0,dpr=1;
+        function resize(){
+            dpr=Math.min(window.devicePixelRatio||1,2);
+            w=window.innerWidth;
+            h=window.innerHeight;
+            c.width=w*dpr;
+            c.height=h*dpr;
+            c.style.width=w+'px';
+            c.style.height=h+'px';
+        }
+        resize();
+        window.addEventListener('resize',resize);
+        let mx=w*0.5,my=h*0.5;
+        document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+        const gcs=getComputedStyle(document.documentElement);
+        function bgColor(){return gcs.getPropertyValue('--c-bg')||'#222831';}
+        let t=0;
+
+        const curtains=[
+            {cx: w*0.25, baseY: h*0.45, amp: h*0.10, width: 220, speed: 0.35, hue: 130, phase: Math.random()*6.28},
+            {cx: w*0.50, baseY: h*0.40, amp: h*0.12, width: 260, speed: 0.30, hue: 170, phase: Math.random()*6.28},
+            {cx: w*0.75, baseY: h*0.50, amp: h*0.09, width: 200, speed: 0.28, hue: 210, phase: Math.random()*6.28}
+        ];
+
+        function wave(x, s, p){
+            return Math.sin(x*s + p) + 0.5*Math.sin(x*s*0.6 + p*1.7) + 0.25*Math.sin(x*s*1.4 + p*2.3);
+        }
+
+        function drawCurtain(c){
+            const steps=36;
+            const gradV=ctx.createLinearGradient(0,c.baseY-c.amp*2,0,c.baseY+c.amp*2);
+            const hue=(c.hue + t*12)%360;
+            gradV.addColorStop(0,`hsla(${(hue+20)%360},80%,60%,0.00)`);
+            gradV.addColorStop(0.5,`hsla(${hue},80%,60%,0.20)`);
+            gradV.addColorStop(1,`hsla(${(hue+40)%360},80%,60%,0.00)`);
+
+            const influence=((my/h)-0.5)*c.amp*0.8;
+            const drift=Math.sin(t*0.25 + c.phase)*h*0.02;
+
+            ctx.lineCap='round';
+            ctx.lineJoin='round';
+
+            function strokePass(widthMul, alphaMul, hueOffset){
+                ctx.lineWidth=c.width*widthMul;
+                ctx.shadowBlur=80*widthMul;
+                const passHue=(hue+hueOffset)%360;
+                ctx.shadowColor=`hsla(${passHue},80%,60%,${0.25*alphaMul})`;
+                ctx.strokeStyle=gradV;
+                ctx.globalAlpha=alphaMul;
+                ctx.beginPath();
+                for(let i=0;i<=steps;i++){
+                    const x=(i/steps)*w;
+                    const s=0.004;
+                    const y=c.baseY + drift + influence + wave(x - c.cx, s*w, t*c.speed + c.phase)*c.amp;
+                    if(i===0) ctx.moveTo(x,y);
+                    else ctx.lineTo(x,y);
+                }
+                ctx.stroke();
+            }
+
+            strokePass(1.15,0.16,0);
+            strokePass(0.85,0.26,25);
+            strokePass(0.55,0.36,45);
+        }
+
+        function step(){
+            t+=0.016;
+            ctx.setTransform(dpr,0,0,dpr,0,0);
+            ctx.globalCompositeOperation='source-over';
+            ctx.globalAlpha=1;
+            ctx.fillStyle=bgColor();
+            ctx.fillRect(0,0,w,h);
+            ctx.globalCompositeOperation='screen';
+            for(let i=0;i<curtains.length;i++) drawCurtain(curtains[i]);
+            requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+    startAnimatedBackground();
 
     updateVisitCounter();
 
