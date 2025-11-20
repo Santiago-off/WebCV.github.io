@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'experience-list': [
                     { title: 'Realizando tareas de Programador', company: 'Armonia (18/03/2025 – 16/06/2025) Salerno, Italia', description: '' },
                     { title: 'Soporte de hosting (online)', company: '(05/2022 – Actual) Madrid, España', description: '' },
-                    /*{ title: 'Fullstack Developer (online)', company: 'KaliumLab (11/2025 – Actual) Madrid, España', description: '' }*/
+                    { title: 'Fullstack Developer (online)', company: 'KaliumLab (11/2025 – Actual) Madrid, España', description: '' }
                 ],
                 'education-list': [
                     { title: 'Grado Medio Sistemas Microinformáticos y Redes', company: 'Santa Gema FP, Galgani (09/2023 – 06/2025) Madrid, España', description: '' },
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'experience-list': [
                     { title: 'Performing Programmer tasks', company: 'Armonia (Mar 2025 – Jun 2025) Salerno, Italy', description: '' },
                     { title: 'Hosting support (online)', company: '(May 2022 – Present) Madrid, Spain', description: '' },
-                    /*{ title: 'Fullstack Developer (online)', company: 'KaliumLab (11/2025 – Present) Madrid, Spain', description: '' }*/
+                    { title: 'Fullstack Developer (online)', company: 'KaliumLab (11/2025 – Present) Madrid, Spain', description: '' }
                 ],
                 'education-list': [
                     { title: 'Vocational Training in Microcomputer Systems and Networks', company: 'Santa Gema FP, Galgani (Sep 2023 – Jun 2025) Madrid, Spain', description: '' },
