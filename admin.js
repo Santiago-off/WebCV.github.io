@@ -328,6 +328,36 @@ function handleFormSubmit(e) {
     }, 500);
 }
 
+/**
+ * Convierte varios formatos de timestamp a un string legible.
+ * @param {any} timestamp - El campo de fecha/timestamp del documento.
+ * @returns {string} - La fecha formateada.
+ */
+function formatTimestamp(timestamp) {
+    if (!timestamp) return 'Fecha no disponible';
+
+    try {
+        if (typeof timestamp.toDate === 'function') {
+            return timestamp.toDate().toLocaleString('es-ES');
+        }
+        if (typeof timestamp === 'object' && timestamp.seconds !== undefined) {
+            return new Date(timestamp.seconds * 1000).toLocaleString('es-ES');
+        }
+        if (typeof timestamp === 'string') {
+            const match = timestamp.match(/seconds=(\d+)/);
+            if (match && match[1]) {
+                return new Date(parseInt(match[1], 10) * 1000).toLocaleString('es-ES');
+            }
+            const date = new Date(timestamp);
+            if (!isNaN(date.getTime())) return date.toLocaleString('es-ES');
+        }
+        if (typeof timestamp === 'number') {
+            return new Date(timestamp).toLocaleString('es-ES');
+        }
+    } catch (e) { /* Ignorar error y devolver el valor original */ }
+    return String(timestamp); // Fallback
+}
+
 async function loadMessagesTab() {
     const container = document.getElementById('messages-container');
     container.innerHTML = '<p>Cargando mensajes...</p>';
@@ -444,104 +474,7 @@ async function loadMessagesTab() {
             // Procesar cada mensaje individualmente para evitar que un mensaje mal formateado rompa todo el renderizado
             for (const msg of allMessages) {
                 try {
-                    // Manejar diferentes formatos de fecha
-                     let dateString = 'Fecha no disponible';
-                     let timestamp = 0;
-                     
-                     if (msg.timestamp) {
-                         console.log("Procesando timestamp:", msg.timestamp);
-                         if (typeof msg.timestamp.toDate === 'function') {
-                             // Firebase Timestamp
-                             dateString = msg.timestamp.toDate().toLocaleString('es-ES');
-                             timestamp = msg.timestamp.toDate().getTime();
-                             console.log("Timestamp convertido con toDate():", dateString);
-                         } else if (typeof msg.timestamp === 'object' && msg.timestamp.seconds !== undefined) {
-                             // Timestamp en formato objeto {seconds, nanoseconds}
-                             try {
-                                 const date = new Date(msg.timestamp.seconds * 1000);
-                                 dateString = date.toLocaleString('es-ES');
-                                 timestamp = date.getTime();
-                                 console.log("Timestamp convertido desde seconds:", dateString);
-                             } catch (err) {
-                                 console.warn("Error al convertir timestamp desde seconds:", err);
-                                 // Formatear manualmente el objeto Timestamp para que sea legible
-                                 dateString = `${new Date(msg.timestamp.seconds * 1000).toLocaleString('es-ES')}`;
-                                 timestamp = msg.timestamp.seconds * 1000;
-                             }
-                         } else if (typeof msg.timestamp === 'string') {
-                             // String de fecha ISO
-                             if (msg.timestamp.startsWith("Timestamp(")) {
-                                 // Es un string que representa un objeto Timestamp
-                                 console.log("Detectado string de Timestamp:", msg.timestamp);
-                                 // Extraer seconds del formato "Timestamp(seconds=1759757247, nanoseconds=856000000)"
-                                 const match = msg.timestamp.match(/seconds=(\d+)/);
-                                 if (match && match[1]) {
-                                     const seconds = parseInt(match[1]);
-                                     const date = new Date(seconds * 1000);
-                                     dateString = date.toLocaleString('es-ES');
-                                     timestamp = date.getTime();
-                                     console.log("Timestamp extraído de string:", dateString);
-                                 } else {
-                                     dateString = "Fecha en formato incorrecto";
-                                 }
-                             } else {
-                                 const date = new Date(msg.timestamp);
-                                 if (!isNaN(date.getTime())) {
-                                     dateString = date.toLocaleString('es-ES');
-                                 }
-                             }
-                         } else if (typeof msg.timestamp === 'number') {
-                             // Timestamp numérico
-                             const date = new Date(msg.timestamp);
-                             if (!isNaN(date.getTime())) {
-                                 dateString = date.toLocaleString('es-ES');
-                             }
-                         }
-                     } else if (msg.date) {
-                         // Alternativa: campo date
-                         console.log("Procesando campo date:", msg.date);
-                         
-                         if (typeof msg.date === 'string') {
-                             if (msg.date.startsWith("Timestamp(")) {
-                                 // Es un string que representa un objeto Timestamp
-                                 console.log("Detectado string de Timestamp en date:", msg.date);
-                                 // Extraer seconds del formato "Timestamp(seconds=1759757247, nanoseconds=856000000)"
-                                 const match = msg.date.match(/seconds=(\d+)/);
-                                 if (match && match[1]) {
-                                     const seconds = parseInt(match[1]);
-                                     const date = new Date(seconds * 1000);
-                                     dateString = date.toLocaleString('es-ES');
-                                     console.log("Timestamp extraído de string en date:", dateString);
-                                 } else {
-                                     dateString = "Fecha en formato incorrecto";
-                                 }
-                             } else if (msg.date.includes('de ') && (msg.date.includes('p.m.') || msg.date.includes('a.m.'))) {
-                                 // Usar directamente el string formateado en español
-                                 dateString = msg.date;
-                                 console.log("Usando formato de fecha español directamente:", dateString);
-                             } else {
-                                 // Intentar parsear como fecha ISO
-                                 const date = new Date(msg.date);
-                                 if (!isNaN(date.getTime())) {
-                                     dateString = date.toLocaleString('es-ES');
-                                     console.log("Fecha parseada correctamente:", dateString);
-                                 } else {
-                                     console.warn("No se pudo parsear la fecha:", msg.date);
-                                     dateString = msg.date; // Usar el valor original como fallback
-                                 }
-                             }
-                         }
-                     } else if (msg.createdAt) {
-                         // Alternativa: campo createdAt
-                         if (typeof msg.createdAt.toDate === 'function') {
-                             dateString = msg.createdAt.toDate().toLocaleString('es-ES');
-                         } else {
-                             const date = new Date(msg.createdAt);
-                             if (!isNaN(date.getTime())) {
-                                 dateString = date.toLocaleString('es-ES');
-                             }
-                         }
-                     }
+                    const dateString = formatTimestamp(msg.timestamp || msg.date || msg.createdAt);
 
                     // Extraer información del remitente con múltiples alternativas
                     const userName = msg.userName || msg.name || msg.sender || msg.from || 'Usuario desconocido';
@@ -669,98 +602,7 @@ async function loadQuotesTab() {
             // Procesar cada presupuesto individualmente para evitar que uno mal formateado rompa todo el renderizado
             for (const quote of quotes) {
                 try {
-                    // Manejar diferentes formatos de fecha
-                    let dateString = 'Fecha no disponible';
-                    if (quote.timestamp) {
-                        console.log("Procesando timestamp:", quote.timestamp);
-                        if (typeof quote.timestamp.toDate === 'function') {
-                            // Firebase Timestamp
-                            dateString = quote.timestamp.toDate().toLocaleString('es-ES');
-                            console.log("Timestamp convertido con toDate():", dateString);
-                        } else if (typeof quote.timestamp === 'object' && quote.timestamp.seconds !== undefined) {
-                            // Timestamp en formato objeto {seconds, nanoseconds}
-                            try {
-                                const date = new Date(quote.timestamp.seconds * 1000);
-                                dateString = date.toLocaleString('es-ES');
-                                console.log("Timestamp convertido desde seconds:", dateString);
-                            } catch (err) {
-                                console.warn("Error al convertir timestamp desde seconds:", err);
-                                // Formatear manualmente el objeto Timestamp para que sea legible
-                                dateString = `${new Date(quote.timestamp.seconds * 1000).toLocaleString('es-ES')}`;
-                            }
-                        } else if (typeof quote.timestamp === 'string') {
-                            // String de fecha ISO
-                            if (quote.timestamp.startsWith("Timestamp(")) {
-                                // Es un string que representa un objeto Timestamp
-                                console.log("Detectado string de Timestamp:", quote.timestamp);
-                                // Extraer seconds del formato "Timestamp(seconds=1759757247, nanoseconds=856000000)"
-                                const match = quote.timestamp.match(/seconds=(\d+)/);
-                                if (match && match[1]) {
-                                    const seconds = parseInt(match[1]);
-                                    const date = new Date(seconds * 1000);
-                                    dateString = date.toLocaleString('es-ES');
-                                    console.log("Timestamp extraído de string:", dateString);
-                                } else {
-                                    dateString = "Fecha en formato incorrecto";
-                                }
-                            } else {
-                                const date = new Date(quote.timestamp);
-                                if (!isNaN(date.getTime())) {
-                                    dateString = date.toLocaleString('es-ES');
-                                }
-                            }
-                        } else if (typeof quote.timestamp === 'number') {
-                            // Timestamp numérico
-                            const date = new Date(quote.timestamp);
-                            if (!isNaN(date.getTime())) {
-                                dateString = date.toLocaleString('es-ES');
-                            }
-                        }
-                    } else if (quote.date) {
-                        // Alternativa: campo date
-                        console.log("Procesando campo date:", quote.date);
-                        
-                        if (typeof quote.date === 'string') {
-                            if (quote.date.startsWith("Timestamp(")) {
-                                // Es un string que representa un objeto Timestamp
-                                console.log("Detectado string de Timestamp en date:", quote.date);
-                                // Extraer seconds del formato "Timestamp(seconds=1759757247, nanoseconds=856000000)"
-                                const match = quote.date.match(/seconds=(\d+)/);
-                                if (match && match[1]) {
-                                    const seconds = parseInt(match[1]);
-                                    const date = new Date(seconds * 1000);
-                                    dateString = date.toLocaleString('es-ES');
-                                    console.log("Timestamp extraído de string en date:", dateString);
-                                } else {
-                                    dateString = "Fecha en formato incorrecto";
-                                }
-                            } else if (quote.date.includes('de ') && (quote.date.includes('p.m.') || quote.date.includes('a.m.'))) {
-                                // Usar directamente el string formateado en español
-                                dateString = quote.date;
-                                console.log("Usando formato de fecha español directamente:", dateString);
-                            } else {
-                                // Intentar parsear como fecha ISO
-                                const date = new Date(quote.date);
-                                if (!isNaN(date.getTime())) {
-                                    dateString = date.toLocaleString('es-ES');
-                                    console.log("Fecha parseada correctamente:", dateString);
-                                } else {
-                                    console.warn("No se pudo parsear la fecha:", quote.date);
-                                    dateString = quote.date; // Usar el valor original como fallback
-                                }
-                            }
-                        }
-                    } else if (quote.createdAt) {
-                        // Alternativa: campo createdAt
-                        if (typeof quote.createdAt.toDate === 'function') {
-                            dateString = quote.createdAt.toDate().toLocaleString('es-ES');
-                        } else {
-                            const date = new Date(quote.createdAt);
-                            if (!isNaN(date.getTime())) {
-                                dateString = date.toLocaleString('es-ES');
-                            }
-                        }
-                    }
+                    const dateString = formatTimestamp(quote.timestamp || quote.date || quote.createdAt);
 
                     // Extraer información del remitente con múltiples alternativas
                     const userName = quote.name || quote.userName || quote.sender || quote.from || 'Usuario desconocido';

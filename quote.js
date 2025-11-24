@@ -1,8 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, getRedirectResult } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import { firebaseConfig } from "./firebase-config.js";
+import { initializeCustomCursor, saveVisit } from "./utils.js";
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -143,27 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const cursor = document.querySelector('.custom-cursor');
-    if (cursor) {
-        document.addEventListener('mousemove', e => {
-            cursor.style.top = e.clientY + 'px';
-            cursor.style.left = e.clientX + 'px';
-        });
-
-        document.querySelectorAll('a, button, input, textarea, label').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.width = '40px';
-                cursor.style.height = '40px';
-                cursor.style.backgroundColor = 'rgba(0, 173, 181, 0.5)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.width = '20px';
-                cursor.style.height = '20px';
-                cursor.style.backgroundColor = 'transparent';
-            });
-        });
-    }
-
     const quoteForm = document.getElementById('quote-form');
     quoteForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -215,56 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
-    const getVisitorInfo = async () => {
-        try {
-            const ipResponse = await fetch('https://api.ipify.org?format=json');
-            const ipData = await ipResponse.json();
-            const ip = ipData.ip;
-
-            const ua = navigator.userAgent;
-            let browser = 'Desconocido', os = 'Desconocido', device = 'Escritorio';
-
-            if (ua.includes('Firefox')) browser = 'Firefox';
-            else if (ua.includes('SamsungBrowser')) browser = 'Samsung Internet';
-            else if (ua.includes('Opera') || ua.includes('OPR')) browser = 'Opera';
-            else if (ua.includes('Edge')) browser = 'Edge';
-            else if (ua.includes('Chrome')) browser = 'Chrome';
-            else if (ua.includes('Safari')) browser = 'Safari';
-
-            if (ua.includes('Windows')) os = 'Windows';
-            else if (ua.includes('Macintosh')) os = 'macOS';
-            else if (ua.includes('Linux')) os = 'Linux';
-            else if (ua.includes('Android')) os = 'Android';
-            else if (ua.includes('like Mac')) os = 'iOS';
-
-            if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) device = 'Móvil/Tablet';
-
-            return { ip, browser, os, device };
-        } catch (error) {
-            console.error("Error obteniendo información del visitante:", error);
-            return null;
-        }
-    };
-
-    const saveVisit = async (user) => {
-        if (!sessionStorage.getItem('visit_recorded')) {
-            sessionStorage.setItem('visit_recorded', 'true');
-            const visitInfo = await getVisitorInfo();
-            if (visitInfo) {
-                try {
-                    const dataToSave = { ...visitInfo, timestamp: serverTimestamp(), page: window.location.pathname };
-                    if (user) {
-                        dataToSave.userEmail = user.email;
-                        dataToSave.userName = user.displayName;
-                    }
-                    await addDoc(collection(db, "visits"), dataToSave);
-                } catch (error) {
-                    console.error("Error al guardar la visita en Firestore:", error);
-                }
-            }
-        }
-    };
-
     function handleSignIn() {
         const provider = new GoogleAuthProvider();
         const statusElem = document.getElementById('login-wall-status');
@@ -288,37 +218,26 @@ document.addEventListener('DOMContentLoaded', () => {
             if (userInfoDisplay) {
                 userInfoDisplay.textContent = `${user.displayName} (${user.email})`;
             }
-            saveVisit(user); // Registrar visita CON datos de usuario
+            saveVisit(db, user, serverTimestamp, addDoc, collection); // Registrar visita CON datos de usuario
         } else {
             loginWall.style.display = 'none';
             mainContent.style.visibility = 'visible';
             mainContent.style.opacity = 1;
-            saveVisit(null); // Registrar visita ANÓNIMA
+            saveVisit(db, null, serverTimestamp, addDoc, collection); // Registrar visita ANÓNIMA
         }
     }
 
     // --- Lógica de Autenticación Principal ---
     const wallStatus = document.getElementById('login-wall-status');
-    if (wallStatus) wallStatus.textContent = 'Verificando sesión...';
+    if (wallStatus) {
+        wallStatus.textContent = 'Verificando sesión...';
+    }
 
-    // Primero, intenta obtener el resultado de la redirección.
-    getRedirectResult(auth)
-        .then((result) => {
-            if (result && result.user) {
-                // El usuario acaba de iniciar sesión. onAuthStateChanged se activará.
-                if (wallStatus) wallStatus.textContent = '¡Sesión iniciada!';
-            } else {
-                // No venimos de una redirección, así que comprobamos el estado actual.
-                onAuthStateChanged(auth, (user) => {
-                    currentUser = user;
-                    updateUIForUser(user);
-                    if (!user && wallStatus) wallStatus.textContent = ''; // Limpiar mensaje si no hay usuario
-                });
-            }
-        }).catch((error) => {
-            console.error("Error durante el resultado de la redirección de Google: ", error);
-            if (wallStatus) wallStatus.textContent = 'Error al verificar la cuenta. Inténtalo de nuevo.';
-        });
+    onAuthStateChanged(auth, (user) => {
+        currentUser = user;
+        updateUIForUser(user);
+        if (!user && wallStatus) wallStatus.textContent = ''; // Limpiar mensaje si no hay usuario
+    });
 
     document.getElementById('google-signin-btn-wall').addEventListener('click', handleSignIn);
 
@@ -353,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializar Vanta con el tema por defecto (oscuro)
     initializeVanta('dark');
 
+    initializeCustomCursor();
     setLanguage(currentLang);
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => setLanguage(btn.dataset.lang));

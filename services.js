@@ -289,6 +289,8 @@ window.serviceTranslations = {
     const modalBody = document.getElementById('modal-body');
     const modalClose = document.getElementById('modal-close');
 
+import { initializeCustomCursor } from "./utils.js";
+
 document.addEventListener('DOMContentLoaded', () => {
 
     function setLanguage(lang) {
@@ -460,27 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
     });
 
-    // Restaurar animación del cursor
-    const cursor = document.querySelector('.custom-cursor');
-    if (cursor) {
-        document.addEventListener('mousemove', e => {
-            cursor.style.top = e.clientY + 'px';
-            cursor.style.left = e.clientX + 'px';
-        });
-
-        document.querySelectorAll('a, button, input, textarea').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.width = '40px';
-                cursor.style.height = '40px';
-                cursor.style.backgroundColor = 'rgba(0, 173, 181, 0.5)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.width = '20px';
-                cursor.style.height = '20px';
-                cursor.style.backgroundColor = 'transparent';
-            });
-        });
-    }
+    initializeCustomCursor();
 
     // Event Listeners para el Modal
     document.querySelectorAll('.btn-details').forEach(button => {
@@ -490,28 +472,3 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.addEventListener('click', (e) => e.target === modal && closeModal());
     setup3dTiltEffect();
 });
-
-// Restaurar animación del cursor (movido fuera del DOMContentLoaded para asegurar ejecución)
-const cursor = document.querySelector('.custom-cursor');
-if (cursor) {
-    document.addEventListener('mousemove', e => {
-        cursor.style.top = e.clientY + 'px';
-        cursor.style.left = e.clientX + 'px';
-    });
-
-    // Retrasamos la asignación de eventos de hover para asegurar que todos los elementos estén en el DOM
-    setTimeout(() => {
-        document.querySelectorAll('a, button, input, textarea').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.width = '40px';
-                cursor.style.height = '40px';
-                cursor.style.backgroundColor = 'rgba(0, 173, 181, 0.5)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.width = '20px';
-                cursor.style.height = '20px';
-                cursor.style.backgroundColor = 'transparent';
-            });
-        });
-    }, 100);
-}
