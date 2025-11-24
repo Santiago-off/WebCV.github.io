@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebas
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { getFirestore, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import { firebaseConfig } from "./firebase-config.js";
+import { initializeCustomCursor } from "./utils.js";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -38,6 +39,7 @@ function main() {
     loadQuotesTab();
     loadInfoTab();
     loadConfigTab();
+    initializeCustomCursor();
 }
 
 function setupTabs() {
