@@ -7,24 +7,51 @@ export function initializeCustomCursor() {
     const cursor = document.querySelector('.custom-cursor');
     if (!cursor) return;
 
-    document.addEventListener('mousemove', e => {
-        cursor.style.top = `${e.clientY}px`;
-        cursor.style.left = `${e.clientX}px`;
-    });
+    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+        cursor.style.display = 'none';
+        return;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        cursor.style.display = 'none';
+        return;
+    }
 
-    const interactiveElements = 'a, button, input, textarea, label';
-    document.querySelectorAll(interactiveElements).forEach(el => {
-        el.addEventListener('mouseenter', () => {
+    let targetX = 0, targetY = 0;
+    let rafPending = false;
+
+    function renderCursor() {
+        cursor.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%)`;
+        rafPending = false;
+    }
+
+    document.addEventListener('mousemove', (e) => {
+        targetX = e.clientX;
+        targetY = e.clientY;
+        if (!rafPending) {
+            rafPending = true;
+            requestAnimationFrame(renderCursor);
+        }
+    }, { passive: true });
+
+    document.addEventListener('mouseover', (e) => {
+        const el = e.target;
+        if (!(el instanceof Element)) return;
+        if (el.matches('a, button, input, textarea, label')) {
             cursor.style.width = '40px';
             cursor.style.height = '40px';
             cursor.style.backgroundColor = 'rgba(0, 173, 181, 0.5)';
-        });
-        el.addEventListener('mouseleave', () => {
+        }
+    }, { passive: true });
+
+    document.addEventListener('mouseout', (e) => {
+        const el = e.target;
+        if (!(el instanceof Element)) return;
+        if (el.matches('a, button, input, textarea, label')) {
             cursor.style.width = '20px';
             cursor.style.height = '20px';
             cursor.style.backgroundColor = 'transparent';
-        });
-    });
+        }
+    }, { passive: true });
 }
 
 /**
@@ -33,9 +60,15 @@ export function initializeCustomCursor() {
  */
 export async function getVisitorInfo() {
     try {
-        const ipResponse = await fetch('https://api.ipify.org?format=json');
-        const ipData = await ipResponse.json();
-        const ip = ipData.ip;
+        let ip = 'N/A';
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 1500);
+        try {
+            const ipResponse = await fetch('https://api.ipify.org?format=json', { signal: controller.signal });
+            const ipData = await ipResponse.json();
+            ip = ipData.ip || 'N/A';
+        } catch (_) {}
+        clearTimeout(timeoutId);
 
         const ua = navigator.userAgent;
         let browser = 'Desconocido', os = 'Desconocido', device = 'Escritorio';

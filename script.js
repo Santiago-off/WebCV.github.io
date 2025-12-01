@@ -394,18 +394,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggleEl = document.getElementById('theme-toggle');
     if (themeToggleEl) {
         themeToggleEl.addEventListener('click', () => {
-            setTheme('dark');
-        });
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            setTheme(current === 'dark' ? 'light' : 'dark');
+        }, { passive: true });
     }
 
     const backToTopButton = document.querySelector('.back-to-top');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            backToTopButton.classList.add('visible');
-        } else {
-            backToTopButton.classList.remove('visible');
+    let scrollTicking = false;
+    function onScroll() {
+        if (!scrollTicking) {
+            scrollTicking = true;
+            requestAnimationFrame(() => {
+                backToTopButton.classList.toggle('visible', window.scrollY > 300);
+                scrollTicking = false;
+            });
         }
-    });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     function updateVisitCounter() {
         let visits = localStorage.getItem('visitCounter') || 0;
@@ -414,29 +419,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('visit-counter').textContent = visits;
     }
 
-    const cursor = document.querySelector('.custom-cursor');
-    document.addEventListener('mousemove', e => {
-        cursor.style.top = e.clientY + 'px';
-        cursor.style.left = e.clientX + 'px';
-    });
+    
 
     function accentAlpha(a) {
         const c = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#00ADB5';
         return hexToRgba(c, a);
     }
 
-    document.querySelectorAll('a, button, input, textarea').forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.style.width = '40px';
-            cursor.style.height = '40px';
-            cursor.style.backgroundColor = accentAlpha(0.5);
-        });
-        el.addEventListener('mouseleave', () => {
-            cursor.style.width = '20px';
-            cursor.style.height = '20px';
-            cursor.style.backgroundColor = 'transparent';
-        });
-    });
+    
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -595,12 +585,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!user && wallStatus) wallStatus.textContent = ''; // Limpiar mensaje si no hay usuario
     });
 
-    document.getElementById('google-signin-btn-wall').addEventListener('click', handleSignIn);
+    const googleWallBtn = document.getElementById('google-signin-btn-wall');
+    if (googleWallBtn) {
+        googleWallBtn.addEventListener('click', handleSignIn);
+    }
 
     const preferredTheme = 'dark';
     setTheme(preferredTheme);
 
     function startAnimatedBackground(){
+        if ((window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || window.innerWidth < 640) {
+            return;
+        }
         const c=document.createElement('canvas');
         c.id='bg-canvas';
         document.body.prepend(c);
@@ -616,14 +612,24 @@ document.addEventListener('DOMContentLoaded', () => {
             c.style.height=h+'px';
         }
         resize();
-        window.addEventListener('resize',resize);
+        let resizeScheduled = false;
+        function scheduleResize(){
+            if (!resizeScheduled){
+                resizeScheduled = true;
+                requestAnimationFrame(() => { resize(); resizeScheduled = false; });
+            }
+        }
+        window.addEventListener('resize', scheduleResize, { passive: true });
         let mx=w*0.5,my=h*0.5;
         document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
         const gcs=getComputedStyle(document.documentElement);
         function bgColor(){return gcs.getPropertyValue('--c-bg')||'#222831';}
         let t=0;
 
-        const curtains=[
+        const isSmall = w < 768;
+        const curtains=isSmall ? [
+            {cx: w*0.50, baseY: h*0.45, amp: h*0.08, width: 160, speed: 0.28, hue: 170, phase: Math.random()*6.28}
+        ] : [
             {cx: w*0.25, baseY: h*0.45, amp: h*0.10, width: 220, speed: 0.35, hue: 130, phase: Math.random()*6.28},
             {cx: w*0.50, baseY: h*0.40, amp: h*0.12, width: 260, speed: 0.30, hue: 170, phase: Math.random()*6.28},
             {cx: w*0.75, baseY: h*0.50, amp: h*0.09, width: 200, speed: 0.28, hue: 210, phase: Math.random()*6.28}
@@ -634,7 +640,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function drawCurtain(c){
-            const steps=36;
+            const steps = w > 1024 ? 36 : (w > 640 ? 24 : 16);
             const gradV=ctx.createLinearGradient(0,c.baseY-c.amp*2,0,c.baseY+c.amp*2);
             const hue=(c.hue + t*12)%360;
             gradV.addColorStop(0,`hsla(${(hue+20)%360},80%,60%,0.00)`);
@@ -670,7 +676,9 @@ document.addEventListener('DOMContentLoaded', () => {
             strokePass(0.55,0.36,45);
         }
 
+        let running = true;
         function step(){
+            if (!running) return;
             t+=0.016;
             ctx.setTransform(dpr,0,0,dpr,0,0);
             ctx.globalCompositeOperation='source-over';
@@ -681,7 +689,13 @@ document.addEventListener('DOMContentLoaded', () => {
             for(let i=0;i<curtains.length;i++) drawCurtain(curtains[i]);
             requestAnimationFrame(step);
         }
-        requestAnimationFrame(step);
+        if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            requestAnimationFrame(step);
+        }
+        document.addEventListener('visibilitychange', () => {
+            running = document.visibilityState === 'visible' && (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+            if (running) requestAnimationFrame(step);
+        });
     }
     startAnimatedBackground();
 

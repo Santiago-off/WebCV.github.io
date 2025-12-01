@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-<script src="https://santiagorf.netlify.app/core.js" data-api="https://panelcentral.netlify.app"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,7 +56,7 @@
     
     <div id="login-wall" class="login-wall" style="display: none;">
         <div class="login-box">
-            <img src="logo.svg" alt="Logo SF" class="login-logo">
+            <img src="logo.svg" alt="Logo SF" class="login-logo" loading="lazy" decoding="async">
             <h2 data-translate="login-wall-title">Acceso Requerido</h2>
             <p data-translate="login-wall-desc">Para ver el contenido y enviar mensajes, por favor, inicia sesión con tu cuenta de Google.</p>
             <button type="button" id="google-signin-btn-wall" class="btn-google">
@@ -71,7 +70,7 @@
     <div id="main-content">
         <header class="header">
             <div class="logo">
-                <img src="logo.svg" alt="Logo SF" class="logo-img">
+                <img src="logo.svg" alt="Logo SF" class="logo-img" decoding="async">
                 <span data-editable="header-name">Santiago Fernandez</span>
             </div>
             <nav class="nav">
@@ -114,7 +113,7 @@
 
                 <!-- Tarjeta compartible de perfil -->
                 <div class="share-card" id="share-card">
-                    <img src="logo.svg" alt="Logo SF" class="share-avatar">
+                    <img src="logo.svg" alt="Logo SF" class="share-avatar" decoding="async">
                     <div class="share-content">
                         <h3 class="share-name" data-editable="header-name">Santiago Fernandez</h3>
                         <p class="share-role" data-editable="hero-title">Desarrollador de Software y Experto en Ciberseguridad</p>
@@ -232,15 +231,15 @@
                     <p data-editable="contact-intro">Estoy disponible para oportunidades freelance o para discutir sobre tecnología y seguridad. No dudes en contactarme. <br><strong>Conectado como: <span id="user-info-contact"></span></strong></p>
                     <ul>
                         <li>
-                            <img src="https://img.icons8.com/ios-glyphs/30/00ADB5/new-post.png" alt="Email"/>
+                            <img src="https://img.icons8.com/ios-glyphs/30/00ADB5/new-post.png" alt="Email" loading="lazy" decoding="async"/>
                             <a data-editable="contact-email" href="mailto:santiagorfernandezcv@gmail.com">santiagorfernandezcv@gmail.com</a>
                         </li>
                         <li>
-                            <img src="https://img.icons8.com/ios-glyphs/30/00ADB5/phone--v1.png" alt="Phone"/>
+                            <img src="https://img.icons8.com/ios-glyphs/30/00ADB5/phone--v1.png" alt="Phone" loading="lazy" decoding="async"/>
                             <span data-editable="contact-phone">+34 640365047</span>
                         </li>
                         <li>
-                            <img src="https://img.icons8.com/ios-glyphs/30/00ADB5/marker--v1.png" alt="Location"/>
+                            <img src="https://img.icons8.com/ios-glyphs/30/00ADB5/marker--v1.png" alt="Location" loading="lazy" decoding="async"/>
                             <span data-editable="contact-location">28939 Arroyomolinos, España</span>
                         </li>
                     </ul>
@@ -285,7 +284,7 @@
 
     <script src="env-loader.js"></script>
     <script type="module" src="script.js"></script>
-    <script src="core.js"></script>
+    <script src="core.js" defer></script>
     <script>
       (function(){
         const btn = document.getElementById('panel-demo-btn');
