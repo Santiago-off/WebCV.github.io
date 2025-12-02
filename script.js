@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'contact-intro': 'Estoy disponible para oportunidades freelance o para discutir sobre tecnología y seguridad. No dudes en contactarme.',
                 'contact-email': 'santiagorfernandezcv@gmail.com',
                 'contact-phone': '+34 640365047',
-                'contact-location': '28939 Arroyomolinos, España',
+                'contact-location': '28939 Madrid, España',
                 'footer-text': 'Santiago Fernandez. Todos los derechos reservados.',
                 'github-link': 'https://github.com/Santiago-off',
                 'instagram-link': 'https://www.instagram.com/santiagorfer',
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     { title: '🛡️ File Integrity Monitor', description: 'Herramienta de ciberseguridad en Python que supervisa directorios, calcula hashes SHA-256 y registra cambios en archivos.', link: 'https://github.com/Santiago-off/File-Integrity-Monitor' },
                     { title: '🔐 Encryptador Web', description: 'Aplicación en React + Vite para encriptar y desencriptar texto localmente usando el cifrado de Vigenère.', link: 'https://github.com/Santiago-off/Encryptator' },
                     { title: '🏦 Banco Bankinter', description: 'Simulador de una aplicación bancaria web con funcionalidades de registro, login y transferencias, usando Firebase para la gestión de datos.', link: 'https://github.com/Santiago-off/Banquinter' },
-                    { title: '   Play-To-Win', description: 'Paguina web de torneos funcional y operativa donde ganar por jugar', link: 'https://play-to-win.netlify.app'}
+                    { title: '   Play-To-Win', description: 'Página web de torneos funcional y operativa donde ganar por jugar', link: 'https://play-to-win.netlify.app'}
                 ],
                 'testimonials-list': [
                     { quote: 'Trabajar con Santiago fue un acierto. Su capacidad para entender nuestras necesidades y traducirlas en una solución cloud robusta y escalable fue impresionante. Optimizó nuestra infraestructura en AWS, resultando en una reducción de costes del 20%.', author: 'Marcos Vega', role: 'Director de Tecnología' },
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'contact-intro': 'I am available for freelance opportunities or to discuss technology and security. Feel free to contact me.',
                 'contact-email': 'santiagorfernandezcv@gmail.com',
                 'contact-phone': '+34 640365047',
-                'contact-location': '28939 Arroyomolinos, Spain',
+                'contact-location': '28939 Madrid, Spain',
                 'footer-text': 'Santiago Fernandez. All rights reserved.',
                 'github-link': 'https://github.com/Santiago-off',
                 'instagram-link': 'https://www.instagram.com/santiagorfer',
@@ -593,111 +593,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const preferredTheme = 'dark';
     setTheme(preferredTheme);
 
-    function startAnimatedBackground(){
-        if ((window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || window.innerWidth < 640) {
-            return;
+    function startInteractiveBackground(){
+        const prefersReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+        if (prefersReduce || coarse) return;
+
+        const gcs = getComputedStyle(document.documentElement);
+        let mx = window.innerWidth * 0.5;
+        let my = window.innerHeight * 0.5;
+        let scheduled = false;
+
+        function update(){
+            const bg = gcs.getPropertyValue('--c-bg').trim() || '#222831';
+            const accent = gcs.getPropertyValue('--accent').trim() || '#00ADB5';
+            const x = Math.max(0, Math.min(100, (mx / window.innerWidth) * 100));
+            const y = Math.max(0, Math.min(100, (my / window.innerHeight) * 100));
+            document.body.style.background = `radial-gradient(1000px circle at ${x}% ${y}%, ${hexToRgba(accent, 0.12)}, transparent 60%), linear-gradient(135deg, ${bg}, ${bg})`;
+            scheduled = false;
         }
-        const c=document.createElement('canvas');
-        c.id='bg-canvas';
-        document.body.prepend(c);
-        const ctx=c.getContext('2d');
-        let w=0,h=0,dpr=1;
-        function resize(){
-            dpr=Math.min(window.devicePixelRatio||1,2);
-            w=window.innerWidth;
-            h=window.innerHeight;
-            c.width=w*dpr;
-            c.height=h*dpr;
-            c.style.width=w+'px';
-            c.style.height=h+'px';
-        }
-        resize();
-        let resizeScheduled = false;
-        function scheduleResize(){
-            if (!resizeScheduled){
-                resizeScheduled = true;
-                requestAnimationFrame(() => { resize(); resizeScheduled = false; });
+
+        function schedule(){
+            if (!scheduled){
+                scheduled = true;
+                requestAnimationFrame(update);
             }
         }
-        window.addEventListener('resize', scheduleResize, { passive: true });
-        let mx=w*0.5,my=h*0.5;
-        document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-        const gcs=getComputedStyle(document.documentElement);
-        function bgColor(){return gcs.getPropertyValue('--c-bg')||'#222831';}
-        let t=0;
 
-        const isSmall = w < 768;
-        const curtains=isSmall ? [
-            {cx: w*0.50, baseY: h*0.45, amp: h*0.08, width: 160, speed: 0.28, hue: 170, phase: Math.random()*6.28}
-        ] : [
-            {cx: w*0.25, baseY: h*0.45, amp: h*0.10, width: 220, speed: 0.35, hue: 130, phase: Math.random()*6.28},
-            {cx: w*0.50, baseY: h*0.40, amp: h*0.12, width: 260, speed: 0.30, hue: 170, phase: Math.random()*6.28},
-            {cx: w*0.75, baseY: h*0.50, amp: h*0.09, width: 200, speed: 0.28, hue: 210, phase: Math.random()*6.28}
-        ];
-
-        function wave(x, s, p){
-            return Math.sin(x*s + p) + 0.5*Math.sin(x*s*0.6 + p*1.7) + 0.25*Math.sin(x*s*1.4 + p*2.3);
+        function onMove(e){
+            mx = e.clientX;
+            my = e.clientY;
+            schedule();
         }
 
-        function drawCurtain(c){
-            const steps = w > 1024 ? 36 : (w > 640 ? 24 : 16);
-            const gradV=ctx.createLinearGradient(0,c.baseY-c.amp*2,0,c.baseY+c.amp*2);
-            const hue=(c.hue + t*12)%360;
-            gradV.addColorStop(0,`hsla(${(hue+20)%360},80%,60%,0.00)`);
-            gradV.addColorStop(0.5,`hsla(${hue},80%,60%,0.20)`);
-            gradV.addColorStop(1,`hsla(${(hue+40)%360},80%,60%,0.00)`);
-
-            const influence=((my/h)-0.5)*c.amp*0.8;
-            const drift=Math.sin(t*0.25 + c.phase)*h*0.02;
-
-            ctx.lineCap='round';
-            ctx.lineJoin='round';
-
-            function strokePass(widthMul, alphaMul, hueOffset){
-                ctx.lineWidth=c.width*widthMul;
-                ctx.shadowBlur=80*widthMul;
-                const passHue=(hue+hueOffset)%360;
-                ctx.shadowColor=`hsla(${passHue},80%,60%,${0.25*alphaMul})`;
-                ctx.strokeStyle=gradV;
-                ctx.globalAlpha=alphaMul;
-                ctx.beginPath();
-                for(let i=0;i<=steps;i++){
-                    const x=(i/steps)*w;
-                    const s=0.004;
-                    const y=c.baseY + drift + influence + wave(x - c.cx, s*w, t*c.speed + c.phase)*c.amp;
-                    if(i===0) ctx.moveTo(x,y);
-                    else ctx.lineTo(x,y);
-                }
-                ctx.stroke();
-            }
-
-            strokePass(1.15,0.16,0);
-            strokePass(0.85,0.26,25);
-            strokePass(0.55,0.36,45);
-        }
-
-        let running = true;
-        function step(){
-            if (!running) return;
-            t+=0.016;
-            ctx.setTransform(dpr,0,0,dpr,0,0);
-            ctx.globalCompositeOperation='source-over';
-            ctx.globalAlpha=1;
-            ctx.fillStyle=bgColor();
-            ctx.fillRect(0,0,w,h);
-            ctx.globalCompositeOperation='screen';
-            for(let i=0;i<curtains.length;i++) drawCurtain(curtains[i]);
-            requestAnimationFrame(step);
-        }
-        if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            requestAnimationFrame(step);
-        }
-        document.addEventListener('visibilitychange', () => {
-            running = document.visibilityState === 'visible' && (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-            if (running) requestAnimationFrame(step);
-        });
+        document.addEventListener('mousemove', onMove, { passive: true });
+        window.addEventListener('resize', () => { schedule(); }, { passive: true });
+        schedule();
     }
-    startAnimatedBackground();
+    startInteractiveBackground();
 
     initializeCustomCursor();
     addHiringStatus();

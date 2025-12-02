@@ -332,9 +332,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function initializeVanta(theme) {
-        if (vantaEffect) {
-            vantaEffect.destroy();
-        }
+        const coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+        const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (coarse || reduce) return;
+        if (vantaEffect) { vantaEffect.destroy(); }
         if (window.VANTA) {
             vantaEffect = VANTA.GLOBE({
                 el: "#vanta-bg",
@@ -368,6 +369,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setup3dTiltEffect() {
+        const coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+        if (coarse) return;
         const cards = document.querySelectorAll('.pricing-card');
         cards.forEach(card => {
             card.addEventListener('mousemove', (e) => {
@@ -459,8 +462,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggleEl = document.getElementById('theme-toggle');
     if (themeToggleEl) {
         themeToggleEl.addEventListener('click', () => {
-            setTheme('dark');
-        });
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            setTheme(current === 'dark' ? 'light' : 'dark');
+        }, { passive: true });
     }
 
     

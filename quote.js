@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const service = params.get('service');
     const plan = params.get('plan');
     let currentLang = localStorage.getItem('language') || 'es';
-    let vantaEffect = null; // Mover vantaEffect aquí
+    let vantaEffect = null;
     let currentUser = null;
 
     const translations = {
@@ -122,26 +122,33 @@ document.addEventListener('DOMContentLoaded', () => {
         renderSummary();
     }
 
-    function initializeVanta(theme) {
-        if (vantaEffect) {
-            vantaEffect.destroy();
+    function startInteractiveBackground(){
+        const prefersReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+        if (prefersReduce || coarse) return;
+        const gcs = getComputedStyle(document.documentElement);
+        let mx = window.innerWidth * 0.5;
+        let my = window.innerHeight * 0.5;
+        let scheduled = false;
+        function hexToRgba(hex, alpha) {
+            const h = hex.replace('#', '');
+            const r = parseInt(h.substring(0, 2), 16);
+            const g = parseInt(h.substring(2, 4), 16);
+            const b = parseInt(h.substring(4, 6), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
         }
-        if (window.VANTA) {
-            vantaEffect = VANTA.GLOBE({
-                el: "#vanta-bg",
-                mouseControls: true,
-                touchControls: true,
-                gyroControls: false,
-                minHeight: 200.00,
-                minWidth: 200.00,
-                scale: 1.00,
-                scaleMobile: 1.00,
-                color: 0x00adb5, // Accent color
-                color2: theme === 'dark' ? 0xeeeeee : 0x333333,
-                backgroundColor: theme === 'dark' ? 0x222831 : 0xf4f4f9,
-                size: 1.20
-            });
+        function update(){
+            const bg = gcs.getPropertyValue('--c-bg').trim() || '#222831';
+            const accent = gcs.getPropertyValue('--accent').trim() || '#00ADB5';
+            const x = Math.max(0, Math.min(100, (mx / window.innerWidth) * 100));
+            const y = Math.max(0, Math.min(100, (my / window.innerHeight) * 100));
+            document.body.style.background = `radial-gradient(900px circle at ${x}% ${y}%, ${hexToRgba(accent, 0.12)}, transparent 60%), linear-gradient(135deg, ${bg}, ${bg})`;
+            scheduled = false;
         }
+        function schedule(){ if (!scheduled){ scheduled = true; requestAnimationFrame(update);} }
+        document.addEventListener('mousemove', (e)=>{ mx = e.clientX; my = e.clientY; schedule(); }, { passive: true });
+        window.addEventListener('resize', ()=>{ schedule(); }, { passive: true });
+        schedule();
     }
 
     const quoteForm = document.getElementById('quote-form');
@@ -269,8 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Inicializar Vanta con el tema por defecto (oscuro)
-    initializeVanta('dark');
+    startInteractiveBackground();
 
     initializeCustomCursor();
     setLanguage(currentLang);
